@@ -181,7 +181,7 @@ Instructions for individual features are below.
 ## Archival Build
 
 In the `builds` directory, you will also find the last build that we published
-to Steam (`gamebuilder-ARCHIVE-*.7z`). This differs from the open-source build
+to Steam (the `gamebuilder-ARCHIVE-25813412.7z.*` files). This differs from the open-source build
 because it has several optional plugins enabled such as 2D UI, rich JS editor,
 etc.
 
