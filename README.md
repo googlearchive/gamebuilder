@@ -39,7 +39,7 @@ This is not an officially supported Google product.
 
 To build a standalone, you *must* use the menu item `Game Builder
 | Build`. Going through the normal Unity Build Settings window will *not* work.
-Once done, your build will be located under the `steamworks_####` folder.
+Once done, your build will be located under the `build_output` folder.
 
 We have included a reference build under `builds` (it's the file whose
 name begins with `gamebuilder-OSS`). This is the build that you should get
@@ -108,7 +108,7 @@ Instructions for individual features are below.
         then something went wrong, and you should start over with a fresh
         checkout.
 
-* [Crosstales File Browser](https://assetstore.unity.com/packages/tools/utilities/file-browser-standalone-98716) - Enables local disk import/export features
+* [Crosstales File Browser](https://assetstore.unity.com/packages/tools/utilities/file-browser-standalone-98716) - Enables the system file browser UI for local disk import/export features
 
     - Import the plugin from the Asset Store link above.
     - Define the directive `USE_FILEBROWSER`.
