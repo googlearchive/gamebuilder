@@ -1,0 +1,168 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Sets whether or not the current actor is solid. Being solid means that other
+ * solid objects can't go through it.
+ *
+ * @param {boolean} isSolid Whether the object is solid.
+ */
+function setSolid(isSolid) {
+  assertBoolean(isSolid);
+  ApiV2Context.instance.getActor().setIsSolid(isSolid);
+}
+
+/**
+ * Returns whether or not the object is solid. Being solid means that
+ * other solid objects can't go through it.
+ * 
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ * @return {boolean} Whether the actor is solid.
+ */
+function isSolid(actor) {
+  return ApiV2Context.instance.getActor(actor).getIsSolid();
+}
+
+/**
+ * Sets whether or not the actor's physics is set to be kinematic.
+ * 
+ * <p>Being kinematic (<tt>true</tt>) means that the actor affects other objects, but is
+ * not affected by other objects (it "gives physics" but does not "receive physics").
+ * For example, a wall is kinematic: it affects other objects (a ball will bounce off
+ * of it) but is not affected by other objects (throwing a ball or kicking a wall
+ * doesn't cause it to move).
+ * 
+ * <p>If the actor is not kinematic (<tt>isKinematic = false</tt>), it is said
+ * to be <em>dynamic</em>, in which case it affects and is affected by physics
+ * ("gives" and "receives" physics). For example, a soccer ball is dynamic because it will
+ * move when kicked (receives physics), and can also as a result hit and knock over
+ * an expensive vase (gives physics).
+ *
+ * @param {boolean} isKinematic Whether the actor is kinematic.
+ */
+function setKinematic(isKinematic = true) {
+  assertBoolean(isKinematic);
+  ApiV2Context.instance.getActor().setEnablePhysics(!isKinematic);
+}
+
+/**
+ * Determines if the given actor is kinematic. For an explanation of what it means to
+ * be kinematic, see {@link setKinematic}.
+ *
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ */
+function isKinematic(actor) {
+  return !ApiV2Context.instance.getActor(actor).getEnablePhysics();
+}
+
+/**
+ * Sets whether or not the actor is affected by gravity.
+ * 
+ * <p>An actor that's affected by gravity will fall to the ground in the
+ * absence of other forces keeping it up.
+ *
+ * @param {boolean} enableGravity Whether gravity is to be enabled for the actor.
+ */
+function enableGravity(enableGravity = true) {
+  assertBoolean(enableGravity);
+  ApiV2Context.instance.getActor().setEnableGravity(enableGravity);
+}
+
+/**
+ * Gets whether or not the actor is affected by gravity.
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ * @return {boolean} Whether the actor is affected by gravity.
+ */
+function isGravityEnabled(actor) {
+  return ApiV2Context.instance.getActor(actor).getEnableGravity();
+}
+
+/**
+ * Sets whether or not the current actor is always kept upright.
+ * 
+ * <p>If this is <tt>true</tt>, then whatever happens to the actor as a result of
+ * physics won't affect its upright position. In other words, it may get pushed,
+ * fall, get launched in to the stratosphere, etc but despite all such hardships,
+ * it will always keep its head pointing up (so it will never end up upside down,
+ * lying on its side, etc).
+ *
+ * @param {boolean} keepUpright Whether to keep the actor upright.
+ */
+function enableKeepUpright(keepUpright = true) {
+  assertBoolean(keepUpright);
+  ApiV2Context.instance.getActor().setKeepUpright(keepUpright);
+}
+
+/**
+ * Gets whether or not the actor is always kept upright. See {@link enableKeepUpright}
+ * for more information.
+ *
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ * @return {boolean} Whether the actor is always kept upright.
+ */
+function isKeepUprightEnabled(actor) {
+  return ApiV2Context.instance.getActor(actor).getKeepUpright();
+}
+
+/**
+ * Sets how bouncy the object is. 1 means it will bounce perfectly, 0 means it
+ * will not bounce at all. This is only valid if the object is pushable.
+ *
+ * @param {number} bounciness A number between 0 and 1.
+ */
+function setBounciness(bounciness) {
+  assertNumber(bounciness, 'setBounciness argument');
+  assert(bounciness >= 0, "Bounciness must be at least 0");
+  assert(bounciness <= 1, "Bounciness must be at most 1");
+  ApiV2Context.instance.getActor().setBounciness(bounciness);
+}
+
+/**
+ * Sets the mass of the object, in kg. We recommend keeping it under 10, and the
+ * highest allowed is 100.
+ *
+ * @param {number} mass The desired mass in kilograms. 
+ */
+function setMass(mass) {
+  assertNumber(mass, 'setMass argument');
+  assert(mass >= 0, "mass must be at least 0");
+  assert(mass <= 100, "mass must be at most 100");
+  ApiV2Context.instance.getActor().setMass(mass);
+}
+
+/**
+ * Sets the translational drag of the object.
+ *
+ * @param {number} drag The desired drag. 
+ */
+function setDrag(drag) {
+  assertNumber(drag, 'setDrag argument');
+  assert(drag >= 0, "drag must be at least 0");
+  ApiV2Context.instance.getActor().setDrag(drag);
+}
+
+/**
+ * Sets the angular or rotational drag of the object.
+ *
+ * @param {number} drag The desired drag. 
+ */
+function setAngularDrag(drag) {
+  assertNumber(drag, 'setAngularDrag argument');
+  assert(drag >= 0, "angular drag must be at least 0");
+  ApiV2Context.instance.getActor().setAngularDrag(drag);
+}

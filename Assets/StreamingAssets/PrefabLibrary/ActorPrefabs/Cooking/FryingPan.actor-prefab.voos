@@ -1,0 +1,164 @@
+{
+    "version": 1,
+    "label": "FryingPan",
+    "actorData": {
+        "version": 6,
+        "name": "ef55a2d4f7834c6c970f96316aa1c6a2",
+        "brainName": "0e927eedef024fb18d7a50b51f20e309",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Cooking/FryingPan",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{\"actionDeckState\":{\"decksInfo\":{}}},\"42f5da8a5550479e8b7c5bff1ad42474\":{\"actionDeckState\":{\"decksInfo\":{}}},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"decksInfo\":{\"moveDeck\":{\"active\":true,\"endTime\":9615.8701171875,\"lastActionMessageTime\":9615.0009765625}}}},\"faed33dcdbb64e1eb4e1277cf95c13cb\":{\"actionDeckState\":{\"decksInfo\":{}}}},\"__variables\":{\"grabbable\":true,\"owner\":null}}",
+        "displayName": "FryingPan",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -16.96953010559082,
+            "y": -0.0032534822821617128,
+            "z": 36.444740295410159
+        },
+        "rotation": {
+            "x": -0.000006404239684343338,
+            "y": 0.8492316603660584,
+            "z": -0.0000021783635020256044,
+            "w": -0.5280205011367798
+        },
+        "localScale": {
+            "x": 1.0000030994415284,
+            "y": 1.0,
+            "z": 1.0000030994415284
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -25.218154907226564,
+            "y": -0.0000019073486328125,
+            "z": 31.46173095703125
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "0e927eedef024fb18d7a50b51f20e309"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.7801129817962647,\"viewPosition\":{\"x\":-732.5687255859375,\"y\":128.43011474609376},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1505.2501220703125,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":467.0700378417969,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "faed33dcdbb64e1eb4e1277cf95c13cb",
+                        "behaviorUri": "builtin:Grabbable Item Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":930.1800537109375,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "CustomRotation",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "RotationY",
+                                "valueJson": "{\"value\":180.0}"
+                            },
+                            {
+                                "propertyName": "CustomOffset",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "OffsetZ",
+                                "valueJson": "{\"value\":0.5}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": ""
+}

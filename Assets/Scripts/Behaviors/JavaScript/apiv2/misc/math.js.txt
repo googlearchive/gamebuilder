@@ -1,0 +1,397 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Creates a new Vector3 with the given components.
+ * This is shorthand for <tt>new THREE.Vector3(x, y, z)</tt>.
+ * 
+ * <p>Alternate syntax: pass a single argument that's an object
+ * with <tt>x</tt>, <tt>y</tt> and <tt>z</tt> fields to make it
+ * a Vector3.</p>
+ *
+ * @param {number} x The x component.
+ * @param {number} y The y component.
+ * @param {number} z The z component.
+ * @return {THREE.Vector3} The Vector3 with the given components.
+ * @example
+ * // Create a Vector3 from x, y and z components:
+ * const v = vec3(1, 2, 3);
+ * @example
+ * const someObj = { x: 1, y: 2, z: 3 };
+ * // Convert an object with x, y and z to a Vector3:
+ * const v = vec3(someObj);
+ */
+function vec3(x, y, z) {
+  // Check for alt syntax with a single object:
+  if (x !== null && typeof x === "object" && y === undefined && z === undefined) {
+    const obj = x;
+    x = obj.x;
+    y = obj.y;
+    z = obj.z;
+  }
+  assertNumber(x, "vec3 x arg");
+  assertNumber(y, "vec3 y arg");
+  assertNumber(z, "vec3 z arg");
+  return new THREE.Vector3(x, y, z);
+}
+
+/**
+ * Converts an angle from degrees to radians.
+ * @param {number} degrees Angle in degrees.
+ * @return {number} The angle in radians.
+ */
+function degToRad(degrees) {
+  return degrees * Math.PI / 180;
+}
+
+/**
+ * Converts an angle from radians to degrees.
+ * @param {number} radians Angle in radians.
+ * @return {number} The angle in degrees.
+ */
+function radToDeg(radians) {
+  return radians * 180 / Math.PI;
+}
+
+/**
+ * Converts from revolutions to radians.
+ * @param {number} revs Angle in revolutions.
+ * @return {number} The angle in radians.
+ */
+function revToRad(revs) {
+  return rev * 2 * Math.PI;
+}
+
+/**
+ * Does linear interpolation between the two given samples.
+ * 
+ * @param {number} x1 The X value of the first sample.
+ * @param {number} y1 The Y value of the first sample.
+ * @param {number} x2 The X value of the second sample.
+ * @param {number} y2 The Y value of the second sample.
+ * @param {number} x The X value whose corresponding Y value is desired.
+ * @example
+ * // Before time = 5, set X to 100.
+ * // Between time = 5 and time = 10, make X go linearly from 100 to 200.
+ * // After time = 10, set X to 200.
+ * setPosX(interp(5, 100, 10, 200, getTime()))
+ */
+function interp(x1, y1, x2, y2, x) {
+  if (x1 > x2) {
+    // Invert arguments such that x1 <= x2:
+    return interp(x2, y2, x1, y1, x);
+  }
+  if (x < x1) return y1;
+  if (x > x2) return y2;
+  return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+}
+
+/**
+ * Returns the Vector3 (0, 0, 0).
+ * @return {THREE.Vector3} The very exciting zero vector (0, 0, 0).
+ */
+function vec3zero() {
+  return vec3(0, 0, 0);
+}
+
+/**
+ * Returns the Vector3 (1, 1, 1).
+ * @return {THREE.Vector3} The one vector (1, 1, 1).
+ */
+function vec3one() {
+  return vec3(1, 1, 1);
+}
+
+/** Returns the Vector3 (s, 0, 0). */
+function vec3x(s = 1) { return vec3(s, 0, 0); }
+/** Returns the Vector3 (0, s, 0). */
+function vec3y(s = 1) { return vec3(0, s, 0); }
+/** Returns the Vector3 (0, 0, s). */
+function vec3z(s = 1) { return vec3(0, 0, s); }
+
+/**
+ * Returns the result of adding the two given vectors, v1 + v2.
+ * @param {THREE.Vector3} v1 The first vector.
+ * @param {THREE.Vector3} v2 The second vector.
+ * @return {THREE.Vector3} The sum (v1 + v2).
+ */
+function vec3add(v1, v2) {
+  assertVector3Duck(v1, "v1");
+  assertVector3Duck(v2, "v2");
+  return vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+}
+
+/**
+ * Returns the result of adding s to the given vector's X component.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} s The amount to add.
+ * @return {THREE.Vector3} The vector (v.x + s, v.y, v.z).
+ */
+function vec3addX(v, s) {
+  assertVector3Duck(v, "v");
+  assertNumber(s, "s");
+  return vec3(v.x + s, v.y, v.z);
+}
+
+/**
+ * Returns the result of adding s to the given vector's Y component.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} s The amount to add.
+ * @return {THREE.Vector3} The vector (v.x, v.y + s, v.z).
+ */
+function vec3addY(v, s) {
+  assertVector3Duck(v, "v");
+  assertNumber(s, "s");
+  return vec3(v.x, v.y + s, v.z);
+}
+
+/**
+ * Returns the result of adding s to the given vector's Z component.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} s The amount to add.
+ * @return {THREE.Vector3} The vector (v.x, v.y, v.z + s).
+ */
+function vec3addZ(v, s) {
+  assertVector3Duck(v, "v");
+  assertNumber(s, "s");
+  return vec3(v.x, v.y, v.z + s);
+}
+
+/**
+ * Returns a vector that's otherwise the same as the given vector but has the given
+ * value for the X component.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} x The new X component.
+ * @return {THREE.Vector3} The vector (x, v.y, v.z).
+ */
+function vec3withX(v, x) {
+  assertVector3Duck(v, "v");
+  assertNumber(x, "x");
+  return vec3(x, v.y, v.z);
+}
+
+/**
+ * Returns a vector that's otherwise the same as the given vector but has the given
+ * value for the Y component.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} y The new Y component.
+ * @return {THREE.Vector3} The vector (v.x, y, v.z).
+ */
+function vec3withY(v, y) {
+  assertVector3Duck(v, "v");
+  assertNumber(y, "y");
+  return vec3(v.x, y, v.z);
+}
+
+/**
+ * Returns a vector that's otherwise the same as the given vector but has the given
+ * value for the Z component.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} z The new Z component.
+ * @return {THREE.Vector3} The vector (v.x, v.y, z).
+ */
+function vec3withZ(v, z) {
+  assertVector3Duck(v, "v");
+  assertNumber(z, "z");
+  return vec3(v.x, v.y, z);
+}
+
+/**
+ * Returns the result of subtracting v2 from v1, that is, v1 - v2.
+ * @param {THREE.Vector3} v1 The first vector.
+ * @param {THREE.Vector3} v2 The second vector.
+ * @return {THREE.Vector3} The difference, v1 - v2.
+ */
+function vec3sub(v1, v2) {
+  assertVector3Duck(v1, "v1");
+  assertVector3Duck(v2, "v2");
+  return vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+}
+
+/**
+ * Returns the given vector scaled by a given factor.
+ * @param {THREE.Vector3} v The vector.
+ * @param {number} s The scale factor.
+ * @return {THREE.Vector3} The scaled vector, s * v.
+ */
+function vec3scale(v, s) {
+  assertVector3Duck(v, "v");
+  assertNumber(s, "s");
+  return vec3(s * v.x, s * v.y, s * v.z);
+}
+
+/**
+ * Adds the vector v1 to the vector v2 scaled by s, returning the result.
+ * @param {THREE.Vector3} v1 The first vector.
+ * @param {number} s The scale factor.
+ * @param {THREE.Vector3} v2 The second vector.
+ * @return {THREE.Vector3} The result, v1 + s * v2.
+ */
+function vec3addScaled(v1, s, v2) {
+  assertVector3Duck(v1, "v1");
+  assertVector3Duck(v2, "v2");
+  assertNumber(s, "s");
+  return vec3(v1.x + s * v2.x, v1.y + s * v2.y, v1.z + s * v2.z);
+}
+
+/**
+ * Returns the negation (opposite) of the given vector.
+ * @param {THREE.Vector3} v The vector to negate.
+ * @return {THREE.Vector3} The negation of the vector, that is, -v.
+ */
+function vec3neg(v) {
+  assertVector3Duck(v, "v");
+  return vec3(-v.x, -v.y, -v.z);
+}
+
+/**
+ * Returns the squared length (squared magnitude) of the given vector.
+ * @param {THREE.Vector3} v The vector whose length is desired.
+ * @return {number} The squared magnitude.
+ */
+function vec3lengthSq(v) {
+  assertVector3Duck(v, "v");
+  return v.x * v.x + v.y * v.y + v.z * v.z;
+}
+
+/**
+ * Returns the length (magnitude) of the given vector.
+ * @param {THREE.Vector3} v The vector whose length is desired.
+ * @return {number} The length.
+ */
+function vec3length(v) {
+  assertVector3Duck(v, "v");
+  return Math.sqrt(vec3lengthSq(v));
+}
+
+/**
+ * Returns a normalized vector with the same direction as the given vector.
+ * The normalized vector will have length 1.
+ * @param {THREE.Vector3} v The vector whose normalized vector is desired.
+ * @return {THREE.Vector3} The normalized vector, with length 1. Note that if
+ *     the magnitude of the input vector is very close to zero, this will likely
+ *     return an indeterminate or NaN result. For best results, only call
+ *     this if the magnitude of the vector is above a certain threshold.
+ */
+function vec3normalized(v) {
+  assertVector3Duck(v, "v");
+  return vec3scale(v, 1.0 / vec3length(v));
+}
+
+/**
+ * Returns a vector with the same direction as the given vector but scaled
+ * to have the given length.
+ * @param {THREE.Vector3} v The vector whose normalized vector is desired.
+ * @param {number} l The desired length.
+ * @return {THREE.Vector3} The rescaled vector, with the desired length. Note that if
+ *     the magnitude of the input vector is very close to zero, this will likely
+ *     return an indeterminate or NaN result. For best results, only call
+ *     this if the magnitude of the input vector is above a certain threshold.
+ */
+function vec3withLength(v, l) {
+  assertVector3Duck(v, "v");
+  assertNumber(l, "l");
+  return vec3scale(vec3normalized(v), l);
+}
+
+/**
+ * Converts a vector to string.
+ * @param {THREE.Vector3} v The vector to convert to string.
+ * @param {number?} fixedDigits If present, use fixed-point format with this number of decimal digits.
+ * @return {string} The string representation of the vector.
+ */
+function vec3toString(v, fixedDigits) {
+  if (v === null) return "(null)";
+  if (v === undefined) return "(undefined)";
+  assertVector3Duck(v, "v");
+  return fixedDigits === undefined ?
+    `(${v.x}, ${v.y}, ${v.z})` :
+    `(${v.x.toFixed(fixedDigits)}, ${v.y.toFixed(fixedDigits)}, ${v.z.toFixed(fixedDigits)})`
+}
+
+/**
+ * Checks if the two given vectors are (approximately) equal.
+ * @param {THREE.Vector3} v1 The first vector.
+ * @param {THREE.Vector3} v2 The second vector.
+ * @param {number} epsilon The maximum componentwise absolute difference to tolerate.
+ */
+function vec3equal(v1, v2, epsilon = 0.001) {
+  assertVector3Duck(v1);
+  assertVector3Duck(v2);
+  return Math.abs(v1.x - v2.x) <= epsilon &&
+    Math.abs(v1.y - v2.y) <= epsilon &&
+    Math.abs(v1.z - v2.z) <= epsilon;
+}
+
+/**
+ * Computes the dot product between the two vectors.
+ * @param {THREE.Vector3} v1 The first vector.
+ * @param {THREE.Vector3} v2 The second vector.
+ * @return {number} The dot product.
+ */
+function vec3dot(v1, v2) {
+  assertVector3Duck(v1);
+  assertVector3Duck(v2);
+  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+/**
+ * Returns the identity quaternion.
+ * 
+ * <p>The identity quaternion represents a (very boring) rotation of zero radians.
+ * For more exciting rotations, use {@link quatAxisAngle}.
+ * 
+ * @return {THREE.Quaternion} The identity quaternion.
+ */
+function quatIdent() {
+  return new THREE.Quaternion(0, 0, 0, 1);
+}
+
+/**
+ * Returns a quaternion that represents a rotation around an axis.
+ * @param {THREE.Vector3} axis The axis about which to rotate.
+ * @param {number} radians The angle of the rotation, in radians.
+ * @return {THREE.Quaternion} A quaternion representing the requested rotation.
+ */
+function quatAxisAngle(axis, radians) {
+  assertVector3(axis, "axis");
+  assertNumber(radians, "radians");
+  const q = new THREE.Quaternion();
+  q.setFromAxisAngle(axis, radians);
+  return q;
+}
+
+/**
+ * <p>Calculates the result of applying a given quaternion to a given vector.
+ * In other words, rotates the given vector by the given quaternion,
+ * returning the rotated vector.
+ * 
+ * <p>The original vector is NOT modified.
+ *
+ * @param {THREE.Quaternion} quat The quaternion to apply, representing the desired rotation.
+ * @param {THREE.Vector3} v The vector to apply the quaternion to (vector to be rotated).
+ *     This vector is NOT modified. It's just used as input.
+ * @return {THREE.Vector3} The resulting (rotated) vector.
+ */
+function quatApply(quat, v) {
+  assertQuaternion(quat, "quat");
+  assertVector3(v, "v");
+  v = v.clone();
+  v.applyQuaternion(quat);
+  return v;
+}

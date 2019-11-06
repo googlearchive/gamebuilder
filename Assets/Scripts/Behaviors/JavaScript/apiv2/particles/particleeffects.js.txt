@@ -1,0 +1,60 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Spawns a particle effect.
+ *
+ * @param {string} pfxId ID of the particle effect to spawn.
+ * @param {THREE.Vector3?} position If omitted, the particle effect is spawned
+ *     at the current actor's position.
+ *     If this parameter is provided, it is the position in world coordinates
+ *     where the particle effect will be spawned.
+ * @param {THREE.Vector3?} rotation If omitted, the particle effect is spawned
+ *     at the current actor's rotation.
+ *     If this parameter is provided, it is the rotation in world coordinates
+ *     that the spawned particle effect will have.
+ * @param {number?} scale The scale of the spawned particle effect.
+ *     Defaults to 1.
+ */
+function spawnParticleEffect(pfxId, position, rotation, scale) {
+  if (!trySpawnParticleEffect(pfxId, position, rotation, scale)) {
+    throw new Error("Failed to spawn particle effect " + pfxId + ". Did you delete it?");
+  }
+}
+
+/**
+ * Same as {@link spawnParticleEffect} but doesn't cause an error if the particle
+ * effect does not exist. Instead, it just returns false.
+ * @param {string} pfxId See {@link spawnParticleEffect}.
+ * @param {THREE.Vector3?} position See {@link spawnParticleEffect}.
+ * @param {THREE.Vector3?} rotation See {@link spawnParticleEffect}.
+ * @param {number?} scale See {@link spawnParticleEffect}.
+ */
+function trySpawnParticleEffect(pfxId, position, rotation, scale) {
+  return ApiV2Context.instance.trySpawnParticleEffect(pfxId, position, rotation, scale);
+}
+
+/**
+ * Enum of built-in particle IDs.
+ * @enum {string}
+ */
+var Particles = {
+  EXPLOSION: "builtin:ExplosionPfx",
+  FOUNTAIN: "builtin:FountainPfx",
+  GLOW: "builtin:GlowPfx"
+};

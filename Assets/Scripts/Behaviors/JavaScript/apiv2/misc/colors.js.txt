@@ -1,0 +1,54 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Converts a color in hex string format (like "#ff0000") into a color object.
+ * @param {string} colorHex The color in hex format, like "#ff0000". The '#' is optional.
+ *     This is case-insensitive.
+ * @return {THREE.Color} The color object, or null if parsing failed.
+ */
+function colorFromHex(colorHex) {
+  if (!colorHex || typeof colorHex !== "string") {
+    return null;
+  }
+  colorHex = colorHex.toLowerCase();
+  if (!colorHex.match('^#?[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]$')) {
+    return null;
+  }
+  // Remove initial '#' if there.
+  colorHex = colorHex.startsWith('#') ? colorHex.substr(1) : colorHex;
+  return new THREE.Color(
+    parseInt(colorHex.substr(0, 2), 16) / 255.0,
+    parseInt(colorHex.substr(2, 2), 16) / 255.0,
+    parseInt(colorHex.substr(4, 2), 16) / 255.0);
+}
+
+/**
+ * Converts a color object to its hex string representation (like "#ff0000").
+ * @param {THREE.Color} color The color object to convert.
+ * @return {string} The hex string that corresponds to the given color, like "#ff0000".
+ */
+function colorToHex(color) {
+  const intR = Math.min(Math.max(Math.round(color.r * 255), 0), 255);
+  const intG = Math.min(Math.max(Math.round(color.g * 255), 0), 255);
+  const intB = Math.min(Math.max(Math.round(color.b * 255), 0), 255);
+  return "#" +
+    (intR <= 16 ? "0" : "") + intR.toString(16) +
+    (intG <= 16 ? "0" : "") + intG.toString(16) +
+    (intB <= 16 ? "0" : "") + intB.toString(16);
+}

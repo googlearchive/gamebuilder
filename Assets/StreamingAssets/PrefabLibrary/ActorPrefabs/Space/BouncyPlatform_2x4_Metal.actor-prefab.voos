@@ -1,0 +1,159 @@
+{
+    "version": 1,
+    "label": "BouncyPlatform_2x4_Metal",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "9ae8d61ad42e4853b482f2f79b576124",
+        "brainName": "f8e4d4162f184104a2e17f6db8707123",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Space/BouncyPlatform_2x4_Metal",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"42f5da8a5550479e8b7c5bff1ad42474\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":9715.8876953125,\"lastActionMessageTime\":9715.3876953125}}}},\"06f5766e5f0348b3b04acad9ddcf4b6e\":{},\"886c6dcdffa24141879c274975869fcc\":{}}}",
+        "displayName": "BouncyPlatform_2x4_Metal",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -21.985382080078126,
+            "y": 0.0,
+            "z": 23.388427734375
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -21.985382080078126,
+            "y": 0.0,
+            "z": 23.388427734375
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "f8e4d4162f184104a2e17f6db8707123"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.7355506420135498,\"viewPosition\":{\"x\":-20.671113967895509,\"y\":266.19580078125},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":930.1799926757813,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"06f5766e5f0348b3b04acad9ddcf4b6e\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"886c6dcdffa24141879c274975869fcc\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":467.07000732421877,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "06f5766e5f0348b3b04acad9ddcf4b6e",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "886c6dcdffa24141879c274975869fcc",
+                        "behaviorUri": "builtin:Add Velocity Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "CardTargetActor",
+                                "valueJson": "{\"value\":\"EVENT_CAUSER\"}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "gameplay"
+}

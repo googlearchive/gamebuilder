@@ -1,0 +1,278 @@
+{
+    "version": 2,
+    "label": "hoe",
+    "actors": [
+        {
+            "version": 8,
+            "name": "1f4c54df16c44a5ab976c1f9dfa83435",
+            "brainName": "9aae609cf95e4c799a97c7400f491089",
+            "tags": [],
+            "renderableUri": "builtin:BuiltinAssets/Farming/hoe",
+            "memoryJson": "{\"__bulm\":{\"0a1edb1264e34e9e9ec2ec652e5a19dd\":{\"actionDeckState\":{\"decksInfo\":{\"UseDeck\":{\"active\":false,\"endTime\":9644.890625,\"lastActionMessageTime\":9644.390625}}}},\"08f49373998c49bd92c66a8118e84e33\":{\"actionDeckState\":{\"decksInfo\":{}}}},\"__variables\":{\"grabbable\":true,\"owner\":null}}",
+            "displayName": "hoe",
+            "description": "",
+            "tint": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+            },
+            "transformParent": "",
+            "position": {
+                "x": -29.056461334228517,
+                "y": -0.00958724319934845,
+                "z": 21.696229934692384
+            },
+            "rotation": {
+                "x": 0.0005916112568229437,
+                "y": 0.05721551924943924,
+                "z": -0.010705954395234585,
+                "w": 0.9983043074607849
+            },
+            "localScale": {
+                "x": 1.000000238418579,
+                "y": 1.0000009536743165,
+                "z": 1.0000009536743165
+            },
+            "renderableOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "renderableRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "commentText": "",
+            "spawnPosition": {
+                "x": -17.989227294921876,
+                "y": 0.0,
+                "z": 20.265472412109376
+            },
+            "spawnRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "preferOffstage": false,
+            "isSolid": true,
+            "enablePhysics": true,
+            "enableGravity": true,
+            "bounciness": 0.0,
+            "drag": 0.0,
+            "angularDrag": 0.05000000074505806,
+            "mass": 1.0,
+            "freezeRotations": false,
+            "freezeX": false,
+            "freezeY": false,
+            "freezeZ": false,
+            "enableAiming": false,
+            "hideInPlayMode": false,
+            "keepUpright": false,
+            "isPlayerControllable": false,
+            "debugString": "",
+            "cloneParent": "",
+            "velocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "angularVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "cameraActor": "",
+            "spawnTransformParent": "",
+            "wasClonedByScript": false,
+            "loopingAnimation": "",
+            "cameraSettingsJson": "",
+            "lightSettingsJson": "",
+            "pfxId": "",
+            "sfxId": "",
+            "useConcaveCollider": true,
+            "speculativeColDet": false,
+            "useStickyDesiredVelocity": false,
+            "stickyDesiredVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ],
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "9aae609cf95e4c799a97c7400f491089"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.4352077543735504,\"viewPosition\":{\"x\":774.0833129882813,\"y\":-721.4345703125},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":715.0,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "ed0ab3baf8e94e6a95ce46b9ec1d79ae",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "0a1edb1264e34e9e9ec2ec652e5a19dd",
+                        "behaviorUri": "builtin:Grabbable Item Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "CustomRotation",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "RotationX",
+                                "valueJson": "{\"value\":270.0}"
+                            },
+                            {
+                                "propertyName": "RotationY",
+                                "valueJson": "{\"value\":90.0}"
+                            },
+                            {
+                                "propertyName": "CanUse",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "UseDeck",
+                                "valueJson": "{\"value\":[\"08f49373998c49bd92c66a8118e84e33\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "08f49373998c49bd92c66a8118e84e33",
+                        "behaviorUri": "builtin:BroadcastMessageActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "LimitRange",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "Range",
+                                "valueJson": "{\"value\":1.0}"
+                            },
+                            {
+                                "propertyName": "Message",
+                                "valueJson": "{\"value\":\"Till\"}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "sojos": [],
+    "category": "gameplay",
+    "workshopId": "",
+    "actorData": {
+        "version": 0,
+        "name": "",
+        "brainName": "",
+        "tags": [],
+        "renderableUri": "",
+        "memoryJson": "",
+        "displayName": "",
+        "description": "",
+        "tint": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "localScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.0,
+        "mass": 0.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "angularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": "",
+        "useConcaveCollider": false,
+        "speculativeColDet": false,
+        "useStickyDesiredVelocity": false,
+        "stickyDesiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

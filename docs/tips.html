@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Lato|Oswald|Inconsolata" rel="stylesheet" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="../third_party/prettify/prettify.js"> </script>
+<script src="../third_party/prettify/lang-css.js"> </script>
+<link type="text/css" rel="stylesheet" href="../third_party/prettify/prettify-tomorrow.css">
+</head>
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+  <img src="images/logo.png">
+</div>
+
+<div class="content">
+  <div class="nav">
+    <a href="index.html">About Game Builder</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="intro.html">Getting Started</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="ref.html">API Reference</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="tips.html">Tips and Tricks</a>
+  </div>
+
+  <h1>Game Builder: Tips and Tricks (API v2)</h1>
+
+  <h2>Card memory or actor memory?</h2>
+
+  <p>State can be stored in two places: <b>actor memory</b> or
+  <b>card memory</b>. Actor memory is state that the actor as a whole
+  remembers; card memory is state for a specific instance of a card.</p>
+
+  <p>You will normally want to store your state in <b>card memory</b>,
+  since that means your variables won't get overwritten by other cards.
+  If, however, you <b>do</b> want to share variables with other cards,
+  you can use <b>actor memory</b>.</p>
+
+  <p>Card memory is accessible through the <tt>card</tt> global,
+  like this:</p>
+
+  <pre class="prettyprint">
+  export function onCollision() {
+    // Only log this message once.
+    if (!card.saidHi) {
+      card.saidHi = true;
+      log("Hi!");
+    }
+  }
+
+  export function onInit() {
+    card.saidHi = false;
+  }
+  </pre>
+
+  <p>The code above uses card memory to store a <tt>saidHi</tt> boolean
+  to indicate whether or not we already printed "Hi!" to the console.
+  Note that it resets it on <tt>onInit()</tt> too.</p>
+
+  <h2>Initializing</h2>
+  <p>You should always initialize any variables in card or actor memory
+  before using them. The best place to do this is the
+  <tt>onInit</tt> function.</p>
+
+  <p>The <tt>onInit</tt> function gets called on game reset, and also
+  when your card has just been added to an actor.</p>
+
+  <pre class="prettyprint">
+  export function onCollide() {
+    // Increment a variable.
+    card.hitCount++;
+  }
+
+  export function onInit() {
+    // Reset variable.
+    card.hitCount = 0;
+  }
+  </pre>
+
+  <p>Note: if you want to do something <em>only</em> when the game
+  is reset but not when the card is added, use <tt>onResetGame</tt>
+  instead.</p>
+
+  <h2>Creating UI</h2>
+
+  <p>APIv2 introduces the ability to do basic screen-space UI.</p>
+
+  <p>The UI is drawn in "immediate mode" meaning that the UI
+  elements don't have a permanent existence: they must be
+  drawn on every tick.</p>
+
+  <p>Here is an example:</p>
+
+  <pre class="prettyprint">
+  // Always use onLocalTick() for UI instead of onTick():
+  export function onLocalTick() {
+    // Show the text "Hello world" at position 200,200:
+    uiText(200, 200, "Hello world!");
+  }
+  </pre>
+
+  <p>A caveat is that in a multiplayer game UI code executes
+  on everybody's machines, so you will draw the UI on everybody's
+  screen. The <tt>onLocalTick</tt> function executes locally
+  on each machine, so the UI you draw there will draw for everybody,
+  which is normally what you want.</p>
+
+  <p>The coordinate system is based on a 1600x900 "virtual screen"
+  that is overlaid on top of the user's screen. So coordinate (800,450)
+  will always be the center of the screen, regardless of the actual
+  resolution.</p>
+
+  <p>For more information, see <a href="uiText.html">uiText</a>
+  and <a href="uiRect.html">uiRect.html</a>.</p>
+
+  <h2>Creating an Action card</h2>
+
+  <p>So you want to create a new Action card that's compatible with
+  the panel system? It's super easy. To do that, click any
+  Action deck property (say, the "What do I do when I see the player"
+  panel on a slime), which will create a new action card</p>
+
+  <p>Now, the only function you have to fill in is the <tt>onAction</tt>
+  function, which gets called when the card is activated. Try this:</p>
+
+  <pre class="prettyprint">
+  export function onAction() {
+    setTintHex("#0000ff"); // blue
+  }
+
+  export function onInit() {
+    setTintHex("#00ff00"); // green
+  }
+  </pre>
+
+  <p>Now give your card a name (click on the card picture on the left to
+  edit the name and description). Suggested name: <b>Turn Blue</b>.
+  Suggested description: "Makes the actor turn blue".</p>
+
+  <p>Now stand in front of the slime, and it will turn blue. Reset
+  the game and it will be green again.</p>
+
+  <p>If you save that card to the library, you can now use it on other
+  objects too, wherever you'd normally use an action card.</p>
+
+  <h2>Testing multiplayer games in single-player</h2>
+
+  <p>If you are building a multiplayer game and you want to test
+  it in single-player mode, you can use the console commands
+  <tt>vpjoin</tt>, <tt>vpswitch</tt> and <tt>vpleave</tt> to
+  simulate joining, switching or leaving your game.</p>
+
+  <ol>
+    <li>Bring up the console using the tilde (~) key.</li>
+    <li>Type <tt>vpjoin</tt>. This will "join" the game as a second player.</li>
+    <li>To switch between players 1 and 2 you can now type <tt>vpswitch 1</tt>
+      and <tt>vpswitch 2</tt>.</li>
+    <li>Need more players? Use <tt>vpjoin</tt> again to add more!</li>
+    <li>To test what happens if the player leaves, use <tt>vpleave</tt>.</li>
+  </ol>
+
+  <h2>How can I make all players be copies of the same template?</h2>
+
+  <p>Tired of editing each of the players in a multiplayer game? You
+  can make them all copies of the same template.</p>
+
+  <ol>
+    <li>Delete players 2, 3, 4, etc. Leave just player 1 (you).</li>
+    <li>Go into the Player Controls panel for player 1.</li>
+    <li>Enable <tt>Auto Assign</tt> and <tt>Auto Color</tt>.</li>
+    <li>Now copy and paste Player 1 as many times as you want players
+        (so make 3 copies for a 4-player game).</li>
+    <li>Done! Now when someone joins your game they will inhabit
+        one of those copies. Since they are copies, every change you
+        make to Player 1 will auto propagate to the others.</li>
+  </ol>
+
+  <h2>How do I transfer the player between actors?</h2>
+
+  <p>There is a new card called <b>Transfer Player</b> that you can
+  use to transfer the player from one actor to another. For example,
+  you could have a robot and a fox on your game and add an IF-THEN panel
+  to the player saying that if the player presses <tt>Q</tt>, they switch
+  from being the robot to being the fox.</p>
+
+  <ol>
+    <li>Set the Robot to be Player 1</li>
+    <li>Set the Fox to be Player 2</li>
+    <li>Add an IF-THEN panel to the Robot</li>
+    <li>In the IF part add the <b>Player Button</b> card and set it
+      to the desired button/key, for example <tt>Q</tt></li>
+    <li>In the THEN part add the <b>Transfer Player</b> card and
+      set up its parameters to point to the fox.</li>
+  </ol>
+
+  <p>Now if you press <tt>Q</tt> you should switch to the fox.</p>
+
+  <p>If you want to add a way to switch back, just add a similar IF-THEN
+  to the fox.</p>
+
+  <h2>(Advanced) What's the file format for the terrain?</h2>
+  <p>So you want to generate terrain externally using your own tools?
+  That's cool! Here is a quick description of our <a
+    href='https://docs.google.com/document/d/1RovaMCZhEgnWolxAHeB_v4ZzW8ROQjIIOJnayKDupYg/edit'>terrain
+    file format</a>. Note, however, that we reserve the right to change this
+  format in future versions, so be aware that it can break!</p>
+
+  <h2>Can I edit cards in an external IDE?</h2>
+  <p>Yes. There is a (very experimental!) console command that will hot-load
+  a given directory with JS files into Game Builder as cards. As you modify
+  the JS and meta files in that directory, Game Builder will re-import them
+  automatically. Check out these
+  <a href="https://docs.google.com/document/d/1M1vw78aksyPDO7NIbomyylIKYWs1KOnbL882bY256XM/edit?usp=sharing">instructions.</a>.</p>
+
+  <h2>How does multiplayer actually work?</h2>
+  <p>Refer to
+  <a href="https://docs.google.com/document/d/1EIlvn-RD0IxdvYHQxSOfWVU6LpZTe1XDLXA1PSqJd6A/edit?usp=sharing">this article</a>
+  for an overview of how multiplayer works in Game Builder "under the hood".
+</div>
+
+</div>
+<script> prettyPrint(); </script>
+<div class="legal">
+  <a href="https://policies.google.com/privacy">Privacy Policy</a>
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  <a href="https://policies.google.com/terms">Terms of Service</a>
+</div>
+</body>
+</html>
+

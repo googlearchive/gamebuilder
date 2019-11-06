@@ -1,0 +1,3587 @@
+{
+    "version": 6,
+    "voosEngineState": {
+        "gameTime": 8803.865234375,
+        "actors": [
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "RedPlayer",
+                "brainName": "Player",
+                "tags": [
+                    "player"
+                ],
+                "renderableUri": "builtin:BuiltinAssets/AvatarExplorer",
+                "memoryJson": "{\"health\":3,\"StartingHealth\":3,\"team\":1,\"jumpCooldown\":0,\"__bulm\":{\"5760f6917856484ca4291e3f7407875b\":{},\"297615c9b4a94d619cd94f00e3e1b407\":{},\"79b1b0e7b88c462181a2aa6d7959524b\":{},\"ae9631beee41471495871ca0b4779e31\":{\"gameEnd\":null},\"1baa9a5c80c049fea345600a43bce11d\":{},\"c3a60cc6468e4f7f9160d97d00ca5cfe\":{},\"02c5f0721b1144e5b699c7700e8fc627\":{},\"2a3e4685a12947ef9cb0283f34947dfb\":{},\"b6b55feb96e44b4cb0559b4a4f20e3c9\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"b6196ac67f5e479397379140b8e6f43a\":{},\"ca86e763c26b4d8c9d2709044c5fc19c\":{},\"35e57ca917644d20a77f5204377f737d\":{},\"d6a182fd49ef40bd800a78bf43616d93\":{},\"08bcb680395544c88d03a397789976f1\":{}},\"__attribs\":{\"isDead\":false,\"health\":3,\"startingHealth\":3},\"isDead\":false}",
+                "displayName": "Player 1",
+                "description": "",
+                "tint": {
+                    "r": 0.8313725590705872,
+                    "g": 0.13333334028720857,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -2.938394546508789,
+                    "y": 0.010000765323638916,
+                    "z": 9.84965991973877
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.9998682737350464,
+                    "z": 0.0,
+                    "w": 0.016231447458267213
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": -2.938394546508789,
+                    "y": 0.00999993085861206,
+                    "z": 9.84965991973877
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.5313999652862549,
+                    "z": 0.0,
+                    "w": 0.8471210598945618
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": true,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": true,
+                "hideInPlayMode": false,
+                "keepUpright": true,
+                "useDesiredVelocity": true,
+                "ignoreVerticalDesiredVelocity": true,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": true,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": -0.000011414289474487305,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "0dc485b57e204bbdb7432762424ce027",
+                "brainName": "4e59614ff938464cbd5b76fba9e90647",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"4c35cfd7ec65456a8c5fb4c9089a3f80\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"427035f0a5cb48b6aa77f207f5d78931\":{},\"2cee40a445c5497183757f196afbe3d3\":{}},\"health\":3,\"__attribs\":{\"isDead\":false},\"isDead\":false}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 8.024972915649414,
+                    "y": 1.0,
+                    "z": 13.092031478881836
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 6.0,
+                    "y": 6.0,
+                    "z": 6.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "Use <color=yellow>W,A,S,D</color> to move,\n<color=#0ff>Space</color> to jump.",
+                "spawnPosition": {
+                    "x": 8.024972915649414,
+                    "y": 1.0,
+                    "z": 13.092031478881836
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "861db9f3f8784702a2971b5680d0ae0c",
+                "brainName": "5ab0b22de9754baf9a96db10280af14a",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Collectable_Star",
+                "memoryJson": "{\"__bulm\":{\"d41e2a648de04a19b966d9c8e9154e36\":{},\"d3fd92db4fda49c0b06ae8ffda0421ba\":{},\"de1fd0a4125940f7ae488904e9cb230f\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"e34ed670edaa4b488fb902bd4b17d8b7\":{},\"b64092b778df45a990b6e9dc12180db5\":{},\"abcdef0123456789deadbeefabcabcab\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Star",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 0.7250000238418579,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 7.146629333496094,
+                    "y": 1.500000238418579,
+                    "z": 7.240354537963867
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 7.146629333496094,
+                    "y": 1.500000238418579,
+                    "z": 7.240354537963867
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "builtin:LaserBolt",
+                "brainName": "f1c78779b3a940c1a6d683cc60ede25d",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/LaserBolt",
+                "memoryJson": "{\"__bulm\":{\"5e9d6240b129490490c0473d1b337289\":{},\"e393bfdf1e044518a4b098c0e2737e66\":{},\"59b49a097d91491aad7cdc32e3bbd484\":{},\"60c111429c52451b85d873aec0aab435\":{},\"7ba1fdedd151453796ead958cd4f7f1b\":{},\"3bee794bb9824a5098bfce9f48e12e68\":{},\"522be0bd094b48dda819d0f64ba6d3a4\":{},\"2bbd5f73fa5e49cf99c0923399801406\":{},\"84612c356a904412939e63327855d747\":{\"triggered\":false},\"c727856efe124b9ebcd62e9a9f1e724d\":{}}}",
+                "displayName": "Laser Bolt (default)",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 0.5,
+                    "b": 0.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 12.663973808288575,
+                    "y": 0.0,
+                    "z": 0.8545541763305664
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 12.663973808288575,
+                    "y": 0.0,
+                    "z": 0.8545541763305664
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": true,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "builtin:PopupText",
+                "brainName": "6cea514759cd443ea7956aa90c091445",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"4c6b2b1ddee848e3b52c8d7c94a2fe38\":{},\"c76f643bfac74ff48abbca1a200fd75f\":{},\"42db91e6cab0424682c3491e43f4e9f9\":{},\"93e2e12eaa934affbd39348f2dc77749\":{}},\"health\":3,\"__attribs\":{\"isDead\":false},\"isDead\":false}",
+                "displayName": "Popup Text (default)",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 7.504543304443359,
+                    "y": 1.0,
+                    "z": 1.2730712890625
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": -4.371138828673793e-8
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "Popup Text Goes Here\n",
+                "spawnPosition": {
+                    "x": 7.504543304443359,
+                    "y": 1.0,
+                    "z": 1.2730712890625
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": -4.371138828673793e-8
+                },
+                "preferOffstage": true,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "e42fd5e81b734817a1f60438a8ade63b",
+                "brainName": "19062d4d214c4c9ca8e971f9f1973f5c",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Collectable_Star",
+                "memoryJson": "{\"__bulm\":{\"d41e2a648de04a19b966d9c8e9154e36\":{},\"d3fd92db4fda49c0b06ae8ffda0421ba\":{},\"de1fd0a4125940f7ae488904e9cb230f\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"e34ed670edaa4b488fb902bd4b17d8b7\":{},\"b64092b778df45a990b6e9dc12180db5\":{},\"abcdef0123456789deadbeefabcabcab\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Star",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 0.7250000238418579,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 9.686904907226563,
+                    "y": 3.000000238418579,
+                    "z": 7.327375411987305
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 9.686904907226563,
+                    "y": 3.000000238418579,
+                    "z": 7.327375411987305
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "59bbdda832db4d54bf52053b284790da",
+                "brainName": "47fbb2e04e234361b75247f790d8ca38",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Collectable_Star",
+                "memoryJson": "{\"__bulm\":{\"d41e2a648de04a19b966d9c8e9154e36\":{},\"d3fd92db4fda49c0b06ae8ffda0421ba\":{},\"de1fd0a4125940f7ae488904e9cb230f\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"e34ed670edaa4b488fb902bd4b17d8b7\":{},\"b64092b778df45a990b6e9dc12180db5\":{},\"abcdef0123456789deadbeefabcabcab\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Star",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 0.7250000238418579,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 12.002592086791993,
+                    "y": 4.5,
+                    "z": 7.450623512268066
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 12.002592086791993,
+                    "y": 4.5,
+                    "z": 7.450623512268066
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "f3fbf8b01a7f4f4cb9a424e68f11bde9",
+                "brainName": "7c69280360f9412fa922e711d10c0688",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Tree_01",
+                "memoryJson": "{\"__bulm\":{\"44b8d3b09cf9430ea061c9fcc8d3e1a8\":{},\"f55adcc4c3e949ca994f647d973fda90\":{},\"226ee4a47ffe4fc09f6478e207db5a2a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Tree",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 0.5940055847167969,
+                    "y": 0.0,
+                    "z": 29.58205795288086
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 0.5940055847167969,
+                    "y": 0.0,
+                    "z": 29.58205795288086
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "1c842169ec264e11a0adc73bf3764519",
+                "brainName": "75905e1794914ffbbe64e4cb07058005",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Collectable_Star",
+                "memoryJson": "{\"__bulm\":{\"d41e2a648de04a19b966d9c8e9154e36\":{},\"d3fd92db4fda49c0b06ae8ffda0421ba\":{},\"de1fd0a4125940f7ae488904e9cb230f\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"e34ed670edaa4b488fb902bd4b17d8b7\":{},\"b64092b778df45a990b6e9dc12180db5\":{},\"abcdef0123456789deadbeefabcabcab\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Star",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 0.7250000238418579,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 11.575664520263672,
+                    "y": 6.0,
+                    "z": 19.088302612304689
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 11.575664520263672,
+                    "y": 6.0,
+                    "z": 19.088302612304689
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "07f8fa599db7428e9ab756da596b01c1",
+                "brainName": "0a7ed88da1b74a78bc99b64f6de694ca",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Tree_01",
+                "memoryJson": "{\"__bulm\":{\"44b8d3b09cf9430ea061c9fcc8d3e1a8\":{},\"f55adcc4c3e949ca994f647d973fda90\":{},\"226ee4a47ffe4fc09f6478e207db5a2a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Tree",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 9.411134719848633,
+                    "y": 0.0,
+                    "z": 0.13579463958740235
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 9.411134719848633,
+                    "y": 0.0,
+                    "z": 0.13579463958740235
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "205e6d3377904ab5953a1651ddca01c1",
+                "brainName": "bd4f16d2e6d54a34bdc086f810bd674c",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Collectable_Star",
+                "memoryJson": "{\"__bulm\":{\"d41e2a648de04a19b966d9c8e9154e36\":{},\"d3fd92db4fda49c0b06ae8ffda0421ba\":{},\"de1fd0a4125940f7ae488904e9cb230f\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"e34ed670edaa4b488fb902bd4b17d8b7\":{},\"b64092b778df45a990b6e9dc12180db5\":{},\"abcdef0123456789deadbeefabcabcab\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Star",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 0.7250000238418579,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 9.257951736450196,
+                    "y": 6.0,
+                    "z": 19.280221939086915
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 9.257951736450196,
+                    "y": 6.0,
+                    "z": 19.280221939086915
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "6c84c7349acd49cdbb8f0b0b2f00a795",
+                "brainName": "9c7a25e197e94ac6bce3b4ac10c113e2",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"3155cb21784d4531a4ef67c22a40e0c2\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"2ea19e901bd748459382f177fc8b2547\":{},\"115573ace7154e31944a607829cfcc04\":{}},\"health\":3,\"__attribs\":{\"isDead\":false},\"isDead\":false}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -8.883172988891602,
+                    "y": 1.0,
+                    "z": 16.05121612548828
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 6.0,
+                    "y": 6.0,
+                    "z": 6.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "To edit the game, go into <color=#f80>BUILD</color> mode\n(<color=#f80>BUILD</color> button at the top of the screen)",
+                "spawnPosition": {
+                    "x": -8.883172988891602,
+                    "y": 1.0,
+                    "z": 16.05121612548828
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "9f3e97b45d554cd5bcdf0555bb840be7",
+                "brainName": "d633b08d256e4ba7b9bbbf634f8c7ec3",
+                "tags": [
+                    "player"
+                ],
+                "renderableUri": "builtin:BuiltinAssets/AvatarExplorer",
+                "memoryJson": "{\"health\":3,\"StartingHealth\":3,\"team\":1,\"jumpCooldown\":0,\"__bulm\":{\"5c562b4055994630be154cd6da115e19\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"a31b40c175554d9da804368de364baab\":{\"gameEnded\":false},\"f0a60205c030470792906303cf0f309c\":{\"gameEnd\":null},\"422e259bc3a5458aa053d3dc440716eb\":{},\"c3989e25f3c74bb6826f1ccd54dfa5b1\":{},\"f4889a80f15048b9952a1262e9d4310d\":{},\"025e65d20a2e4f0899ba0484a515ef69\":{},\"773d25d8ad9849df9d873aa71962ad2a\":{},\"8dd66788532342549d07017c86614cd8\":{}},\"__attribs\":{\"isDead\":false,\"health\":3,\"startingHealth\":3},\"isDead\":false}",
+                "displayName": "Player 2",
+                "description": "",
+                "tint": {
+                    "r": 0.058480795472860339,
+                    "g": 0.8313725590705872,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -16.566287994384767,
+                    "y": 0.010000646114349366,
+                    "z": -1.8747997283935547
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": -16.566287994384767,
+                    "y": 0.010000050067901612,
+                    "z": -1.8747997283935547
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": true,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": true,
+                "hideInPlayMode": false,
+                "keepUpright": true,
+                "useDesiredVelocity": true,
+                "ignoreVerticalDesiredVelocity": true,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "c8ae268f88e14b12ae92a7af02fb96a0",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "00866b06a31142a0b2c5218183e6cc27",
+                "brainName": "e3b116e6f8bf43c89526ccb8978ca905",
+                "tags": [
+                    "player"
+                ],
+                "renderableUri": "builtin:BuiltinAssets/AvatarExplorer",
+                "memoryJson": "{\"health\":3,\"StartingHealth\":3,\"team\":1,\"jumpCooldown\":0,\"__bulm\":{\"6559840d0f794dcfa9b67b53727152b2\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"19c9d9bcff1448a79b37810f04858098\":{\"gameEnded\":false},\"f79ffdca42114a59a9c3e28e8f54244e\":{\"gameEnd\":null},\"280312e8483240979d0a6399133cc812\":{},\"d774a15823104eb8b25be5dfe7e6428a\":{},\"11427156a3c74823887a65ffea33e8e9\":{},\"ed489d4c392445c1bff0c739aa17fb35\":{},\"42eb3cdace4143c490aabe7d48bbf091\":{},\"7f9c09b077df43d99909625a9c118ab7\":{}},\"__attribs\":{\"isDead\":false,\"health\":3,\"startingHealth\":3},\"isDead\":false}",
+                "displayName": "Player 3",
+                "description": "",
+                "tint": {
+                    "r": 0.2966144382953644,
+                    "g": 0.0,
+                    "b": 0.8313725590705872,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -16.433557510375978,
+                    "y": 0.010000526905059815,
+                    "z": -4.1930036544799809
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": -16.433557510375978,
+                    "y": 0.00999993085861206,
+                    "z": -4.1930036544799809
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": true,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": true,
+                "hideInPlayMode": false,
+                "keepUpright": true,
+                "useDesiredVelocity": true,
+                "ignoreVerticalDesiredVelocity": true,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "401f496c33ff4ef6af186cc9035b1269",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "93fc3a71ca9e4a65935da4065cb0b767",
+                "brainName": "5a9c831f8bd345ed8f96483370dac278",
+                "tags": [
+                    "player"
+                ],
+                "renderableUri": "builtin:BuiltinAssets/AvatarExplorer",
+                "memoryJson": "{\"health\":3,\"StartingHealth\":3,\"team\":1,\"jumpCooldown\":0,\"__bulm\":{\"d814b3ea0c134228bb416e7dde71bbe7\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"45200677e891436b8cef38808a4923c1\":{\"gameEnded\":false},\"929cada41b6c4d278f1f539ba817c0bf\":{\"gameEnd\":null},\"654cee5452ca464e960c21790a95bbd3\":{},\"9a8803b7286f43c298bc698475419a70\":{},\"38f5babb80d84c5f88496443c388bb1a\":{},\"bc4b32eda28042f68b55e981071e3478\":{},\"99c82121c2a14a0984c15b77916fcb9c\":{},\"cb7d378f02e24ef5b83469549718735e\":{}},\"__attribs\":{\"isDead\":false,\"health\":3,\"startingHealth\":3},\"isDead\":false}",
+                "displayName": "Player 4",
+                "description": "",
+                "tint": {
+                    "r": 0.9838850498199463,
+                    "g": 0.8613178730010986,
+                    "b": 0.0,
+                    "a": 1.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -16.36008071899414,
+                    "y": 0.010000526905059815,
+                    "z": -6.408736228942871
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": -16.36008071899414,
+                    "y": 0.00999993085861206,
+                    "z": -6.408736228942871
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": true,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": true,
+                "hideInPlayMode": false,
+                "keepUpright": true,
+                "useDesiredVelocity": true,
+                "ignoreVerticalDesiredVelocity": true,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "44ae2a9391bc4544ae88dfbc9966e4cc",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "f0b5c51219cf446db3f582a3d84072de",
+                "brainName": "__DEFAULT_BRAIN__",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"ed0ab3baf8e94e6a95ce46b9ec1d79ae\":{}}}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.003921568859368563,
+                    "g": 0.003921568859368563,
+                    "b": 0.003921568859368563,
+                    "a": 0.7450980544090271
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -14.427458763122559,
+                    "y": 4.4620256423950199,
+                    "z": 2.1966309547424318
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 6.0,
+                    "y": 6.0,
+                    "z": 6.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "<color=yellow>Making a multiplayer game?</color>\nThese are the characters for\nplayers 2, 3 and 4.\n<size=70%><color=#888>\nEach one has a Player Controls panel\nset to their player number.\n\nWant more players? Just add more robots\nand set them to player 5, 6, ...</color> </size>",
+                "spawnPosition": {
+                    "x": -14.427458763122559,
+                    "y": 4.4620256423950199,
+                    "z": 2.1966309547424318
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "1e3b010fcc7b4e38bff6dfe6692d7020",
+                "brainName": "3a37797919c8453c835558789155d409",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"2cee40a445c5497183757f196afbe3d3\":{},\"f2d8cb1c5dd248cf910bad6ac5cef116\":{},\"ec0c1a048fed4c5799fde828ae3dd49c\":{\"scores\":{}}},\"health\":3,\"__attribs\":{\"isDead\":false},\"isDead\":false}",
+                "displayName": "Score Board",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -26.462251663208009,
+                    "y": 0.9187965393066406,
+                    "z": 4.0205888748168949
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 6.0,
+                    "y": 6.0,
+                    "z": 6.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "SCORE\n Player 1 \n        0 ",
+                "spawnPosition": {
+                    "x": -26.462251663208009,
+                    "y": 0.9187965393066406,
+                    "z": 4.0205888748168949
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "a127980a1452443abc1a58885ba40860",
+                "brainName": "e7c1c9fd9abe4248a208d5cf05b88007",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"ed0ab3baf8e94e6a95ce46b9ec1d79ae\":{}}}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.003921568859368563,
+                    "g": 0.003921568859368563,
+                    "b": 0.003921568859368563,
+                    "a": 0.7450980544090271
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -24.843896865844728,
+                    "y": 1.0,
+                    "z": 7.429958343505859
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 6.0,
+                    "y": 6.0,
+                    "z": 6.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "This is the scoreboard. It keeps scores.\nIf your game doesn't use score,\nyou can delete it.",
+                "spawnPosition": {
+                    "x": -24.843896865844728,
+                    "y": 1.0,
+                    "z": 7.429958343505859
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "19a76198d9524d50973afb4a4aaa2778",
+                "brainName": "7ba388eb203246b6a95d9196774e6387",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Tree_01",
+                "memoryJson": "{\"__bulm\":{\"44b8d3b09cf9430ea061c9fcc8d3e1a8\":{},\"f55adcc4c3e949ca994f647d973fda90\":{},\"226ee4a47ffe4fc09f6478e207db5a2a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Tree",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 7.89774227142334,
+                    "y": 0.0,
+                    "z": 29.399354934692384
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 7.89774227142334,
+                    "y": 0.0,
+                    "z": 29.399354934692384
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "4789cf6ede7148b3add0499e8eb4f4e0",
+                "brainName": "0cb4391c7e1a4c24997b7d5dee43663e",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Tree_01",
+                "memoryJson": "{\"__bulm\":{\"44b8d3b09cf9430ea061c9fcc8d3e1a8\":{},\"f55adcc4c3e949ca994f647d973fda90\":{},\"226ee4a47ffe4fc09f6478e207db5a2a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Tree",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 14.929281234741211,
+                    "y": 6.0,
+                    "z": 18.49134063720703
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 14.929281234741211,
+                    "y": 6.0,
+                    "z": 18.49134063720703
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "34eb7986147446efb98d3e245ba2c318",
+                "brainName": "773e51e6eb0d4944b70c7fb08d25d21e",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/Flag",
+                "memoryJson": "{\"__bulm\":{\"44b8d3b09cf9430ea061c9fcc8d3e1a8\":{},\"f55adcc4c3e949ca994f647d973fda90\":{},\"226ee4a47ffe4fc09f6478e207db5a2a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"204c4e3691d44cec8be584a20e503355\":{},\"0a46791e441d46c2bc46b20f69835629\":{\"gameEnd\":null}},\"health\":3,\"__attribs\":{}}",
+                "displayName": "Flag",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -2.430176258087158,
+                    "y": 4.499999046325684,
+                    "z": 19.61619758605957
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": -2.430176258087158,
+                    "y": 4.499999046325684,
+                    "z": 19.61619758605957
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            },
+            {
+                "version": 6,
+                "creatorName": "",
+                "name": "ecd507858b44460b8bb7bf451b47dbd8",
+                "brainName": "d15fd92583ab4e4a8e36e2fd404714d3",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/Forest/StackingBlock_2x3_Thin_Stone",
+                "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"42f5da8a5550479e8b7c5bff1ad42474\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8803.9736328125,\"lastActionMessageTime\":8803.4736328125}}}},\"a0576088ecbe43308f63012da0fb0b34\":{}},\"sineParam\":1.693677775284461,\"oscValue\":2.9773787107695227}",
+                "displayName": "StackingBlock_2x3_Thin_Stone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 3.739478349685669,
+                    "y": 5.367814540863037,
+                    "z": 19.373559951782228
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 2.2712199687957765,
+                    "y": 2.2712199687957765,
+                    "z": 2.2712199687957765
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 3.739478349685669,
+                    "y": 2.3767244815826418,
+                    "z": 19.373559951782228
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "useDesiredVelocity": false,
+                "ignoreVerticalDesiredVelocity": false,
+                "desiredVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": ""
+            }
+        ]
+    },
+    "gridState": {
+        "version": 1,
+        "cellString": "",
+        "v2Data": "7dhNCoJAGIDhL6u9uqk8RicYOll0iM4jrTpWkz+IgWSrNo8wPHyjs3D1wkREPPO6D27yKlNxJkmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMm3+SG5wm1He6qjyFvpMM7VMC+d23dcj2U8smlTxSWm8+N+e/yc//2/JMn/2PcgmrrvxmGcq2FeOqc3JMlf7HuQcm9uMfUi5d7089I5vSFJ/uLQg9ybWS+asR+7bk7d+3lTpkYtfzPdy629pyNJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkvzmCw=="
+    },
+    "behaviorDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "3a37797919c8453c835558789155d409",
+            "Player",
+            "6cea514759cd443ea7956aa90c091445",
+            "9c7a25e197e94ac6bce3b4ac10c113e2",
+            "4e59614ff938464cbd5b76fba9e90647",
+            "__DEFAULT_BRAIN__",
+            "f1c78779b3a940c1a6d683cc60ede25d",
+            "5a9c831f8bd345ed8f96483370dac278",
+            "e3b116e6f8bf43c89526ccb8978ca905",
+            "d633b08d256e4ba7b9bbbf634f8c7ec3",
+            "d15fd92583ab4e4a8e36e2fd404714d3",
+            "e7c1c9fd9abe4248a208d5cf05b88007",
+            "5ab0b22de9754baf9a96db10280af14a",
+            "19062d4d214c4c9ca8e971f9f1973f5c",
+            "47fbb2e04e234361b75247f790d8ca38",
+            "75905e1794914ffbbe64e4cb07058005",
+            "bd4f16d2e6d54a34bdc086f810bd674c",
+            "7c69280360f9412fa922e711d10c0688",
+            "0a7ed88da1b74a78bc99b64f6de694ca",
+            "7ba388eb203246b6a95d9196774e6387",
+            "0cb4391c7e1a4c24997b7d5dee43663e",
+            "773e51e6eb0d4944b70c7fb08d25d21e"
+        ],
+        "brains": [
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "2cee40a445c5497183757f196afbe3d3",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f2d8cb1c5dd248cf910bad6ac5cef116",
+                        "behaviorUri": "builtin:Screen Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "screenDeck",
+                                "valueJson": "{\"value\":[\"ec0c1a048fed4c5799fde828ae3dd49c\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ec0c1a048fed4c5799fde828ae3dd49c",
+                        "behaviorUri": "builtin:ScoreBoard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.4462990462779999,\"viewPosition\":{\"x\":-2264.47119140625,\"y\":76.88514709472656},\"addPanelPosition\":{\"x\":0.0,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":3390.159912109375,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "297615c9b4a94d619cd94f00e3e1b407",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "79b1b0e7b88c462181a2aa6d7959524b",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2018.6500244140625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "StartingHealth",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"5760f6917856484ca4291e3f7407875b\",\"02c5f0721b1144e5b699c7700e8fc627\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"ae9631beee41471495871ca0b4779e31\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "5760f6917856484ca4291e3f7407875b",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Duration",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ae9631beee41471495871ca0b4779e31",
+                        "behaviorUri": "builtin:End Game LOSE Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "1baa9a5c80c049fea345600a43bce11d",
+                        "behaviorUri": "builtin:Screen Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2773.15478515625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "screenDeck",
+                                "valueJson": "{\"value\":[\"c3a60cc6468e4f7f9160d97d00ca5cfe\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "c3a60cc6468e4f7f9160d97d00ca5cfe",
+                        "behaviorUri": "builtin:HealthBar",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "02c5f0721b1144e5b699c7700e8fc627",
+                        "behaviorUri": "builtin:CameraShakeActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "2a3e4685a12947ef9cb0283f34947dfb",
+                        "behaviorUri": "builtin:Player Controls Panel v2",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":3011.563720703125,\"y\":-205.65640258789063}}",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "b6b55feb96e44b4cb0559b4a4f20e3c9",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":3006.710205078125,\"y\":-631.5374755859375}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"b6196ac67f5e479397379140b8e6f43a\",\"ca86e763c26b4d8c9d2709044c5fc19c\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b6196ac67f5e479397379140b8e6f43a",
+                        "behaviorUri": "builtin:Player Walk Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "ca86e763c26b4d8c9d2709044c5fc19c",
+                        "behaviorUri": "builtin:Player Camera Look",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "35e57ca917644d20a77f5204377f737d",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":0.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"d6a182fd49ef40bd800a78bf43616d93\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"08bcb680395544c88d03a397789976f1\"]}"
+                            },
+                            {
+                                "propertyName": "triggerWhen",
+                                "valueJson": "{\"value\":\"ONCE_EVENT\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d6a182fd49ef40bd800a78bf43616d93",
+                        "behaviorUri": "builtin:Player Button Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "WhichButton",
+                                "valueJson": "{\"value\":\"JUMP\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "08bcb680395544c88d03a397789976f1",
+                        "behaviorUri": "builtin:Jump Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "c76f643bfac74ff48abbca1a200fd75f",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42db91e6cab0424682c3491e43f4e9f9",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "4c6b2b1ddee848e3b52c8d7c94a2fe38",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "onlyOnce",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "93e2e12eaa934affbd39348f2dc77749",
+                        "behaviorUri": "builtin:Text box",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "115573ace7154e31944a607829cfcc04",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "3155cb21784d4531a4ef67c22a40e0c2",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "2ea19e901bd748459382f177fc8b2547",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "onlyOnce",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "2cee40a445c5497183757f196afbe3d3",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "4c35cfd7ec65456a8c5fb4c9089a3f80",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "427035f0a5cb48b6aa77f207f5d78931",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "onlyOnce",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "ed0ab3baf8e94e6a95ce46b9ec1d79ae",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.2735078036785126,\"viewPosition\":{\"x\":-94.76403045654297,\"y\":-469.64276123046877},\"addPanelPosition\":{\"x\":3203.550048828125,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":3013.550048828125,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "e393bfdf1e044518a4b098c0e2737e66",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "59b49a097d91491aad7cdc32e3bbd484",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":327.5,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"60c111429c52451b85d873aec0aab435\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"7ba1fdedd151453796ead958cd4f7f1b\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "60c111429c52451b85d873aec0aab435",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "7ba1fdedd151453796ead958cd4f7f1b",
+                        "behaviorUri": "builtin:Cause Damage Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Amount",
+                                "valueJson": "{\"value\":1}"
+                            },
+                            {
+                                "propertyName": "Target",
+                                "valueJson": "{\"value\":\"EVENT_CAUSER\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "3bee794bb9824a5098bfce9f48e12e68",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":918.0750122070313,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "522be0bd094b48dda819d0f64ba6d3a4",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1436.1500244140625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"84612c356a904412939e63327855d747\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"c727856efe124b9ebcd62e9a9f1e724d\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "2bbd5f73fa5e49cf99c0923399801406",
+                        "behaviorUri": "builtin:TimerActionPanel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2257.35009765625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "TimerAmountMin",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "TimerAmountMax",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"5e9d6240b129490490c0473d1b337289\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "5e9d6240b129490490c0473d1b337289",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "84612c356a904412939e63327855d747",
+                        "behaviorUri": "builtin:Terrain Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "c727856efe124b9ebcd62e9a9f1e724d",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.26694294810295107,\"viewPosition\":{\"x\":273.8465576171875,\"y\":-30.279550552368165},\"addPanelPosition\":{\"x\":0.0,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":2536.14990234375,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "929cada41b6c4d278f1f539ba817c0bf",
+                        "behaviorUri": "builtin:End Game LOSE Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "654cee5452ca464e960c21790a95bbd3",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Duration",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "9a8803b7286f43c298bc698475419a70",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":327.5,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "StartingHealth",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"654cee5452ca464e960c21790a95bbd3\",\"cb7d378f02e24ef5b83469549718735e\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"929cada41b6c4d278f1f539ba817c0bf\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "38f5babb80d84c5f88496443c388bb1a",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":910.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "onlyOnce",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d814b3ea0c134228bb416e7dde71bbe7",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1428.074951171875,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "bc4b32eda28042f68b55e981071e3478",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "45200677e891436b8cef38808a4923c1",
+                        "behaviorUri": "builtin:Player Controls Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2018.6500244140625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "playerNumber",
+                                "valueJson": "{\"value\":4}"
+                            },
+                            {
+                                "propertyName": "controlsDeck",
+                                "valueJson": "{\"value\":[\"99c82121c2a14a0984c15b77916fcb9c\"]}"
+                            },
+                            {
+                                "propertyName": "primaryActionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "secondaryActionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "cameraActor",
+                                "valueJson": "{\"value\":\"44ae2a9391bc4544ae88dfbc9966e4cc\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "99c82121c2a14a0984c15b77916fcb9c",
+                        "behaviorUri": "builtin:Player Controls Basic WASD",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Speed",
+                                "valueJson": "{\"value\":8}"
+                            },
+                            {
+                                "propertyName": "SprintSpeed",
+                                "valueJson": "{\"value\":12}"
+                            },
+                            {
+                                "propertyName": "JumpSpeed",
+                                "valueJson": "{\"value\":15}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "cb7d378f02e24ef5b83469549718735e",
+                        "behaviorUri": "builtin:CameraShakeActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.2919429540634155,\"viewPosition\":{\"x\":72.30140686035156,\"y\":-20.182964324951173},\"addPanelPosition\":{\"x\":0.0,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":2536.14990234375,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "f79ffdca42114a59a9c3e28e8f54244e",
+                        "behaviorUri": "builtin:End Game LOSE Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "280312e8483240979d0a6399133cc812",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Duration",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d774a15823104eb8b25be5dfe7e6428a",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":327.5,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "StartingHealth",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"280312e8483240979d0a6399133cc812\",\"7f9c09b077df43d99909625a9c118ab7\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"f79ffdca42114a59a9c3e28e8f54244e\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "11427156a3c74823887a65ffea33e8e9",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":910.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "onlyOnce",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "6559840d0f794dcfa9b67b53727152b2",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1428.074951171875,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ed489d4c392445c1bff0c739aa17fb35",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "19c9d9bcff1448a79b37810f04858098",
+                        "behaviorUri": "builtin:Player Controls Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2018.6500244140625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "playerNumber",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "controlsDeck",
+                                "valueJson": "{\"value\":[\"42eb3cdace4143c490aabe7d48bbf091\"]}"
+                            },
+                            {
+                                "propertyName": "primaryActionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "secondaryActionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "cameraActor",
+                                "valueJson": "{\"value\":\"401f496c33ff4ef6af186cc9035b1269\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "42eb3cdace4143c490aabe7d48bbf091",
+                        "behaviorUri": "builtin:Player Controls Basic WASD",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Speed",
+                                "valueJson": "{\"value\":8}"
+                            },
+                            {
+                                "propertyName": "SprintSpeed",
+                                "valueJson": "{\"value\":12}"
+                            },
+                            {
+                                "propertyName": "JumpSpeed",
+                                "valueJson": "{\"value\":15}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7f9c09b077df43d99909625a9c118ab7",
+                        "behaviorUri": "builtin:CameraShakeActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.2919429540634155,\"viewPosition\":{\"x\":76.35350036621094,\"y\":-20.993579864501954},\"addPanelPosition\":{\"x\":0.0,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":2536.14990234375,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "f0a60205c030470792906303cf0f309c",
+                        "behaviorUri": "builtin:End Game LOSE Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "422e259bc3a5458aa053d3dc440716eb",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Duration",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "c3989e25f3c74bb6826f1ccd54dfa5b1",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":327.5,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "StartingHealth",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"422e259bc3a5458aa053d3dc440716eb\",\"8dd66788532342549d07017c86614cd8\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"f0a60205c030470792906303cf0f309c\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "f4889a80f15048b9952a1262e9d4310d",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":910.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "onlyOnce",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "5c562b4055994630be154cd6da115e19",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1428.074951171875,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "025e65d20a2e4f0899ba0484a515ef69",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "a31b40c175554d9da804368de364baab",
+                        "behaviorUri": "builtin:Player Controls Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2018.6500244140625,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "playerNumber",
+                                "valueJson": "{\"value\":2}"
+                            },
+                            {
+                                "propertyName": "controlsDeck",
+                                "valueJson": "{\"value\":[\"773d25d8ad9849df9d873aa71962ad2a\"]}"
+                            },
+                            {
+                                "propertyName": "primaryActionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "secondaryActionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "cameraActor",
+                                "valueJson": "{\"value\":\"c8ae268f88e14b12ae92a7af02fb96a0\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "773d25d8ad9849df9d873aa71962ad2a",
+                        "behaviorUri": "builtin:Player Controls Basic WASD",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Speed",
+                                "valueJson": "{\"value\":8}"
+                            },
+                            {
+                                "propertyName": "SprintSpeed",
+                                "valueJson": "{\"value\":12}"
+                            },
+                            {
+                                "propertyName": "JumpSpeed",
+                                "valueJson": "{\"value\":15}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "8dd66788532342549d07017c86614cd8",
+                        "behaviorUri": "builtin:CameraShakeActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.5617298483848572,\"viewPosition\":{\"x\":-35.87898635864258,\"y\":15.050738334655762},\"addPanelPosition\":{\"x\":1416.1500244140625,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1226.1500244140625,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":255.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":773.0750122070313,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"a0576088ecbe43308f63012da0fb0b34\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "a0576088ecbe43308f63012da0fb0b34",
+                        "behaviorUri": "builtin:MoveOscillate",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "DirectionY",
+                                "valueJson": "{\"value\":1.0}"
+                            },
+                            {
+                                "propertyName": "DirectionZ",
+                                "valueJson": "{\"value\":0.0}"
+                            },
+                            {
+                                "propertyName": "AbsolutePosition",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "Speed",
+                                "valueJson": "{\"value\":2.0}"
+                            },
+                            {
+                                "propertyName": "Distance",
+                                "valueJson": "{\"value\":6.0}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "ed0ab3baf8e94e6a95ce46b9ec1d79ae",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "d3fd92db4fda49c0b06ae8ffda0421ba",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:player\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "de1fd0a4125940f7ae488904e9cb230f",
+                        "behaviorUri": "builtin:Score Point Action",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Points",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "abcdef0123456789deadbeefabcabcab",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Collect\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e34ed670edaa4b488fb902bd4b17d8b7",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "d41e2a648de04a19b966d9c8e9154e36",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"d3fd92db4fda49c0b06ae8ffda0421ba\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"de1fd0a4125940f7ae488904e9cb230f\",\"abcdef0123456789deadbeefabcabcab\",\"b64092b778df45a990b6e9dc12180db5\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b64092b778df45a990b6e9dc12180db5",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "d3fd92db4fda49c0b06ae8ffda0421ba",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:player\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "de1fd0a4125940f7ae488904e9cb230f",
+                        "behaviorUri": "builtin:Score Point Action",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Points",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "abcdef0123456789deadbeefabcabcab",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Collect\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e34ed670edaa4b488fb902bd4b17d8b7",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "d41e2a648de04a19b966d9c8e9154e36",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"d3fd92db4fda49c0b06ae8ffda0421ba\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"de1fd0a4125940f7ae488904e9cb230f\",\"abcdef0123456789deadbeefabcabcab\",\"b64092b778df45a990b6e9dc12180db5\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b64092b778df45a990b6e9dc12180db5",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "d3fd92db4fda49c0b06ae8ffda0421ba",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:player\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "de1fd0a4125940f7ae488904e9cb230f",
+                        "behaviorUri": "builtin:Score Point Action",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Points",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "abcdef0123456789deadbeefabcabcab",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Collect\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e34ed670edaa4b488fb902bd4b17d8b7",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "d41e2a648de04a19b966d9c8e9154e36",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"d3fd92db4fda49c0b06ae8ffda0421ba\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"de1fd0a4125940f7ae488904e9cb230f\",\"abcdef0123456789deadbeefabcabcab\",\"b64092b778df45a990b6e9dc12180db5\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b64092b778df45a990b6e9dc12180db5",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "d3fd92db4fda49c0b06ae8ffda0421ba",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:player\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "de1fd0a4125940f7ae488904e9cb230f",
+                        "behaviorUri": "builtin:Score Point Action",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Points",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "abcdef0123456789deadbeefabcabcab",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Collect\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e34ed670edaa4b488fb902bd4b17d8b7",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "d41e2a648de04a19b966d9c8e9154e36",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"d3fd92db4fda49c0b06ae8ffda0421ba\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"de1fd0a4125940f7ae488904e9cb230f\",\"abcdef0123456789deadbeefabcabcab\",\"b64092b778df45a990b6e9dc12180db5\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b64092b778df45a990b6e9dc12180db5",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "d3fd92db4fda49c0b06ae8ffda0421ba",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:player\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "de1fd0a4125940f7ae488904e9cb230f",
+                        "behaviorUri": "builtin:Score Point Action",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Points",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "abcdef0123456789deadbeefabcabcab",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Collect\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e34ed670edaa4b488fb902bd4b17d8b7",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "d41e2a648de04a19b966d9c8e9154e36",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"d3fd92db4fda49c0b06ae8ffda0421ba\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"de1fd0a4125940f7ae488904e9cb230f\",\"abcdef0123456789deadbeefabcabcab\",\"b64092b778df45a990b6e9dc12180db5\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b64092b778df45a990b6e9dc12180db5",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f55adcc4c3e949ca994f647d973fda90",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "226ee4a47ffe4fc09f6478e207db5a2a",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f55adcc4c3e949ca994f647d973fda90",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "226ee4a47ffe4fc09f6478e207db5a2a",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f55adcc4c3e949ca994f647d973fda90",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "226ee4a47ffe4fc09f6478e207db5a2a",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f55adcc4c3e949ca994f647d973fda90",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "226ee4a47ffe4fc09f6478e207db5a2a",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.5617298483848572,\"viewPosition\":{\"x\":-35.87898635864258,\"y\":15.050738334655762},\"addPanelPosition\":{\"x\":1416.1500244140625,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1226.1500244140625,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f55adcc4c3e949ca994f647d973fda90",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":255.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"204c4e3691d44cec8be584a20e503355\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"0a46791e441d46c2bc46b20f69835629\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "226ee4a47ffe4fc09f6478e207db5a2a",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":773.0750122070313,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "204c4e3691d44cec8be584a20e503355",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:player\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "0a46791e441d46c2bc46b20f69835629",
+                        "behaviorUri": "builtin:End Game WIN Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "stage": {
+        "version": 3,
+        "groundSize": 0.0,
+        "groundSizeX": 500.0,
+        "groundSizeZ": 500.0,
+        "skyType": "Day",
+        "skyColor": {
+            "r": 0.5,
+            "g": 0.5,
+            "b": 0.5,
+            "a": 1.0
+        },
+        "groundType": "Grass",
+        "groundColor": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "initialCameraMode": "Isometric",
+        "isoCamRotationIndex": 0,
+        "nightMode": false
+    },
+    "sojoDatabase": {
+        "sojos": [
+            {
+                "id": "builtin:Explosion",
+                "name": "Explosion",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":3,\"speed\":8,\"volume\":[14,14,12,10,9,8,6,5,4,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[54,50,47,44,43,41,39,37,36,35,34,32,31,30,28,27,26,24,23,22,22,21,21,21,20,20,20,20,20,20,20,20]}}"
+            },
+            {
+                "id": "builtin:Collect",
+                "name": "Collect",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":8,\"volume\":[12,15,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[28,40,48,55,55,55,57,59,60,60,61,61,63,63,63,63,63,63,63,63,63,63,63,63,62,63,63,62,61,60,60,61]}}"
+            },
+            {
+                "id": "builtin:Laser",
+                "name": "Laser",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":2,\"speed\":14,\"volume\":[12,12,12,11,9,8,7,6,5,4,3,3,2,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[45,41,37,34,33,32,30,30,28,27,26,25,24,23,22,21,20,20,20,20,20,20,20,19,19,18,18,18,18,18,18,19]}}"
+            },
+            {
+                "id": "builtin:Hit",
+                "name": "Hit",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":3,\"speed\":14,\"volume\":[15,13,11,7,4,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[42,35,32,29,27,27,25,24,23,22,22,22,22,21,21,21,21,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]}}"
+            },
+            {
+                "id": "builtin:Lose",
+                "name": "Lose",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":8,\"volume\":[16,16,16,16,13,8,6,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[43,43,35,35,29,29,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22]},\"steamWorkshopId\":0}"
+            },
+            {
+                "id": "builtin:Win",
+                "name": "Win",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":1,\"volume\":[16,16,16,16,13,8,6,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[20,20,30,30,38,38,47,47,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53]},\"steamWorkshopId\":0}"
+            }
+        ]
+    }
+}

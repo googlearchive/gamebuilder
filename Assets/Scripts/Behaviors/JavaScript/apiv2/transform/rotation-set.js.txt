@@ -1,0 +1,339 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Sets the actor's yaw angle. See {@link getYaw} for an explanation of
+ * what the yaw angle is.
+ * 
+ * <p>Caveat: due to the nature of rotation math, manipulating the yaw individually
+ * when an object has a complex rotation may lead to unexpected results, as
+ * rotations are internally stored as quaternions and may have multiple
+ * representations in terms of yaw/pitch/roll. If your object has a non-trivial
+ * rotation (for instance, a rotation on all 3 axes), use {@link setYawPitchRoll} to
+ * set all three angles in a single call, or call  {@link setRot} with a quaternion.
+ * 
+ * @param {number} yawRadians The new yaw angle, in radians. If this is
+ *     outside the range [0, 2 * Math.PI], it will wrap around, so, for example
+ *     6.5 * Math.PI is equivalent to 0.5 * Math.PI.
+ */
+function setYaw(yawRadians) {
+  let euler = ApiV2Context.instance.quatToOurEuler(getRot());
+  euler.y = yawRadians;
+  setRot(new THREE.Quaternion().setFromEuler(euler));
+}
+
+/**
+ * Sets the actor's pitch angle. See {@link getPitch} for an explanation of
+ * what the pitch angle is.
+ *
+ * <p>Caveat: due to the nature of rotation math, manipulating the pitch individually
+ * when an object has a complex rotation may lead to unexpected results, as
+ * rotations are internally stored as quaternions and may have multiple
+ * representations in terms of yaw/pitch/roll. If your object has a non-trivial
+ * rotation (for instance, a rotation on all 3 axes), use {@link setYawPitchRoll} to
+ * set all three angles in a single call, or call  {@link setRot} with a quaternion.
+ * 
+ * @param {number} pitchRadians The new pitch angle, in radians. This must be between
+ *     <tt>-Math.PI/2</tt> to <tt>Math.PI/2</tt>. If it's outside of this range, it will
+ *     be clamped to this range (clamping is necessary to avoid artifacts due
+ *     to quaternion conversion).
+ */
+function setPitch(pitchRadians) {
+  let euler = ApiV2Context.instance.quatToOurEuler(getRot());
+  euler.x = Math.min(Math.max(pitchRadians, -Math.PI / 2), Math.PI / 2);
+  setRot(new THREE.Quaternion().setFromEuler(euler));
+}
+
+/**
+ * Sets the actor's roll angle. See {@link getRoll} for an explanation of
+ * what the roll angle is.
+ *
+ * <p>Caveat: due to the nature of rotation math, manipulating the roll individually
+ * when an object has a complex rotation may lead to unexpected results, as
+ * rotations are internally stored as quaternions and may have multiple
+ * representations in terms of yaw/pitch/roll. If your object has a non-trivial
+ * rotation (for instance, a rotation on all 3 axes), use {@link setYawPitchRoll} to
+ * set all three angles in a single call, or call  {@link setRot} with a quaternion.
+ *
+ * @param {number} rollRadians The new roll angle, in radians.
+ */
+function setRoll(rollRadians) {
+  let euler = ApiV2Context.instance.quatToOurEuler(getRot());
+  euler.z = rollRadians;
+  setRot(new THREE.Quaternion().setFromEuler(euler));
+}
+
+/**
+ * Sets the actor's rotation given yaw, pitch and roll angles (Euler angles).
+ *
+ * <p>Note that due to the nature of rotation math (specifically, the fact
+ * we represent rotations internally as quaternions), the values you pass to
+ * this function may not subsequently correspond to the ones you read via
+ * {@link getYaw}, {@link getPitch} and {@link getRoll}. The same rotation
+ * can have more than one representation in terms of yaw/pitch/roll.
+ *
+ * @param {number} yawRadians {number} The new yaw angle, in radians.
+ * @param {number=} pitchRadians The new pitch angle, in radians.
+ *     This must be between -Math.PI/2 and Math.PI/2.
+ * @param {number=} rollRadians The new roll angle, in radians. This
+ *     must be between -Math.PI/2 and Math.PI/2.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's yaw, pitch and roll to a random angle between
+ *   // 0 and 1 radians each frame.
+ *   setYawPitchRoll(Math.random(), Math.random(), Math.random());
+ * }
+ */
+function setYawPitchRoll(yawRadians, pitchRadians = 0, rollRadians = 0) {
+  let euler = ApiV2Context.instance.quatToOurEuler(getRot());
+  euler.x = pitchRadians || 0;
+  euler.y = yawRadians || 0;
+  euler.z = rollRadians || 0;
+  setRot(new THREE.Quaternion().setFromEuler(euler));
+}
+
+/**
+ * Turns the actor by the given angle about the given axis (defaults to the Y axis).
+ * The axis is in the actor's SELF space.
+ * If you want to turn continuously at a given angular speed, use {@link spin} instead.
+ *
+ * @param {number} radians The angle to turn, in radians.
+ *   Positive means clockwise about the axis, negative means counter-clockwise
+ *   using the left-hand rule. Or you can just try it with a positive number and if it's
+ *   turning the wrong way make it negative -- that's how everyone does it :)
+ * @param {THREE.Vector3?} axis The local axis about which to spin. If omitted,
+ *   defaults to the Y axis (so you're turning left/right on the plane, if the actor
+ *   is upright).
+ */
+function turn(radians, axis) {
+  axis = axis || vec3y();
+  assertNumber(radians, "radians");
+  assertVector3(axis, "axis");
+  let quat = new THREE.Quaternion();
+  quat.setFromAxisAngle(axis, radians);
+  applyQuaternionSelf(quat);
+}
+
+/**
+ * Spins the actor at a given angular speed.
+ * If you just want to turn the actor by a given angle immediately (as opposed to spin
+ * it continually), call {@link turn} instead.
+ *
+ * @param {number} radiansPerSecond The angular speed to use, in radians/second.
+ *   Positive means clockwise about the axis, negative means counter-clockwise
+ *   using the left-hand rule. Or you can just try it with a positive number and if it's
+ *   spinning the wrong way make it negative -- that's how everyone does it :)
+ * @param {THREE.Vector3?} axis The axis about which to spin. If omitted,
+ *   defaults to the Y axis (so you're turning left/right on the plane).
+ * @example
+ * export function onTick() { 
+ *   // Spin the actor at 2 radians/sec (by default the axis is the Y axis).
+ *   spin(2);
+ * }
+ * @example
+ * export function onTick() { 
+ *   // Spin the actor at 2 radians/sec about the X axis.
+ *   spin(2, vec3x());
+ * } 
+ */
+function spin(radiansPerSecond, axis) {
+  axis = axis || vec3y();
+  assertNumber(radiansPerSecond, "radiansPerSecond");
+  assertVector3(axis, "axis");
+  let quat = new THREE.Quaternion();
+  quat.setFromAxisAngle(axis, radiansPerSecond * deltaTime());
+  applyQuaternionSelf(quat);
+}
+
+/**
+ * Rotates the actor about the given axis, by the given angle.
+ * Uses world space. If you want to rotate about the actor's own axes, use
+ * {@link turn} instead.
+ *
+ * @param {THREE.Vector3} axis The axis about which to rotate, in world coordinates.
+ * @param {number} angleRadians The angle by which to rotate, in radians.
+ * @example
+ * export function onTick() { 
+ *   // Spin the actor about the axis (1,1,1) at half a turn per second.
+ *   let axis = vec3(1,1,1);
+ *   rotate(axis, deltaTime() * Math.PI);
+ * }
+ */
+function rotate(axis, angleRadians) {
+  assertVector3(axis);
+  let quat = new THREE.Quaternion();
+  quat.setFromAxisAngle(axis, angleRadians);
+  applyQuaternion(quat);
+}
+
+/**
+ * Rotates the actor by the given quaternion in world space.
+ *
+ * @param {Quaternion} quat The quaternion by which to rotate, in world space.
+ */
+function applyQuaternion(quat) {
+  setRot(getRot().premultiply(quat));
+}
+
+/**
+ * Rotates the actor by the given quaternion in the actor's self space.
+ *
+ * @param {Quaternion} quat The quaternion by which to rotate, in
+ *     the actor's own coordinate system (self space).
+ */
+function applyQuaternionSelf(quat) {
+  setRot(getRot().multiply(quat));
+}
+
+/**
+ * Sets the rotation of the current actor to a given quaternion,
+ * in world space.
+ *
+ * @param {Quaternion} rot The desired rotation of the actor.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's rotation to a random angle about the (1,1,1) vector
+ *   // each frame.
+ *   const q = new Quaternion();
+ *   q.setFromAxisAngle(vec3(1,1,1), Math.PI * Math.random());
+ *   setRot(q);
+ * }
+ */
+function setRot(rot) {
+  assertQuaternion(rot);
+  ApiV2Context.instance.getActor().setRotation(rot);
+}
+
+/**
+ * Resets the rotation of the current actor to the identity quaternion (no rotation).
+ */
+function resetRot() {
+  ApiV2Context.instance.getActor().setRotation(new THREE.Quaternion(0, 0, 0, 1));
+}
+
+/**
+ * Sets the spawn rotation of the current actor to a given quaternion,
+ * in world space.
+ *
+ * @param {Quaternion=} rot The desired spawn rotation of the actor. If omitted,
+ *     defaults to the identity rotation (no rotation).
+ * @example
+ * // Set the actor's spawn rotation to a quaternion that represents
+ * // a 45 degree rotation about the axis (1,1,1):
+ * Quaternion quat = new Quaternion();
+ * quat.setFromAxisAngle(vec3(1, 1, 1), Math.PI * 0.25);
+ * setSpawnRot(quat);
+ */
+function setSpawnRot(rot) {
+  assertQuaternion(rot);
+  ApiV2Context.instance.getActor().setSpawnRotation(rot);
+}
+
+/**
+ * Resets the spawn rotation of the current actor to the identity quaternion (no rotation).
+ */
+function resetSpawnRot() {
+  ApiV2Context.instance.getActor().setSpawnRotation(new THREE.Quaternion(0, 0, 0, 1));
+}
+
+/**
+ * Sets the LOCAL rotation of the current actor to a given quaternion.
+ *
+ * @param {Quaternion} rot The desired rotation of the actor.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's rotation to a random angle about the (1,1,1) vector
+ *   // each frame.
+ *   Quaternion quat = new Quaternion();
+ *   quat.setFromAxisAngle(vec3(1, 1, 1), Math.PI * Math.random());
+ *   setLocalRot(quat);
+ * }
+ */
+function setLocalRot(rot) {
+  ApiV2Context.instance.getActor().setLocalRotation(rot);
+}
+
+/**
+ * Sets the LOCAL rotation of the current actor to the identity quaternion
+ * (no rotation).
+ */
+function resetLocalRot() {
+  setLocalRot(new THREE.Quaternion(0, 0, 0, 1));
+}
+
+/**
+ * Sets the rotation of the actor such that it faces the given other actor.
+ *
+ * @param {ActorRef|THREE.Vector3} targetActorOrPoint The actor or point to look at.
+ * @param {boolean=} yawOnly If true, only changes yaw (turn left/right),
+ *    not pitch or roll. Defaults to false.
+ * @param {number=} maxRadians Maximum angle to rotate, in radians. Use this for
+ *    smoothed rotations. If omitted, the rotation will be instantaneous.
+ * @example
+ * export const PROPS = [
+ *   propActor("target")
+ * ];
+ *
+ * export function onTick() { 
+ *   // Always look at the target. Only change yaw.
+ *   lookAt(props.target, true);
+ * }
+ */
+function lookAt(targetActorOrPoint, yawOnly = false) {
+  const pos = ApiV2Context.instance.getActorPosOrPoint(targetActorOrPoint);
+  ApiV2Context.instance.api.getActor().lookAt(pos, yawOnly, Infinity, 0);
+}
+
+/**
+ * Sets the rotation of this actor such that it looks in the given direction.
+ *
+ * @param {THREE.Vector3} direction The direction along which to look, in world coordinates.
+ * @param {boolean=} yawOnly If true, only changes yaw (turns left/right), not pitch or roll.
+ *     Defaults to false.
+ */
+function lookDir(direction, yawOnly = false) {
+  let dir = direction.clone().multiplyScalar(10);
+  let pos = getPos().add(dir);
+  lookAt(pos, yawOnly);
+}
+
+/**
+ * Gradually rotates to face the given actor or point.
+ * @param {ActorRef|THREE.Vector3} targetActorOrPoint The target point or actor to face.
+ * @param {number} radiansPerSecond The angular speed in radians/second to use.
+ * @param {boolean=} yawOnly If true, only rotates on the plane (yaw only). If false, rotates on all three axes.
+ */
+function lookToward(targetActorOrPoint, radiansPerSecond, yawOnly = false) {
+  assertNumber(radiansPerSecond, "radiansPerSecond");
+  const maxRadians = radiansPerSecond * deltaTime();
+  const pos = ApiV2Context.instance.getActorPosOrPoint(targetActorOrPoint);
+  ApiV2Context.instance.api.getActor().lookAt(pos, yawOnly, maxRadians, 0);
+}
+
+/**
+ * Gradually rotates to face the given direction.
+ * @param {THREE.Vector3} dir The target direction to face.
+ * @param {number} radiansPerSecond The angular speed in radians/second to use.
+ * @param {boolean=} yawOnly If true, only rotates on the plane (yaw only). If false, rotates on all three axes.
+ */
+function lookTowardDir(dir, radiansPerSecond, yawOnly = false) {
+  assertNumber(radiansPerSecond, "radiansPerSecond");
+  const maxRadians = radiansPerSecond * deltaTime();
+  const pos = vec3add(getPos(), vec3scale(dir, 100));
+  ApiV2Context.instance.api.getActor().lookAt(pos, yawOnly, maxRadians, 0);
+}

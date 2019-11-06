@@ -1,0 +1,153 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * @typedef PhysicsPreset
+ * @prop {string} GHOST
+ * @prop {string} SOLID
+ * @prop {string} OBJECT
+ * @prop {string} CHARACTER
+ */
+
+/**
+ * Enum of physics presets for an actor.
+ *
+ * These physics presets can be set on an actor to determine how its
+ * physics will behave. Use with {@link setPhysicsPreset}.
+ *
+ * @enum {PhysicsPreset}
+ */
+var PhysicsPreset = {
+  /**
+   * Ghost physics. Object can move freely. It will go through other objects.
+   * Other objects will go through it. Not affected by gravity.
+   *
+   * <p>Still detects collisions, so you can use this is a trigger to detect
+   * when something enters a given area, etc.
+   *
+   * <p>Examples: cloud of smoke, decorative non-interactive
+   * scene elements like small plants on the ground that don't hinder
+   * movement, an invisible object that marks an area that will trigger
+   * something, actual ghosts, etc.
+   */
+  GHOST: "GHOST",
+  /**
+   * A solid object whose motion is unaffected by other objects.
+   * 
+   * <p>Use this for walls, floors, ceilings, fixtures, anything in the game
+   * that shouldn't move, or for things that should move in predictable
+   * patterns such as elevators.
+   * 
+   * <p>Objects with this preset don't move as a result of other objects,
+   * but still influence the motion other objects. A wall is a good example
+   * of this preset. A ball that hits a wall will bounce, but the wall
+   * won't move no matter how hard it gets hit by the ball (in game engine
+   * terms, this means the wall is "kinematic" -- it affects physics but
+   * is not <em>affected by</em> physics and the ball is "dynamic").
+   * 
+   * <p>Another example is elevators: they move, but they do so according to
+   * their own rules, not as an effect of other objects. At least in games,
+   * no matter how hard you hit an elevator with a ball, or no matter
+   * how heavy the payload is, it won't change the elevator's motion.
+   *
+   * <p>Examples: wall, floor, lamp post, couch. Platforms: elevator, train,
+   * the unexplainable flying dolphin that offers to transport the player
+   * across a bottomless chasm, etc.
+   */
+  SOLID: "SOLID",
+  /**
+   * Object. Typically an inanimate object that can be thrown, kicked,
+   * knocked, launched, dropped, pushed, or otherwise mistreated. It will move,
+   * fall, tumble, bounce, etc. as dictated by physics. It can't go
+   * through solid obj  ects.
+   *
+   * <p>Examples: stone, axe, ball, broccoli.
+   */
+  OBJECT: "OBJECT",
+  /**
+   * Character. Can't go through solid objects. Is affected by other objects,
+   * but always remains upright and doesn't tumble around wildly in response
+   * to collisions like, say, a potato would. It is affected by gravity.
+   *
+   * <p>Examples: player, NPC, cat, aadvark.
+   */
+  CHARACTER: "CHARACTER",
+}
+
+const __PHYSICS_PRESETS = {
+  "GHOST": {
+    solid: false, kinematic: true, gravity: false, upright: false
+  },
+  "SOLID": {
+    solid: true, kinematic: true, gravity: false, upright: false
+  },
+  "OBJECT": {
+    solid: true, kinematic: false, gravity: true, upright: false
+  },
+  "CHARACTER": {
+    solid: true, kinematic: false, gravity: true, upright: true
+  },
+}
+
+/**
+ * Sets the physics preset for the current actor.
+ *
+ * <p>The preset is an easy-to-use combination of settings that creates a useful
+ * game effect. See {@link PhysicsPreset} for a list of available presets.
+ * 
+ * <p>For more advanced uses (if none of the presets work for you), you can set
+ * individual physics characteristics with {@link setSolid}, {@link setKinematic},
+ * {@link enableGravity} and {@link enableKeepUpright}.
+ *
+ * @param {PhysicsPreset} preset The preset to set.
+ */
+function setPhysicsPreset(preset) {
+  const settings = __PHYSICS_PRESETS[preset];
+  assert(settings, "Invalid physics preset: " + preset);
+  setSolid(settings.solid);
+  setKinematic(settings.kinematic);
+  enableGravity(settings.gravity);
+  enableKeepUpright(settings.upright);
+}
+
+/**
+ * Returns the physics preset for the given actor, if applicable.
+ * 
+ * <p>The preset is just a summary of the actor's physics attributes (like solidity,
+ * gravity, etc). See {@link PhysicsPreset} for a list of presets.
+ * 
+ * <p>If the actor's current physics settings does not correspond to any
+ * preset, this returns <tt>null</tt>.
+ * 
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ * @return {PhysicsPreset?} The physics preset, or <tt>null</tt> if the actor's current physics
+ *     settings do not correspond to any preset.
+ */
+function getPhysicsPreset(actor) {
+  const solid = isSolid(actor);
+  const gravity = isGravityEnabled(actor);
+  const upright = isKeepUprightEnabled(actor);
+  const kinematic = isKinematic(actor);
+  for (const preset of Object.keys(__PHYSICS_PRESETS)) {
+    const settings = __PHYSICS_PRESETS[preset];
+    if (settings.solid == solid && settings.kinematic == kinematic && settings.gravity == gravity && settings.upright == upright) {
+      return preset;
+    }
+  }
+  return null;
+}

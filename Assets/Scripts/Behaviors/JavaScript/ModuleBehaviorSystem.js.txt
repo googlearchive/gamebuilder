@@ -1,0 +1,558 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+// NOTE this is actually limited by Photon's max view ID right now..
+const MAX_ACTORS = 1100;
+
+// This is an optimization. We could remote-forward this and it would work.. but
+// it's much more efficient to have VoosEngine send the RPC to other clients,
+// and each client broadcasts it to their local actors.
+const MESSAGES_THAT_SHOULD_NOT_BE_FORWARDED = ['ResetGame', 'Tick', 'OffstageTick', 'ActiveTick', 'LocalTick', 'PlayerJoined', 'PlayerLeft'];
+
+const MESSAGES_TO_DELIVER_LOCALLY_TO_REMOTE_ACTORS = ['LocalTick'];
+
+function getBehaviorProperties(behaviorUri) {
+  assertString(behaviorUri, "getBehaviorProperties arg");
+  const theModule = getVoosModule(behaviorUri);
+  if (!theModule) {
+    sysError(`getBehaviorProperties: Could not find module for behavior URI ${behaviorUri}`);
+    return null;
+  }
+  // Flatten out the array (because some prop() methods can return more than one prop as an array).
+  return flattenArray(theModule['PROPS'] || []);
+}
+
+class ModuleBehaviorSystem {
+  constructor() {
+    this.actors_ = new Map();
+    this.database_ = new ModuleBehaviorDatabase();
+    this.sleepManager_ = new SleepManager(actorName => this.getActor(actorName) != undefined);
+    this.messageQueue_ = new Queue();
+    this.cameraActorName_ = null;
+    this.lastResetTime_ = 0;
+    this.namesById_ = null;
+  }
+
+  getNamesById() { return this.namesById_; }
+
+  callBehaviorUseMethod(useId, actorId, methodName, args) {
+    const actor = this.getActor(actorId);
+    if (actor === null || actor === undefined || !(actor instanceof Actor)) {
+      // Probably just not ready yet. Can happen if actor is new and we're paused.
+      return undefined;
+      // sysLog(`We have ${this.actors_.size} actors:`);
+      // this.actors_.forEach((v, k) =>
+      // sysLog(`actorId: ${k}, actor displayName: ${v.displayName}`));
+    }
+    assert(actor instanceof Actor, `Couldn't get actor for ID ${actorId}`);
+
+    const brain = this.database_.getBrain(actor.brainName);
+    const use = brain.getUse(useId);
+    assert(use, "Couldn't get use for useId");
+    assert(use instanceof ModuleBehaviorUse, `Couldn't get use for useId ${useId}`);
+
+    const mod = getVoosModule(use.behavior.getModuleKey());
+
+    if (methodName in mod) {
+      // Hmm...we're really overloading HandlerApi/ApiV2 for this case..
+      // Technically there should be a separate "system/editor call" API...
+      let returnValue;
+      const api = new HandlerApi(actor, use, { name: 'FakeMessageForEditorCalls', gameTime: 0 });
+      // Set up APIv2 for message-specific stuff.
+      ApiV2Context.setup(0);
+      ApiV2Context.instance.startHandlingMessage(api);
+      returnValue = mod[methodName](args);
+      ApiV2Context.instance.endHandlingMessage();
+      ApiV2Context.tearDown();
+      return returnValue;
+    }
+    else {
+      return undefined;
+    }
+  }
+
+  get database() {
+    return this.database_;
+  }
+
+  update(deltaSeconds, gameTimeSeconds) {
+    this.sleepManager_.update(deltaSeconds * 1e3);
+    this.pumpMessageQueue_(gameTimeSeconds);
+    // TODO we had to implement deferred-destroy on the Unity side, so just use that instead
+    this.destroyRequestedActors_();
+    this.actors_.forEach(actor => actor.update(deltaSeconds, gameTimeSeconds));
+  }
+
+  getActorNames() {
+    const result = [];
+    for (const actorName of this.actors_.keys()) {
+      result.push(actorName);
+    }
+    return result;
+  }
+
+  destroyAllClones() {
+    let clones = [];
+    this.actors_.forEach(actor => {
+      if (actor.wasClonedByScript) {
+        clones.push(actor);
+      }
+    });
+    this.destroyActors(clones);
+  }
+
+  // Destroy all actors that have requested to be destroyed.
+  // TODO we had to implement deferred-destroy on the Unity side, so just use that instead
+  destroyRequestedActors_() {
+    const toDestroy = [];
+    this.actors_.forEach(actor => {
+      if (actor.requestedDestroy) {
+        toDestroy.push(actor);
+      }
+    });
+    // TODO we had to implement deferred-destroy on the Unity side, so just use that instead
+    this.destroyActors(toDestroy);
+  }
+
+  pumpMessageQueue_(gameTimeSeconds) {
+    const deferredMessages = new Queue();
+
+    while (!this.messageQueue_.isEmpty()) {
+      const item = this.messageQueue_.dequeue();
+
+      const deliveredMessage = this.makeMessageDelivery(item.messageName, unpackObj(item.messageData), gameTimeSeconds, item.fromActorName);
+      const shouldRemoteForward = !MESSAGES_THAT_SHOULD_NOT_BE_FORWARDED.includes(item.messageName);
+      const deliverLocallyEvenIfRemote = MESSAGES_TO_DELIVER_LOCALLY_TO_REMOTE_ACTORS.includes(item.messageName);
+
+      if (item.toActorName) {
+        if (!this.doesActorExist(item.toActorName)) {
+          // The actor does not exist. Given how easily this can happen,
+          // especially in highly async situations like multiplayer, I'm not
+          // gonna sweat it.
+          // sysLog(`WARNING: message '${item.messageName}' was queued to ${item.toActorName}, but it DNE. Ignoring.`);
+        }
+        else {
+          const actor = this.actors_.get(item.toActorName);
+          assert(actor !== undefined);
+          if (actor.brainName === undefined) {
+            // Takes this to mean it's not ready yet, but don't drop the message.
+            deferredMessages.enqueue(item);
+          }
+          else {
+            if (actor.isLocalActor || deliverLocallyEvenIfRemote) {
+              actor.handleMessage(deliveredMessage);
+            }
+            else if (shouldRemoteForward) {
+              enqueueRemoteMessage(actor.name, deliveredMessage.name, deliveredMessage.data);
+            }
+          }
+        }
+      }
+      else {
+        // Broadcasted.
+        const isResetGame = (item.messageName == "ResetGame");
+        const options = item.sendMessageOptions || { onstage: true, offstage: true };
+
+        // This feels a bit hacky...but I guess the behaviors system itself should have a message interface too.
+        if (isResetGame) {
+          this.destroyAllClones();
+          this.lastResetTime_ = gameTimeSeconds;
+          this.actors_.forEach(actor => actor.onResetGame());
+
+          // IMPORTANT: Clear message queues upon reset.
+          deferredMessages.clear();
+          this.messageQueue_.clear();
+        }
+
+        // Network opt: If any remotes should receive this broadcast, enqueue it
+        // *once* for all other clients..rather than once per actor!!
+        let anyRemoteActorsEffected = false;
+
+        this.forActorsHandling_(item.messageName, actor => {
+          const shouldSend = actor.isOffstageEffective ? options.offstage : options.onstage;
+          if (shouldSend) {
+            if (actor.isLocalActor || deliverLocallyEvenIfRemote) {
+              actor.handleMessage(deliveredMessage);
+            }
+            else if (shouldRemoteForward) {
+              anyRemoteActorsEffected = true;
+            }
+          }
+        });
+
+        // The 'fromRemote' check is important - otherwise we ping-pong broadcasts back and forth :)
+        if (anyRemoteActorsEffected && !options.fromRemote) {
+          assert(shouldRemoteForward);
+          enqueueRemoteMessage(null, deliveredMessage.name, deliveredMessage.data);
+        }
+
+        // If this was a ResetGame message, also send an Init message so cards can (re)initialize their
+        // memories.
+        if (isResetGame) {
+          this.forActorsHandling_("Init", actor => {
+            if (actor.isLocalActor) {
+              const initMessage = this.makeMessageDelivery("Init", {}, gameTimeSeconds);
+              actor.handleMessage(initMessage);
+            }
+          });
+        }
+      }
+    }
+
+    // Queue up all deferred messages for the next go-around.
+    while (!deferredMessages.isEmpty()) {
+      this.packAndEnqueueMessage(deferredMessages.dequeue());
+    }
+  }
+
+  makeMessageDelivery(messageName, messageData, gameTime, sender) {
+    return {
+      name: messageName,
+      data: messageData,
+      gameTime: gameTime,
+      senderActorName: sender
+    };
+  }
+
+  get sleepManager() {
+    return this.sleepManager_;
+  }
+
+  get lastResetTime() {
+    return this.lastResetTime_;
+  }
+
+  mergeActorJsonObjects(actorRuntimeJsonObjects) {
+    for (let i = 0; i < actorRuntimeJsonObjects.length; i++) {
+      const runtimeObj = actorRuntimeJsonObjects[i];
+      const actor = mapGetOrCreate(this.actors_, runtimeObj.name, () => new Actor(runtimeObj.name, this));
+      actor.mergeJsonObject(runtimeObj);
+    }
+  }
+
+  deserializeOrderedActors(reader) {
+    if (!reader.readBoolean()) {
+      // No update needed.
+      return;
+    }
+    const numActors = reader.readInt32();
+    const namesArray = new Array(numActors);
+    for (let i = 0; i < numActors; i++) {
+      const name = reader.readUtf16();
+      namesArray[i] = name;
+      const actor = mapGetOrCreate(this.actors_, name, () => new Actor(name, this));
+      actor.tempId_ = i;
+    }
+    assert(reader.readUint8() == 42, "Binary actor de-serialization sanity check failed!");
+
+    // Remove missing actors
+    beginProfileSample("remove missing");
+    const inputNames = new Set(namesArray);
+    const namesToRemove = [];
+    this.actors_.forEach(actor => {
+      if (!inputNames.has(actor.name)) {
+        namesToRemove.push(actor.name);
+      }
+    });
+    namesToRemove.forEach(name => this.actors_.delete(name));
+    endProfileSample();
+
+    this.namesById_ = namesArray;
+  }
+
+  deserializeActorStateSync(reader) {
+    assert(this.namesById_, 'state sync called before ordered actors syncd?');
+    const numActors = reader.readInt32();
+    for (let i = 0; i < numActors; i++) {
+      const tempId = reader.readUint16();
+      if (tempId == 65535) {
+        // Indicates to skip this one.
+        continue;
+      }
+      const actorName = this.namesById_[tempId];
+      if (actorName === undefined) {
+        throw new Error(`Invalid tempId ${tempId} read for deserializeActorStateSync. Num actors in list: ${this.namesById_.length}.`);
+      }
+      const actor = this.getActor(actorName);
+      actor.deserialize(reader);
+    }
+    assert(reader.readUint8() == 43, "Binary actor de-serialization sanity check failed!");
+  }
+
+  forActorsHandling_(messageName, func) {
+    if (!messageName.includes('Tick')) {
+      sysLog(`WARNING: linear scan for message ${messageName}`);
+    }
+    // TODO do this efficiently!! Although, last time I tried, this actually
+    // wasn't much of a bottle neck. We cache the handler info, so
+    // actor.hasHandlersFor is pretty fast.
+    this.actors_.forEach((actor, _) => {
+      if (actor.name !== this.cameraActorName_ && actor.hasHandlersFor(messageName)) {
+        func(actor);
+      }
+    });
+    // Do the camera actor last (to prevent jittering, it must update after everything).
+    if (this.cameraActorName_) {
+      const cameraActor = this.actors_.get(this.cameraActorName_);
+      if (cameraActor && cameraActor.hasHandlersFor(messageName)) {
+        func(cameraActor);
+      }
+    }
+  }
+
+  getActor(name) {
+    assert(typeof name == 'string', "getActor(name), name was not a string?");
+    return this.actors_.get(name);
+  }
+
+  doesActorExist(name) {
+    return this.getActor(name) !== undefined;
+  }
+
+  // MAJOR TODO there's a bunch of logic we need to implement for remote actors, etc.
+  // For now, avoid using these directly from user code...
+  sendMessage(toActorName, messageName, messageData, fromActorName) {
+    assert(toActorName, 'toActorName');
+    assertString(toActorName, 'toActorName');
+    assertString(messageName, 'messageName');
+
+    if (!this.doesActorExist(toActorName)) {
+      // Given that messages can be delayed, sent over the network, etc., it's
+      // entirely possible the receiver is gone by now. Just ignore it.
+      return;
+    }
+
+    this.packAndEnqueueMessage({
+      toActorName: toActorName,
+      messageName: messageName,
+      messageData: messageData,
+      fromActorName: fromActorName
+    });
+  }
+
+  packAndEnqueueMessage(msg) {
+    const errors = [];
+    assert(msg.messageData);
+    msg.messageData = packObj(msg.messageData, "message", errors);
+    if (errors.length > 0) {
+      throw new Error("Message has invalid values in it.\n" + errors.join("\n"));
+    }
+    this.messageQueue_.enqueue(msg);
+  }
+
+  // MAJOR TODO there's a bunch of logic we need to implement for remote actors, etc.
+  // For now, avoid using these directly from user code...
+
+  /**
+   * Sends a message to all actors.
+   * @param {string} messageName The name of the messgae, e.g., "ResetGame"
+   * @param {object} messageData The message data (any object)
+   * @param {string} fromActorName The sending actor's name.
+   * @param {SendMessageOptions?} sendMessageOptions Optional. Specifies options for sending the message.
+   */
+  sendMessageToAll(messageName, messageData, fromActorName, sendMessageOptions) {
+    assertString(messageName, 'messageName');
+    this.packAndEnqueueMessage({
+      toActorName: null, // Indicates "to everyone"
+      messageName: messageName,
+      messageData: messageData,
+      fromActorName: fromActorName,
+      sendMessageOptions: sendMessageOptions
+    });
+  }
+
+  serializeDirtyMemoryActors(actorBytes) {
+    const writer = new VoosBinaryReaderWriter(actorBytes);
+
+    function shouldSerialize(actor) {
+      return actor.memoryDirty_ && !actor.requestedDestroy;
+    }
+
+    var numSerialized = 0;
+    this.actors_.forEach(actor => {
+      if (shouldSerialize(actor)) {
+        numSerialized++;
+      }
+    });
+
+    writer.writeUint16(numSerialized);
+
+    this.actors_.forEach(actor => {
+      if (shouldSerialize(actor)) {
+        actor.memoryDirty_ = false;
+        writer.writeUint16(actor.tempId_);
+      }
+    });
+  }
+
+  resetDatabase(jsonObject) {
+    return this.database_.reset(jsonObject);
+  }
+
+  /**
+   * 
+   * @param {!string} prefabUri 
+   * @param {!string} creatorName 
+   * @param {!THREE.Vector3} initialPosition 
+   * @param {!THREE.Rotation} initialRotation 
+   */
+  instantiatePrefab(prefabUri, creatorName, initialPosition, initialRotation) {
+    assertString(prefabUri, 'prefabUri');
+    assertString(creatorName, 'creatorName');
+    assertVector3(initialPosition, 'initialPosition');
+    assertQuaternion(initialRotation, 'initialRotation');
+
+    const maxActors = MAX_ACTORS;
+    if (this.actors_.size >= maxActors) {
+      throw new Error(`There are over ${maxActors} actors. This is likely a scripting bug? To be safe, no more cloning from script will be allowed.`);
+    }
+
+    // Creator and register
+    const response = callVoosService("InstantiatePrefab", {
+      prefabUri: prefabUri,
+      creatorName: creatorName,
+      position: initialPosition,
+      rotation: serializeQuaternion(initialRotation)
+    });
+    const instName = response.name;
+    const instActor = new Actor(instName, this);
+
+    instActor.tempId_ = response.actorId;
+    instActor.isLocalActor = true;
+
+    // This is intentional. This signals that this actor was just instantiated
+    // and is not ready to receive messages, since the behavior DB is not
+    // updated yet (with its brains, behaviors, etc)
+    instActor.brainName = undefined;
+
+    // NOTE HACK TEMP TODO: not sure how memory comes in here...if the prefab has memory..
+
+    this.actors_.set(instName, instActor);
+
+    return instName;
+  }
+
+  cloneActor(baseActorName, creatorName, initialPosition, initialRotation) {
+    assertString(baseActorName, 'baseActorName');
+    assertString(creatorName, 'creatorName');
+    assertVector3(initialPosition, 'initialPosition');
+    assertQuaternion(initialRotation, 'initialRotation');
+
+    const maxActors = MAX_ACTORS;
+    if (this.actors_.size >= maxActors) {
+      throw new Error(`There are over ${maxActors} actors. This is likely a scripting bug? To be safe, no more cloning from script will be allowed.`);
+    }
+    const baseActor = this.getActor(baseActorName);
+    assert(baseActor, `Tried to clone ${baseActorName} for creator ${creatorName}, but ${baseActorName} does not exist.`);
+
+    // Creator and register
+    const result = callVoosService("CloneActor", {
+      baseActorName: baseActorName,
+      creatorName: creatorName,
+      position: initialPosition,
+      rotation: serializeQuaternion(initialRotation)
+    });
+    if (result.error) {
+      throw new Error("Failed to clone actor: " + result.error);
+    }
+    let rootCloneName = null;
+    const toSend = [];
+    for (let i = 0; i < result.names.length; i++) {
+      const cloneName = result.names[i];
+      const cloneActor = new Actor(cloneName, this);
+      const tempId = result.tempIds[i];
+      const childBaseActor = this.getActor(result.baseActorNames[i]);
+      cloneActor.setupClone(childBaseActor.brainName, tempId, childBaseActor.getMemoryJson());
+
+      // This is debatable..but generally makes sense I think. Why even bother
+      // with spawn**, since script clones are destroyed upon reset? Well, spawn
+      // position may be used as a reference point (for side-to-side behavior for
+      // example), so it still matters.
+      // TODO TODO we need to actually update the spawn positions RELATIVE to the root clone position.
+      cloneActor.spawnPosition = initialPosition;
+      cloneActor.spawnRotation = initialRotation;
+
+      this.actors_.set(cloneName, cloneActor);
+
+      if (result.baseActorNames[i] == baseActorName) {
+        rootCloneName = cloneName;
+      }
+
+      toSend.push({ to: cloneName, arg: { creator: creatorName, original: result.baseActorNames[i] } });
+    }
+
+    for (const item of toSend) {
+      send(item.to, "SpawnAsClone", item.arg);
+    }
+
+    // TODO NOTE: there's the possibility that the clone will not get recent memory changes, since memory changes are not sync'd to Unity immediately. We could force that here for the base/parent actor?
+
+    return rootCloneName;
+  }
+
+  // TODO we had to implement deferred-destroy on the Unity side, so just use that instead
+  destroyActors(actors) {
+    assert(Array.isArray(actors));
+    if (actors.length < 1) return;
+    // Non-local actors cannot be destroyed.
+    const actorNames = actors.filter(actor => actor.isLocalActor).map(actor => actor.name);
+    callVoosService("DestroyActors", { actorNames: actorNames });
+  }
+
+  /**
+   * @param {string} fromActor
+   * @param {string} message 
+   */
+  sendMessageToUnity(targetActor, message) {
+    queueMessageToUnity(targetActor, message);
+  }
+
+  // Initializes all new behavior uses on all local actors (by sending them an Init message).
+  initNewBehaviorUses(gameTime) {
+    this.actors_.forEach(actor => {
+      if (actor.isLocalActor) {
+        this.initNewBehaviorUsesForLocalActor_(actor, gameTime);
+      }
+    });
+  }
+
+  initNewBehaviorUsesForLocalActor_(actor, gameTime) {
+    assert(actor.isLocalActor, `init uses called for nonlocal actor..${actor.displayName}`);
+    const brain = this.database_.getBrain(actor.brainName);
+    assert(brain, `could not find brain ${actor.brainName}`);
+    brain.forUsesHandling("Init", use => {
+      // If the actor does not yet have behavior-use-local-memory for this use,
+      // create it now, and also deliver the Init message to the behavior use so
+      // it can initialize its memory.
+      if (!actor.hasBehaviorUseLocalMemory(use.id)) {
+        actor.createBehaviorUseLocalMemory(use.id);
+        const message = this.makeMessageDelivery("Init", {}, gameTime);
+        actor.handleMessageForUse(message, use);
+      }
+    });
+  }
+
+  prepareForTick() {
+    this.cameraActorName_ = callVoosService("GetCameraActor");
+  }
+}
+
+/**
+ * @typedef {Object} SendMessageOptions
+ * @property {boolean} onstage If true, sends the message to actors on stage.
+ * @property {boolean} offstage If true, sends the message to actors off stage.
+ */

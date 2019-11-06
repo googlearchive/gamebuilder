@@ -1,0 +1,258 @@
+{
+    "version": 2,
+    "label": "soil_untilled",
+    "actors": [
+        {
+            "version": 8,
+            "name": "1210e4b947c445d1aebda6e1f8a8bbca",
+            "brainName": "5405523d27134d75a4b59b28f5da46ea",
+            "tags": [],
+            "renderableUri": "builtin:BuiltinAssets/Farming/soil_untilled",
+            "memoryJson": "{\"__bulm\":{\"8542b82c85254842a78d3149461105ca\":{\"actionDeckState\":{\"decksInfo\":{\"actionDeck\":{\"active\":false,\"endTime\":10357.328125,\"lastActionMessageTime\":10356.828125}}},\"triggered\":true},\"c1b71761ad96463d99af9eac6bbbe7a8\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+            "displayName": "soil_untilled",
+            "description": "",
+            "tint": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+            },
+            "transformParent": "",
+            "position": {
+                "x": -26.35611343383789,
+                "y": 0.29342690110206606,
+                "z": 16.92224884033203
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "renderableOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "renderableRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "commentText": "",
+            "spawnPosition": {
+                "x": -26.35611343383789,
+                "y": 0.29342690110206606,
+                "z": 16.92224884033203
+            },
+            "spawnRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "preferOffstage": false,
+            "isSolid": true,
+            "enablePhysics": false,
+            "enableGravity": false,
+            "bounciness": 0.0,
+            "drag": 0.0,
+            "angularDrag": 0.05000000074505806,
+            "mass": 1.0,
+            "freezeRotations": false,
+            "freezeX": false,
+            "freezeY": false,
+            "freezeZ": false,
+            "enableAiming": false,
+            "hideInPlayMode": false,
+            "keepUpright": false,
+            "isPlayerControllable": false,
+            "debugString": "",
+            "cloneParent": "",
+            "velocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "angularVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "cameraActor": "",
+            "spawnTransformParent": "",
+            "wasClonedByScript": false,
+            "loopingAnimation": "",
+            "cameraSettingsJson": "",
+            "lightSettingsJson": "",
+            "pfxId": "",
+            "sfxId": "",
+            "useConcaveCollider": true,
+            "speculativeColDet": false,
+            "useStickyDesiredVelocity": false,
+            "stickyDesiredVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ],
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "5405523d27134d75a4b59b28f5da46ea"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.7154099941253662,\"viewPosition\":{\"x\":103.95091247558594,\"y\":252.49008178710938},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":715.0,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "8542b82c85254842a78d3149461105ca",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"c1b71761ad96463d99af9eac6bbbe7a8\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"fe4b69a516c34d7f87cfc58d61eae2c1\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "c1b71761ad96463d99af9eac6bbbe7a8",
+                        "behaviorUri": "builtin:ReceiveMessageEventCard",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Message",
+                                "valueJson": "{\"value\":\"Till\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fe4b69a516c34d7f87cfc58d61eae2c1",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "sojos": [],
+    "category": "gameplay",
+    "workshopId": "",
+    "actorData": {
+        "version": 0,
+        "name": "",
+        "brainName": "",
+        "tags": [],
+        "renderableUri": "",
+        "memoryJson": "",
+        "displayName": "",
+        "description": "",
+        "tint": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "localScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.0,
+        "mass": 0.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "angularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": "",
+        "useConcaveCollider": false,
+        "speculativeColDet": false,
+        "useStickyDesiredVelocity": false,
+        "stickyDesiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

@@ -1,0 +1,73 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Implementation of async sleep. This relies on the user to periodically call the "Update" function to
+// actually resolve sleeps.
+
+class SleepEntry {
+  constructor(actorName, ms, callback) {
+    assert(ms >= 0.0, "sleep time ms should be greater than 0.0");
+    this.actorName_ = actorName;
+    this.ms_ = ms;
+    this.callback_ = callback;
+  }
+
+  getActorName() { return this.actorName_; }
+
+  update(deltaMs) {
+    this.ms_ -= deltaMs;
+    if (this.isDone()) {
+      this.callback_();
+    }
+  }
+
+  isDone() {
+    return this.ms_ < 0.0;
+  }
+}
+
+class SleepManager {
+  constructor(isActorAlive) {
+    this.entries_ = new Set();
+    this.isActorAlive_ = isActorAlive;
+  }
+
+  for(name, seconds) {
+    return this.forMs(name, seconds * 1e3);
+  }
+
+  forMs(name, ms) {
+    return new Promise(resolve => {
+      this.entries_.add(new SleepEntry(name, ms, resolve));
+    });
+  }
+
+  update(deltaMs) {
+    let toRemove = [];
+    this.entries_.forEach(entry => {
+      if (this.isActorAlive_(entry.getActorName())) {
+        entry.update(deltaMs);
+        if (entry.isDone()) {
+          toRemove.push(entry);
+        }
+      }
+      else {
+        toRemove.push(entry);
+      }
+    });
+    toRemove.forEach(entry => this.entries_.delete(entry));
+  }
+}

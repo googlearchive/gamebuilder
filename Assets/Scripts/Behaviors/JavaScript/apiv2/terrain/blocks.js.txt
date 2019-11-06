@@ -1,0 +1,367 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/** Size of a terrain block in the X direction. */
+const BLOCK_SIZE_X = 2.5;
+/** Size of a terrain block in the Y direction. */
+const BLOCK_SIZE_Y = 1.5;
+/** Size of a terrain block in the Z direction. */
+const BLOCK_SIZE_Z = 2.5;
+
+/**
+ * @typedef BlockShape
+ * @prop {number} EMPTY
+ * @prop {number} BOX
+ * @prop {number} TRIANGLE
+ * @prop {number} RAMP
+ * @prop {number} CORNER
+ */
+
+/**
+ * Enum of terrain block shapes.
+ * @enum {BlockShape}
+ */
+var BlockShape = {
+  /** Empty block. */
+  EMPTY: 0,
+  /** Full box. */
+  BOX: 1,
+  /** Triangle. */
+  TRIANGLE: 2,
+  /** Ramp. */
+  RAMP: 3,
+  /** Corner ramp. */
+  CORNER: 4
+};
+
+/**
+ * @typedef BlockDir
+ * @prop {number} NORTH
+ * @prop {number} EAST
+ * @prop {number} SOUTH
+ * @prop {number} WEST
+ */
+
+/**
+ * Enum of terrain block directions.
+ * @enum {BlockDir}
+ */
+var BlockDir = {
+  NORTH: 0,
+  EAST: 1,
+  SOUTH: 2,
+  WEST: 3,
+};
+
+/**
+ * @typedef BlockStyle
+   @prop {number} COLOR0
+   @prop {number} COLOR1
+   @prop {number} COLOR2
+   @prop {number} COLOR3
+   @prop {number} COLOR4
+   @prop {number} COLOR5
+   @prop {number} COLOR6
+   @prop {number} COLOR7
+   @prop {number} COLOR8
+   @prop {number} COLOR9
+   @prop {number} COLOR10
+   @prop {number} COLOR11
+   @prop {number} COLOR12
+   @prop {number} COLOR13
+   @prop {number} COLOR14
+   @prop {number} COLOR15
+   @prop {number} STONE
+   @prop {number} SCIFI
+   @prop {number} GRASS
+   @prop {number} SNOW_ROCK
+   @prop {number} DIRT
+   @prop {number} GRASS_STONE
+   @prop {number} GREY_CRATERS
+   @prop {number} ICE
+   @prop {number} LAVA
+   @prop {number} SAND
+   @prop {number} WATER
+   @prop {number} WOODEN
+   @prop {number} RED_CRATERS
+   @prop {number} INDUSTRIAL_GREEN
+   @prop {number} INDUSTRIAL_RED
+   @prop {number} GREY_BRICKS
+   @prop {number} METAL_BEIGE
+   @prop {number} RED_BRICKS
+   @prop {number} ROAD
+   @prop {number} ROAD_CROSSING
+   @prop {number} ROAD_WHITE_BROKEN_LINE
+   @prop {number} ROAD_YELLOW_UNBROKEN_LINE
+   @prop {number} PAVEMENT
+   @prop {number} PAVEMENT_CONCAVE_CORNER
+   @prop {number} PAVEMENT_CONVEX_CORNER
+ */
+
+/**
+ * Enum of terrain block styles.
+ * @enum {BlockStyle}
+ */
+var BlockStyle = {
+  /** Palette color 0. White. */
+  COLOR0: 0,
+  /** Palette color 1. Gray. */
+  COLOR1: 1,
+  /** Palette color 2. Really, really bright red. Oh, my eyes, my eyes! */
+  COLOR2: 2,
+  /** Palette color 3. Bright yellow. */
+  COLOR3: 3,
+  /** Palette color 4. Bright green. */
+  COLOR4: 4,
+  /** Palette color 5. Bright cyan. */
+  COLOR5: 5,
+  /** Palette color 6. Bright blue. */
+  COLOR6: 6,
+  /** Palette color 7. Bright pink. */
+  COLOR7: 7,
+  /** Palette color 8. Light blue, the color of the ocean in games, which is no where near the color of the ocean in real life. */
+  COLOR8: 8,
+  /** Palette color 9. Light yellow (more like sand). */
+  COLOR9: 9,
+  /** Palette color 10. Light orange (salmon). */
+  COLOR10: 10,
+  /** Palette color 11. Red. Bright, but not as bright as color 2. */
+  COLOR11: 11,
+  /** Palette color 12. Burgundy (dark red). */
+  COLOR12: 12,
+  /** Palette color 13. Teal. */
+  COLOR13: 13,
+  /** Palette color 14. Blue-green. Or is it green-blue? */
+  COLOR14: 14,
+  /** Palette color 15. Light pink. Maybe mauve? I have terrible color vocabulary. */
+  COLOR15: 15,
+  /** Stone block style. */
+  STONE: 16,
+  /** Sci-fi (space) style. */
+  SCIFI: 17,
+  /** Grass style. */
+  GRASS: 18,
+  /** Snow/rock. */
+  SNOW_ROCK: 19,
+  /** Dirt. */
+  DIRT: 20,
+  /** Grass/stone. */
+  GRASS_STONE: 21,
+  /** Grey craters. */
+  GREY_CRATERS: 22,
+  /** Ice. */
+  ICE: 23,
+  /** Lava. */
+  LAVA: 24,
+  /** Sand. */
+  SAND: 25,
+  /** Water. */
+  WATER: 26,
+  /** Wooden. */
+  WOODEN: 27,
+  /** Red craters. */
+  RED_CRATERS: 28,
+  /** Industrial green. */
+  INDUSTRIAL_GREEN: 29,
+  /** Industrial red. */
+  INDUSTRIAL_RED: 30,
+  /** Grey bricks. */
+  GREY_BRICKS: 31,
+  /** Metal beige. */
+  METAL_BEIGE: 32,
+  /** Red bricks. */
+  RED_BRICKS: 33,
+  /** Road. */
+  ROAD: 34,
+  /** Road with pedestrian crossing. */
+  ROAD_CROSSING: 35,
+  /** Road with white broken line. */
+  ROAD_WHITE_BROKEN_LINE: 36,
+  /** Road with yellow continuous line. */
+  ROAD_YELLOW_UNBROKEN_LINE: 37,
+  /** Pavement (sidewalk). */
+  PAVEMENT: 38,
+  /** Pavement (sidewalk), concave corner. */
+  PAVEMENT_CONCAVE_CORNER: 39,
+  /** Pavement (sidewalk), convex corner. */
+  PAVEMENT_CONVEX_CORNER: 40
+};
+
+/**
+ * Builds (or changes) a block in the terrain system.
+ * @param {number} x Block X coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @param {number} y Block Y coordinate. From -20 to 130.
+ * @param {number} z Block Z coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @param {BlockShape} shape The shape of the block.
+ * @param {BlockDir} dir The direction of the block.
+ * @param {BlockStyle} style The style of the block.
+ * @example
+ * // Place a stone box-shaped block at (3,2,1):
+ * setBlock(3, 2, 1);
+ * 
+ * // Clear block at (7,1,1).
+ * setBlock(7, 1, 1, BlockShape.EMPTY);
+ * 
+ * // Place a ramp block at (4, 5, 6). Defaults to North-facing.
+ * setBlock(4, 5, 6, BlockShape.RAMP);
+ * 
+ * // Place an East-facing ramp block at (4, 5, 6):
+ * setBlock(4, 5, 6, BlockShape.RAMP, BlockDir.EAST);
+ * 
+ * // Place a grassy north-facing ramp at (5,1,0):
+ * setBlock(5, 1, 0, BlockShape.RAMP, BlockDir.NORTH, BlockStyle.GRASS);
+ * @example
+ * // setBlock also accepts a full block as an argument, like the one
+ * // returned by getBlock:
+ * let block = getBlock(0, 0, 0);
+ * // Change just the style to lava, keep direction and shape.
+ * block.style = BlockStyle.LAVA;
+ * setBlock(0, 0, 0, block);
+ */
+function setBlock(x, y, z, shape = BlockShape.BOX, dir = BlockDir.NORTH, style = BlockStyle.STONE) {
+  assertNumber(x, 'x');
+  assertNumber(y, 'y');
+  assertNumber(z, 'z');
+  // Alt syntax: {shape,dir,style} as an object in the first param.
+  const obj = shape;
+  if (typeof obj === 'object') {
+    assertNumber(obj.shape, 'obj.shape');
+    assertNumber(obj.dir, 'obj.dir');
+    assertNumber(obj.style, 'obj.style');
+    ApiV2Context.instance.api.setCell(x, y, z, obj.shape, obj.dir, obj.style);
+  } else {
+    assertNumber(shape, 'shape');
+    assertNumber(dir, 'dir');
+    assertNumber(style, 'style');
+    ApiV2Context.instance.api.setCell(x, y, z, shape, dir, style);
+  }
+}
+
+/**
+ * Builds (or changes) a block in the terrain system at the given world point.
+ * Similar to {@link setBlock} but takes a point in world space rather than block
+ * coordinates.
+ *
+ * @param {THREE.Vector3} point The point.
+ * @param {BlockShape} shape The shape of the block.
+ * @param {BlockDir} dir The direction of the block.
+ * @param {BlockStyle} style The style of the block.
+ */
+function setBlockAtPoint(point, shape = BlockShape.BOX, dir = BlockDir.NORTH, style = BlockStyle.STONE) {
+  assertVector3(point, 'point');
+  const coords = getBlockCoordsAtPoint(point);
+  return setBlock(coords.x, coords.y, coords.z, shape, dir, style);
+}
+
+/**
+ * Gets a block in the terrain system.
+ * @param {number} x Block X coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @param {number} y Block Y coordinate. From -20 to 130.
+ * @param {number} z Block Z coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @return {{shape: BlockShape, dir: BlockDir, style:BlockStyle}} An object with the block's shape, direction and style.
+ * @example
+ * const block = getBlock(0, 0, 0);
+ * log("The shape is " + block.shape);
+ * log("The direction is " + block.dir);
+ * log("The style is " + block.style);
+ */
+function getBlock(x, y, z) {
+  assertNumber(x, "x");
+  assertNumber(y, "y");
+  assertNumber(z, "z");
+  return ApiV2Context.instance.api.getCell(x, y, z);
+}
+
+/**
+ * Gets the terrain block at the given world point. Similar to {@link getBlock} but accepts a point in world
+ * space rather than block coordinates.
+ * @param {THREE.Vector3} point The point.
+ * @return {{shape: BlockShape, dir: BlockDir, style:BlockStyle}} An object with the block's shape, direction and style.
+ */
+function getBlockAtPoint(point) {
+  assertVector3(point, 'point');
+  const coords = getBlockCoordsAtPoint(point);
+  return getBlock(coords.x, coords.y, coords.z);
+}
+
+/**
+ * Removes a block from the terrain system.
+ * 
+ * <p>Note: this is equivalent to calling {@link setBlock} with block shape <tt>BlockShape.EMPTY</tt>.
+ *
+ * @param {number} x Block X coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @param {number} y Block Y coordinate. From -20 to 130.
+ * @param {number} z Block Z coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ */
+function clearBlock(x, y, z) {
+  setBlock(x, y, z, BlockShape.EMPTY);
+}
+
+/**
+ * Removes the terrain block at a given world point.
+ * This is similar to {@link clearBlock} but takes a world point rather than block coordinates.
+ * @param {THREE.Vector3} point The world point.
+ */
+function clearBlockAtPoint(point) {
+  assertVector3(point, 'point');
+  const coords = getBlockCoordsAtPoint(point);
+  return clearBlock(coords.x, coords.y, coords.z);
+}
+
+/**
+ * Returns the block coordinates corresponding to a given world-space point.
+ * @param {THREE.Vector3} point The point in world space.
+ * @return {THREE.Vector3} The x, y and z coordinates of the block corresponding
+ *     to that point. Caution: even though this is a Vector3, this is in terrain block coordinates.
+ *     Don't confuse it with a point or a vector!
+ */
+function getBlockCoordsAtPoint(point) {
+  // Note: Point (0,0,0) is at the CENTER BOTTOM of terrain block (0,0,0).
+  return vec3(
+    Math.floor((point.x + (0.5 * BLOCK_SIZE_X)) / BLOCK_SIZE_X),
+    Math.floor(point.y / BLOCK_SIZE_Y),
+    Math.floor((point.z + (0.5 * BLOCK_SIZE_Z)) / BLOCK_SIZE_Z),
+  );
+}
+
+/**
+ * Returns the world-space point that's at the center of the given terrain block.
+ * @param {number} x Block X coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @param {number} y Block Y coordinate. From -20 to 130.
+ * @param {number} z Block Z coordinate. In the default map size this goes from -100 to 99, but the range
+ *     can be different in other map sizes.
+ * @return {THREE.Vector3} The point at the block's center.
+ */
+function getBlockCenter(x, y, z) {
+  return vec3(x * BLOCK_SIZE_X, (y + 0.5) * BLOCK_SIZE_Y, z * BLOCK_SIZE_Z);
+}
+
+/**
+ * Returns the size of a terrain block. This is a constant.
+ * @return {THREE.Vector3} The size of a terrain block, in world coordinates.
+ */
+function getBlockSize() {
+  return vec3(BLOCK_SIZE_X, BLOCK_SIZE_Y, BLOCK_SIZE_Z);
+}

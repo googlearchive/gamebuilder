@@ -1,0 +1,283 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Returns a point that's the given distance ahead of the actor.
+ * @param {number} dist The distance ahead. Negative means behind.
+ * @param {ActorRef=} actor The actor. Defaults to the current actor.
+ * @return {THREE.Vector3} The point, in world space.
+ */
+function getPointAhead(dist, actor) {
+  return getPos(actor).add(getForward(dist, actor));
+}
+
+/**
+ * Returns a point that's the given distance behind of the actor.
+ * @param {number} dist The distance behind. Negative means ahead.
+ * @param {ActorRef=} actor The actor. Defaults to the current actor.
+ * @return {THREE.Vector3} The point, in world space.
+ */
+function getPointBehind(dist, actor) {
+  return getPos(actor).add(getBackward(dist, actor));
+}
+
+/**
+ * Returns a point that's the given distance above the actor.
+ * @param {number} dist The distance above. Negative means below.
+ * @param {ActorRef=} actor The actor. Defaults to the current actor.
+ * @return {THREE.Vector3} The point, in world space.
+ */
+function getPointAbove(dist, actor) {
+  return getPos(actor).add(getUp(dist, actor));
+}
+
+/**
+ * Returns a point that's the given distance below the actor.
+ * @param {number} dist The distance below. Negative means above.
+ * @param {ActorRef=} actor The actor. Defaults to the current actor.
+ * @return {THREE.Vector3} The point, in world space.
+ */
+function getPointBelow(dist, actor) {
+  return getPos(actor).add(getDown(dist, actor));
+}
+
+/**
+ * Returns a point that's the given distance to the right of the actor.
+ * @param {number} dist The distance to the right. Negative means to the left.
+ * @param {ActorRef=} actor The actor. Defaults to the current actor.
+ * @return {THREE.Vector3} The point, in world space.
+ */
+function getPointToRightOf(dist, actor) {
+  return getPos(actor).add(getRight(dist, actor));
+}
+
+/**
+ * Returns a point that's the given distance to the left of the actor.
+ * @param {number} dist The distance to the left. Negative means to the right.
+ * @param {ActorRef=} actor The actor. Defaults to the current actor.
+ * @return {THREE.Vector3} The point, in world space.
+ */
+function getPointToLeftOf(dist, actor) {
+  return getPos(actor).add(getLeft(dist, actor));
+}
+
+/**
+ * Gets the yaw angle of an actor in world space. The yaw angle indicates which direction
+ * on the plane the actor is facing. It is given in radians and counts
+ *   clockwise from North, so 0 means the actor is facing north, Math.PI/2 means the actor is
+ *   facing east, Math.PI (or, equivalently, -Math.PI) means south, -Math.PI/2 means west.
+ *
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {number} The actor's yaw angle, in radians.
+ * 
+ * @example
+ * export function onTick() {
+ *   log("My yaw is " + getYaw())
+ * }
+ */
+function getYaw(actor) {
+  return ApiV2Context.instance.quatToOurEuler(getRot(actor)).y;
+}
+
+/**
+ * Gets the pitch angle of an actor in world space. The pitch (also called elevation) angle
+ * indicates how much the actor is angled upwards/downwards. Positive means angled downwards,
+ * negative means angled upwards (note that this might be the opposite of what you'd think, so
+ * be careful!).
+ * 
+ * <p>For illustration, imagine the actor is an airplane.
+ * When the airplane is perfectly level, the pitch angle is 0. When it's taking off
+ * and pointing upwards towards the sky at a 45 degrees angle, the pitch angle is -Math.PI/4.
+ * When it's landing and pointing towards the ground at a 45 degrees angle, the pitch
+ * angle would be Math.PI/4.
+ *
+ * <p>Note that planes in real life don't do 45 degree angles, we just used that as an example.
+ * That's way more comfortable for the math than it would be for the passengers.
+ *
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {number} The actor's pitch angle, in radians.
+ * @example
+ * export function onTick() {
+ *   log("My pitch is " + getPitch())
+ * }
+ */
+function getPitch(actor) {
+  return ApiV2Context.instance.quatToOurEuler(getRot(actor)).x;
+}
+
+/**
+ * Gets the roll angle of an actor in world space. The roll (also called bank) angle
+ * indicates how tilted the actor is to the side. A positive roll angle
+ * means it's tilted to the left, a negative roll angle means it's tilted
+ * to the right, and zero means it's not tilted.
+ *
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {number} The actor's roll angle, in radians.
+ * @example
+ * export function onTick() {
+ *   log("My roll angle is " + getRoll())
+ * }
+ */
+function getRoll(actor) {
+  return ApiV2Context.instance.quatToOurEuler(getRot(actor)).z;
+}
+
+/**
+ * Gets the rotation of an actor as a quaternion.
+ *
+ * @param {ActorRef=} actor The actor to get the rotation of. If ommitted,
+ *     will get the rotation of the current actor.
+ * @return {Quaternion} The rotation of the actor, in world coordinates.
+ * 
+ * @example
+ * export function onTick() {
+ *   log("My rotation quaternion is " + getRot())
+ * }
+ */
+function getRot(actor) {
+  return ApiV2Context.instance.getActor(actor).getRotation();
+}
+
+/**
+ * Gets the local rotation of an actor as a quaternion. This is the rotation
+ * of the actor relative to its parent.
+ *
+ * @param {ActorRef=} actor The actor to get the rotation of. If ommitted,
+ *     will get the rotation of the current actor.
+ * @return {Quaternion} The rotation of the actor, in local coordinates.
+ * 
+ * @example
+ * export function onTick() {
+ *   log("My LOCAL rotation is " + getLocalRot())
+ * }
+ */
+function getLocalRot(actor) {
+  return ApiV2Context.instance.getActor(actor).getLocalRotation();
+}
+
+/**
+ * Gets the spawn rotation of an actor as a quaternion.
+ *
+ * @param {ActorRef=} actor The actor to get the rotation of. If ommitted,
+ *     will get the rotation of the current actor.
+ * @return {Quaternion} The spawn rotation of the actor, in world coordinates.
+ * 
+ * @example
+ * export function onTick() {
+ *   log("My spawn rotation quaternion is " + getSpawnRot())
+ * }
+ */
+function getSpawnRot(actor) {
+  return ApiV2Context.instance.getActor(actor).getSpawnRotation();
+}
+
+/**
+ * Returns the forward vector of an actor. This is a unit vector that
+ * points in the direction that the actor is facing.
+ *
+ * @param {number=} mag The magnitude of the vector to return. Defaults to 1.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The forward vector of the actor, in world space.
+ * @example
+ * export function onTick() {
+ *   log("My forward vector is " + getForward())
+ * }
+ */
+function getForward(mag = 1, actor) {
+  return vec3(0, 0, mag).applyQuaternion(getRot(actor));
+}
+
+/**
+ * Returns the backward vector of an actor. This is a unit vector that
+ * points in the direction opposite to that in which the actor is facing.
+ *
+ * @param {number=} mag The magnitude of the vector to return. Defaults to 1.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The backward vector of the actor, in world space.
+ * @example
+ * export function onTick() {
+ *   log("My backward vector is " + getBackward())
+ * }
+ */
+function getBackward(mag = 1, actor) {
+  return vec3(0, 0, -mag).applyQuaternion(getRot(actor));
+}
+
+/**
+ * Returns the up vector of an actor. This is a unit vector that
+ * points in the "up" direction of the actor.
+ *
+ * @param {number=} mag The magnitude of the vector to return. Defaults to 1.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The up vector of the actor, in world space.
+ * @example
+ * export function onTick() {
+ *   log("My up vector is " + getUp())
+ * }
+ */
+function getUp(mag = 1, actor) {
+  return vec3(0, mag, 0).applyQuaternion(getRot(actor));
+}
+
+/**
+ * Returns the down vector of an actor. This is a unit vector that
+ * points in the "down" direction of the actor.
+ *
+ * @param {number=} mag The magnitude of the vector to return. Defaults to 1.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The down vector of the actor, in world space.
+ * @example
+ * export function onTick() {
+ *   log("My down vector is " + getDown())
+ * }
+ */
+function getDown(mag = 1, actor) {
+  return vec3(0, -mag, 0).applyQuaternion(getRot(actor));
+}
+
+/**
+ * Returns the "right" vector of an actor. This is a unit vector that
+ * points in the "right" direction of the actor.
+ *
+ * @param {number=} mag The magnitude of the vector to return. Defaults to 1.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The right vector of the actor, in world space.
+ * @example
+ * export function onTick() {
+ *   log("My right vector is " + getRight())
+ * }
+ */
+function getRight(mag = 1, actor) {
+  return vec3(mag, 0, 0).applyQuaternion(getRot(actor));
+}
+
+/**
+ * Returns the "left" vector of an actor. This is a unit vector that
+ * points in the "left" direction of the actor.
+ *
+ * @param {number=} mag The magnitude of the vector to return. Defaults to 1.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The left vector of the actor, in world space.
+ * @example
+ * export function onTick() {
+ *   log("My left vector is " + getLeft())
+ * }
+ */
+function getLeft(mag = 1, actor) {
+  return vec3(-mag, 0, 0).applyQuaternion(getRot(actor));
+}

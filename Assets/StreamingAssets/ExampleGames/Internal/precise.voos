@@ -1,0 +1,2949 @@
+{
+    "version": 7,
+    "voosEngineState": {
+        "gameTime": 1337.58837890625,
+        "actors": [
+            {
+                "version": 7,
+                "name": "RedPlayer",
+                "brainName": "Player",
+                "tags": [
+                    "player"
+                ],
+                "renderableUri": "builtin:BuiltinAssets/AvatarExplorer",
+                "memoryJson": "{\"health\":3,\"StartingHealth\":3,\"team\":1,\"jumpCooldown\":0,\"__bulm\":{\"9859448eebfb495fa4d66f554b29135e\":{\"actionDeckState\":{\"decksInfo\":{}}},\"d40c3a8972bd4dd7973d1563b38966be\":{\"actionDeckState\":{\"decksInfo\":{}}},\"7000b1beb20b47cebf64dd9fbb09fd57\":{\"actionDeckState\":{\"decksInfo\":{}}},\"6adce54aea354f2ca0250b8a338c01a1\":{\"actionDeckState\":{\"decksInfo\":{}}},\"6eb2a92729ff43deb2683f7d2a4b71bd\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "PlayerOne",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.20000000298023225
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 6.384160995483398,
+                    "y": 0.010001182556152344,
+                    "z": -1.851386547088623
+                },
+                "rotation": {
+                    "x": -1.3969836398786129e-9,
+                    "y": -0.0684506744146347,
+                    "z": 4.6566123179658805e-10,
+                    "w": 0.9976545572280884
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 7.160429000854492,
+                    "y": 0.0,
+                    "z": -5.924997329711914
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": -0.06845065951347351,
+                    "z": 0.0,
+                    "w": 0.9976544976234436
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": true,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": true,
+                "hideInPlayMode": false,
+                "keepUpright": true,
+                "isPlayerControllable": true,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": -3.2547030729581014e-21,
+                    "y": 4.410829340661948e-12,
+                    "z": -1.2575997629890908e-20
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "__GameRules__",
+                "brainName": "__GameRulesBrain__",
+                "tags": [],
+                "renderableUri": "",
+                "memoryJson": "{\"wizardState\":{\"state\":\"round\",\"secondsLeft\":0,\"ruleDescriptions\":[],\"players\":[{\"name\":\"RedPlayer\",\"points\":0,\"health\":3,\"maxHealth\":3}]},\"time\":1078,\"__bulm\":{\"a41c0c6c9a924396bf6520111e239ee3\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "Game Rules",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 0.0,
+                    "y": -10.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 0.0,
+                    "y": -10.0,
+                    "z": 0.0
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "0f7095c906ae41cb8b556090a660ac8b",
+                "brainName": "0f7095c906ae41cb8b556090a660ac8b",
+                "tags": [],
+                "renderableUri": "poly:assets/f1YBNg2R0nj",
+                "memoryJson": "{}",
+                "displayName": "Pug",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 5.098740100860596,
+                    "y": 2.384185791015625e-7,
+                    "z": -0.20717573165893556
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.9037092328071594,
+                    "z": 0.0,
+                    "w": -0.42814677953720095
+                },
+                "localScale": {
+                    "x": 1.1158488988876343,
+                    "y": 1.1158488988876343,
+                    "z": 1.1158488988876343
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 5.098740100860596,
+                    "y": 2.384185791015625e-7,
+                    "z": -0.20717573165893556
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": -0.9037092328071594,
+                    "z": 0.0,
+                    "w": -0.42814677953720095
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "e0192139687a413cadd94e3d8ad9b8e8",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 5.397727966308594,
+                    "y": 1.0011311769485474,
+                    "z": -0.4481102526187897
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 5.397727966308594,
+                    "y": 1.0011311769485474,
+                    "z": -0.4481102526187897
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "0939b2ae49274c4fa18f261daa4ae3fd",
+                "brainName": "0939b2ae49274c4fa18f261daa4ae3fd",
+                "tags": [],
+                "renderableUri": "poly:assets/5LdUYfQlCNF",
+                "memoryJson": "{}",
+                "displayName": "Brick wall",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.4008400440216066,
+                    "y": 0.004348874092102051,
+                    "z": -0.8894357681274414
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.953848123550415,
+                    "z": 0.0,
+                    "w": 0.30028972029685976
+                },
+                "localScale": {
+                    "x": 0.7674917578697205,
+                    "y": 0.7674917578697205,
+                    "z": 0.7674917578697205
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.4008400440216066,
+                    "y": 0.004348874092102051,
+                    "z": -0.8894357681274414
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.953848123550415,
+                    "z": 0.0,
+                    "w": 0.30028972029685976
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "667bb4f277ad4d42a8953713ed903945",
+                "brainName": "0939b2ae49274c4fa18f261daa4ae3fd",
+                "tags": [],
+                "renderableUri": "poly:assets/5LdUYfQlCNF",
+                "memoryJson": "{}",
+                "displayName": "Brick wall-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.8753843307495119,
+                    "y": 0.0,
+                    "z": -1.54294753074646
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.953848123550415,
+                    "z": 0.0,
+                    "w": 0.30028972029685976
+                },
+                "localScale": {
+                    "x": 0.7674917578697205,
+                    "y": 0.7674917578697205,
+                    "z": 0.7674917578697205
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.8753843307495119,
+                    "y": 0.0,
+                    "z": -1.54294753074646
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.953848123550415,
+                    "z": 0.0,
+                    "w": 0.30028972029685976
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "5dd8669225fa4e9b81f6f88d697e0a95",
+                "brainName": "0939b2ae49274c4fa18f261daa4ae3fd",
+                "tags": [],
+                "renderableUri": "poly:assets/5LdUYfQlCNF",
+                "memoryJson": "{}",
+                "displayName": "Brick wall-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.304182529449463,
+                    "y": 0.0,
+                    "z": -1.4470889568328858
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.45048800110816958,
+                    "z": 0.0,
+                    "w": 0.8927825689315796
+                },
+                "localScale": {
+                    "x": 0.7674917578697205,
+                    "y": 0.7674917578697205,
+                    "z": 0.7674917578697205
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.304182529449463,
+                    "y": 0.0,
+                    "z": -1.4470889568328858
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.45048800110816958,
+                    "z": 0.0,
+                    "w": 0.8927825689315796
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "7104c0152e724edfa1428221187ab185",
+                "brainName": "0939b2ae49274c4fa18f261daa4ae3fd",
+                "tags": [],
+                "renderableUri": "poly:assets/5LdUYfQlCNF",
+                "memoryJson": "{}",
+                "displayName": "Brick wall-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.9650630950927736,
+                    "y": 0.0033872127532958986,
+                    "z": -0.9839888215065002
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.892192006111145,
+                    "z": 0.0,
+                    "w": -0.451656311750412
+                },
+                "localScale": {
+                    "x": 0.7674917578697205,
+                    "y": 0.7674917578697205,
+                    "z": 0.7674917578697205
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.9650630950927736,
+                    "y": 0.0033872127532958986,
+                    "z": -0.9839888215065002
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.892192006111145,
+                    "z": 0.0,
+                    "w": -0.451656311750412
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "ad1f00c90f134c918e4e03f1bb7bcc81",
+                "brainName": "ad1f00c90f134c918e4e03f1bb7bcc81",
+                "tags": [],
+                "renderableUri": "poly:assets/eqsqytb0uPG",
+                "memoryJson": "{}",
+                "displayName": "pompier camion",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.5479536056518556,
+                    "y": 0.0,
+                    "z": -1.0704021453857422
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.965586245059967,
+                    "z": 0.0,
+                    "w": 0.2600833475589752
+                },
+                "localScale": {
+                    "x": 0.7535430788993836,
+                    "y": 0.7535430788993836,
+                    "z": 0.7535430788993836
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.5479536056518556,
+                    "y": 0.0,
+                    "z": -1.0704021453857422
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.965586245059967,
+                    "z": 0.0,
+                    "w": 0.2600833475589752
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "e019f795681b44d19ebc50992755851b",
+                "brainName": "ad1f00c90f134c918e4e03f1bb7bcc81",
+                "tags": [],
+                "renderableUri": "poly:assets/eqsqytb0uPG",
+                "memoryJson": "{}",
+                "displayName": "pompier camion-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.7503693103790285,
+                    "y": 0.0,
+                    "z": -1.3499667644500733
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.9669348001480103,
+                    "z": 0.0,
+                    "w": 0.2550239562988281
+                },
+                "localScale": {
+                    "x": 0.7535430788993836,
+                    "y": 0.7535430788993836,
+                    "z": 0.7535430788993836
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.7503693103790285,
+                    "y": 0.0,
+                    "z": -1.3499667644500733
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.9669348001480103,
+                    "z": 0.0,
+                    "w": 0.2550239562988281
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "af2a9545063d47bb92d0d3bb5b9ccf3c",
+                "brainName": "af2a9545063d47bb92d0d3bb5b9ccf3c",
+                "tags": [],
+                "renderableUri": "poly:assets/0QjRoZvnOKT",
+                "memoryJson": "{}",
+                "displayName": "Coin",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 5.282909870147705,
+                    "y": 1.0126863718032838,
+                    "z": -0.4684649109840393
+                },
+                "rotation": {
+                    "x": -0.32666078209877016,
+                    "y": 0.40013647079467776,
+                    "z": -0.3110252916812897,
+                    "w": 0.7977762222290039
+                },
+                "localScale": {
+                    "x": 0.17306391894817353,
+                    "y": 0.17306391894817353,
+                    "z": 0.17306391894817353
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 5.282909870147705,
+                    "y": 1.0126863718032838,
+                    "z": -0.4684649109840393
+                },
+                "spawnRotation": {
+                    "x": -0.32666078209877016,
+                    "y": 0.40013647079467776,
+                    "z": -0.3110252916812897,
+                    "w": 0.7977762222290039
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "a51b6c56afd54f4da3430e958cfa1eb9",
+                "brainName": "af2a9545063d47bb92d0d3bb5b9ccf3c",
+                "tags": [],
+                "renderableUri": "poly:assets/0QjRoZvnOKT",
+                "memoryJson": "{}",
+                "displayName": "Coin-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 5.485063076019287,
+                    "y": 1.0128860473632813,
+                    "z": -0.34582650661468508
+                },
+                "rotation": {
+                    "x": -0.289694219827652,
+                    "y": 0.32886549830436709,
+                    "z": -0.4277050197124481,
+                    "w": 0.7905651330947876
+                },
+                "localScale": {
+                    "x": 0.17306391894817353,
+                    "y": 0.17306391894817353,
+                    "z": 0.17306391894817353
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 5.485063076019287,
+                    "y": 1.0128860473632813,
+                    "z": -0.34582650661468508
+                },
+                "spawnRotation": {
+                    "x": -0.289694219827652,
+                    "y": 0.32886549830436709,
+                    "z": -0.4277050197124481,
+                    "w": 0.7905651330947876
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "7349a8b2269343d7b678f0a600860388",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.423868179321289,
+                    "y": 0.38457393646240237,
+                    "z": -0.8914096355438232
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.423868179321289,
+                    "y": 0.38457393646240237,
+                    "z": -0.8914096355438232
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "fe9193915cb4458ab6ed521302e4f0ad",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.957780361175537,
+                    "y": 0.38361215591430666,
+                    "z": -0.9917625188827515
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.957780361175537,
+                    "y": 0.38361215591430666,
+                    "z": -0.9917625188827515
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "6dfb8a979d83478eaf4aa54f53d77889",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.3095967769622804,
+                    "y": 0.38022518157958987,
+                    "z": -1.4590145349502564
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.3095967769622804,
+                    "y": 0.38022518157958987,
+                    "z": -1.4590145349502564
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "db88659982c94d6ea6e22ef5419fc8b1",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.8675358295440676,
+                    "y": 0.38022470474243166,
+                    "z": -1.5385715961456299
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 2.8675358295440676,
+                    "y": 0.38022470474243166,
+                    "z": -1.5385715961456299
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "165342c9db4f40889e5d6651a5a7d51c",
+                "brainName": "165342c9db4f40889e5d6651a5a7d51c",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/CommentPanel",
+                "memoryJson": "{}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 7.241004943847656,
+                    "y": 0.23581337928771974,
+                    "z": 0.6887812614440918
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "localScale": {
+                    "x": 1.5753333568572999,
+                    "y": 1.5753333568572999,
+                    "z": 1.5753333568572999
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "Check pug: pin over nose, 2 coins over eyes\n",
+                "spawnPosition": {
+                    "x": 7.241004943847656,
+                    "y": 0.23581337928771974,
+                    "z": 0.6887812614440918
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "4cbf02bfee1c4ef3bc21ca7584474bc7",
+                "brainName": "4cbf02bfee1c4ef3bc21ca7584474bc7",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/CommentPanel",
+                "memoryJson": "{}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 0.5121095180511475,
+                    "y": 0.6966891288757324,
+                    "z": -2.0291481018066408
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "localScale": {
+                    "x": 1.775252103805542,
+                    "y": 1.775252103805542,
+                    "z": 1.775252103805542
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "Check walls' corners touch perfectly\n",
+                "spawnPosition": {
+                    "x": 0.5121095180511475,
+                    "y": 0.6966891288757324,
+                    "z": -2.0291481018066408
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "712400c0e76e4b8abe9902decdaff520",
+                "brainName": "712400c0e76e4b8abe9902decdaff520",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/CommentPanel",
+                "memoryJson": "{}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": -0.23072290420532227,
+                    "y": 0.4926590919494629,
+                    "z": -0.5753958225250244
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "localScale": {
+                    "x": 1.700337290763855,
+                    "y": 1.700337290763855,
+                    "z": 1.700337290763855
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "check pins on top of walls, centered\n",
+                "spawnPosition": {
+                    "x": -0.23072290420532227,
+                    "y": 0.4926590919494629,
+                    "z": -0.5753958225250244
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "f48729a2eeb047c89173dc712400cc6f",
+                "brainName": "f48729a2eeb047c89173dc712400cc6f",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/CommentPanel",
+                "memoryJson": "{}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.75
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 2.4506516456604006,
+                    "y": 0.5301295518875122,
+                    "z": 0.32128381729125979
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "localScale": {
+                    "x": 1.4751027822494507,
+                    "y": 1.4751027822494507,
+                    "z": 1.4751027822494507
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "Check 2 firetrucks fit snuggly into walls\n",
+                "spawnPosition": {
+                    "x": 2.4506516456604006,
+                    "y": 0.5301295518875122,
+                    "z": 0.32128381729125979
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "680822010ac342979ff198a9e892975c",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 8.973190307617188,
+                    "y": 1.5,
+                    "z": -3.5301055908203127
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 8.973190307617188,
+                    "y": 1.5,
+                    "z": -3.5301055908203127
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "e75fec0241914ee78803e6a8921723e8",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 11.055732727050782,
+                    "y": 1.5,
+                    "z": -3.643521785736084
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 11.055732727050782,
+                    "y": 1.5,
+                    "z": -3.643521785736084
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "baecd2e597b9487dbb98c5cbad41526a",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 11.156011581420899,
+                    "y": 1.5,
+                    "z": -1.3159881830215455
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 11.156011581420899,
+                    "y": 1.5,
+                    "z": -1.3159881830215455
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "34b823c7072647df9248b958dd31a434",
+                "brainName": "e0192139687a413cadd94e3d8ad9b8e8",
+                "tags": [],
+                "renderableUri": "poly:assets/0ZooEG4LdJF",
+                "memoryJson": "{}",
+                "displayName": "Bowling pin-Clone-Clone-Clone",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 8.866738319396973,
+                    "y": 1.5,
+                    "z": -1.3939305543899537
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 0.4059627652168274,
+                    "y": 0.4059627652168274,
+                    "z": 0.4059627652168274
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 8.866738319396973,
+                    "y": 1.5,
+                    "z": -1.3939305543899537
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": true,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.05000000074505806,
+                "mass": 1.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "46db00607af346ea95fcd7aef84313aa",
+                "brainName": "__DEFAULT_BRAIN__",
+                "tags": [],
+                "renderableUri": "poly:assets/2i6hRvDu_s5",
+                "memoryJson": "{\"__bulm\":{\"81ceae6f46f841f193b5aedb8b786e66\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "This is just a test",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 10.0,
+                    "y": 0.0,
+                    "z": -5.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 10.0,
+                    "y": 0.0,
+                    "z": -5.0
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.0,
+                "mass": 0.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "95f7b5e5f9484754b5b22f71fd86c4b3",
+                "brainName": "__DEFAULT_BRAIN__",
+                "tags": [],
+                "renderableUri": "poly:assets/2i6hRvDu_s5",
+                "memoryJson": "{\"__bulm\":{\"81ceae6f46f841f193b5aedb8b786e66\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "This is just a test",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 12.5,
+                    "y": 0.0,
+                    "z": -2.5
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 12.5,
+                    "y": 0.0,
+                    "z": -2.5
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.0,
+                "mass": 0.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "35ef2bbb194144b4b7ec28be0f41ca02",
+                "brainName": "__DEFAULT_BRAIN__",
+                "tags": [],
+                "renderableUri": "poly:assets/5_mL2EUPZ1N",
+                "memoryJson": "{\"__bulm\":{\"81ceae6f46f841f193b5aedb8b786e66\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "Raccoon",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 4.123565673828125,
+                    "y": 0.0,
+                    "z": 6.32269287109375
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 2.647432327270508,
+                    "y": 2.647432327270508,
+                    "z": 2.647432327270508
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 4.123565673828125,
+                    "y": 0.0,
+                    "z": 6.32269287109375
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.0,
+                "mass": 0.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            },
+            {
+                "version": 7,
+                "name": "16e6ef78efeb43dab66d4856e164ff63",
+                "brainName": "__DEFAULT_BRAIN__",
+                "tags": [],
+                "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+                "memoryJson": "{\"__bulm\":{\"81ceae6f46f841f193b5aedb8b786e66\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "Text",
+                "description": "",
+                "tint": {
+                    "r": 0.003921568859368563,
+                    "g": 0.003921568859368563,
+                    "b": 0.003921568859368563,
+                    "a": 0.7450980544090271
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 0.5440521240234375,
+                    "y": 1.0,
+                    "z": 6.779388427734375
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 6.0,
+                    "y": 6.0,
+                    "z": 6.0
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "this raccoon should look grey-ish\nnot totally black. see thumbnail",
+                "spawnPosition": {
+                    "x": 0.5440521240234375,
+                    "y": 1.0,
+                    "z": 6.779388427734375
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": false,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.0,
+                "mass": 0.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": false
+            },
+            {
+                "version": 7,
+                "name": "67a67aabc84a4f7886e738649aeb2379",
+                "brainName": "__DEFAULT_BRAIN__",
+                "tags": [],
+                "renderableUri": "poly:assets/28wLiDkPRG0",
+                "memoryJson": "{\"__bulm\":{\"81ceae6f46f841f193b5aedb8b786e66\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+                "displayName": "SVA astro",
+                "description": "",
+                "tint": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0,
+                    "a": 0.0
+                },
+                "transformParent": "",
+                "position": {
+                    "x": 7.5,
+                    "y": 0.0,
+                    "z": 7.5
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "localScale": {
+                    "x": 2.5004184246063234,
+                    "y": 2.5004184246063234,
+                    "z": 2.5004184246063234
+                },
+                "renderableOffset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "renderableRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "commentText": "",
+                "spawnPosition": {
+                    "x": 7.5,
+                    "y": 0.0,
+                    "z": 7.5
+                },
+                "spawnRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "preferOffstage": false,
+                "isSolid": true,
+                "enablePhysics": false,
+                "enableGravity": false,
+                "bounciness": 0.0,
+                "drag": 0.0,
+                "angularDrag": 0.0,
+                "mass": 0.0,
+                "freezeRotations": false,
+                "freezeX": false,
+                "freezeY": false,
+                "freezeZ": false,
+                "enableAiming": false,
+                "hideInPlayMode": false,
+                "keepUpright": false,
+                "isPlayerControllable": false,
+                "debugString": "",
+                "cloneParent": "",
+                "velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "angularVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "cameraActor": "",
+                "spawnTransformParent": "",
+                "wasClonedByScript": false,
+                "loopingAnimation": "",
+                "cameraSettingsJson": "",
+                "lightSettingsJson": "",
+                "pfxId": "",
+                "sfxId": "",
+                "useConcaveCollider": true
+            }
+        ]
+    },
+    "gridState": {
+        "version": 1,
+        "cellString": "",
+        "v2Data": "7c7BDUBQFETRQQN/J1GGCkSR6rFUlicsdMDiTHJztpMkR7U9dlVb+pkkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkL2skXw63U8ta7OPXf0iSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMk/ewI="
+    },
+    "behaviorDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "__GameRulesBrain__",
+            "Player",
+            "__DEFAULT_BRAIN__",
+            "0f7095c906ae41cb8b556090a660ac8b",
+            "e0192139687a413cadd94e3d8ad9b8e8",
+            "0939b2ae49274c4fa18f261daa4ae3fd",
+            "ad1f00c90f134c918e4e03f1bb7bcc81",
+            "af2a9545063d47bb92d0d3bb5b9ccf3c",
+            "165342c9db4f40889e5d6651a5a7d51c",
+            "4cbf02bfee1c4ef3bc21ca7584474bc7",
+            "712400c0e76e4b8abe9902decdaff520",
+            "f48729a2eeb047c89173dc712400cc6f"
+        ],
+        "brains": [
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "d19bb9f2188f4016b00648968a90b5f3",
+                        "behaviorUri": "builtin:Wizard Controller",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "a41c0c6c9a924396bf6520111e239ee3",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "9859448eebfb495fa4d66f554b29135e",
+                        "behaviorUri": "builtin:Takes damage",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "BroadcastDeath",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "StartingHealth",
+                                "valueJson": "{\"value\":3}"
+                            },
+                            {
+                                "propertyName": "SecondsToRespawn",
+                                "valueJson": "{\"value\":3}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "85a3ffef5e1e463bb250e350b278f8ba",
+                        "behaviorUri": "builtin:Hide in play mode",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Hide",
+                                "valueJson": "{\"value\":true}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d40c3a8972bd4dd7973d1563b38966be",
+                        "behaviorUri": "builtin:Team",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Team",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7000b1beb20b47cebf64dd9fbb09fd57",
+                        "behaviorUri": "builtin:Grabbing",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "6adce54aea354f2ca0250b8a338c01a1",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "6eb2a92729ff43deb2683f7d2a4b71bd",
+                        "behaviorUri": "builtin:Player Controls",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Speed",
+                                "valueJson": "{\"value\":5}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": [
+                    {
+                        "id": "81ceae6f46f841f193b5aedb8b786e66",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            },
+            {
+                "metadataJson": "",
+                "behaviorUses": []
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "stage": {
+        "version": 3,
+        "groundSize": 0.0,
+        "groundSizeX": 500.0,
+        "groundSizeZ": 500.0,
+        "skyType": "Day",
+        "skyColor": {
+            "r": 0.5,
+            "g": 0.5,
+            "b": 0.5,
+            "a": 1.0
+        },
+        "groundType": "Grass",
+        "groundColor": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "initialCameraMode": "FirstPerson",
+        "isoCamRotationIndex": 0,
+        "nightMode": false
+    },
+    "sojoDatabase": {
+        "sojos": [
+            {
+                "id": "builtin:Explosion",
+                "name": "Explosion",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":3,\"speed\":8,\"volume\":[14,14,12,10,9,8,6,5,4,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[54,50,47,44,43,41,39,37,36,35,34,32,31,30,28,27,26,24,23,22,22,21,21,21,20,20,20,20,20,20,20,20]}}"
+            },
+            {
+                "id": "builtin:Collect",
+                "name": "Collect",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":8,\"volume\":[12,15,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[28,40,48,55,55,55,57,59,60,60,61,61,63,63,63,63,63,63,63,63,63,63,63,63,62,63,63,62,61,60,60,61]}}"
+            },
+            {
+                "id": "builtin:Laser",
+                "name": "Laser",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":2,\"speed\":14,\"volume\":[12,12,12,11,9,8,7,6,5,4,3,3,2,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[45,41,37,34,33,32,30,30,28,27,26,25,24,23,22,21,20,20,20,20,20,20,20,19,19,18,18,18,18,18,18,19]}}"
+            },
+            {
+                "id": "builtin:Hit",
+                "name": "Hit",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":3,\"speed\":14,\"volume\":[15,13,11,7,4,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[42,35,32,29,27,27,25,24,23,22,22,22,22,21,21,21,21,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]}}"
+            },
+            {
+                "id": "builtin:Lose",
+                "name": "Lose",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":8,\"volume\":[16,16,16,16,13,8,6,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[43,43,35,35,29,29,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22]},\"steamWorkshopId\":0}"
+            },
+            {
+                "id": "builtin:Win",
+                "name": "Win",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":1,\"volume\":[16,16,16,16,13,8,6,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[20,20,30,30,38,38,47,47,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53]},\"steamWorkshopId\":0}"
+            },
+            {
+                "id": "builtin:ExplosionPfx",
+                "name": "Explosion",
+                "contentType": "ParticleEffect",
+                "content": "{\"isLocal\":false,\"duration\":0.699999988079071,\"speed\":3.0,\"startSize\":3.0,\"endSize\":1.0,\"shapeType\":1,\"shapeSize\":1.0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":1.0,\"g\":0.6000000238418579,\"b\":0.20000000298023225,\"a\":1.0},\"position\":0.0,\"id\":\"4b4e477b-5fd4-4121-972e-61d9b1523fce\"},{\"value\":{\"r\":0.5,\"g\":0.0,\"b\":0.0,\"a\":0.699999988079071},\"position\":0.5,\"id\":\"da4e9d58-6497-4606-8fb2-8347713d0686\"},{\"value\":{\"r\":0.30000001192092898,\"g\":0.0,\"b\":0.10000000149011612,\"a\":0.0},\"position\":1.0,\"id\":\"e5ae406e-ece0-4794-9c3a-b54acf8aff8c\"}],\"burstCount\":15}"
+            },
+            {
+                "id": "builtin:FountainPfx",
+                "name": "Fountain",
+                "contentType": "ParticleEffect",
+                "content": "{\"isLocal\":false,\"duration\":1.0,\"speed\":1.0,\"startSize\":0.5,\"endSize\":0.5,\"shapeType\":0,\"shapeSize\":1.0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":0.6000000238418579,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"position\":0.0,\"id\":\"4d792bf3-23ab-41af-b663-635996710a74\"},{\"value\":{\"r\":0.0,\"g\":0.6000000238418579,\"b\":1.0,\"a\":0.0},\"position\":1.0,\"id\":\"34ecd760-eafa-4473-b9c6-3af7e72a64f9\"}],\"burstCount\":30}"
+            },
+            {
+                "id": "builtin:GlowPfx",
+                "name": "Glow",
+                "contentType": "ParticleEffect",
+                "content": "{\"isLocal\":false,\"duration\":2.0,\"speed\":0.4000000059604645,\"startSize\":0.30000001192092898,\"endSize\":0.0,\"shapeType\":4,\"shapeSize\":1.0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":1.0,\"g\":1.0,\"b\":0.30000001192092898,\"a\":1.0},\"position\":0.0,\"id\":\"98342768-83c6-4521-bdd9-54ffe7136e39\"},{\"value\":{\"r\":1.0,\"g\":0.6000000238418579,\"b\":0.0,\"a\":0.0},\"position\":1.0,\"id\":\"7461085f-100b-43fd-ac5d-11d37c6a6db8\"}],\"burstCount\":6}"
+            }
+        ]
+    }
+}

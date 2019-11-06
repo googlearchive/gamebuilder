@@ -1,0 +1,53 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Returns whether the given actor is visible in play mode.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {boolean} Whether the actor is visible.
+ */
+function isVisible(actor) {
+  return !ApiV2Context.instance.getActor(actor).getHideInPlayMode();
+}
+
+/**
+ * Makes the current actor visible in play mode. Note that being visible
+ * or not will not affect the actor's physics behavior. so, for example,
+ * hitting an invisible wall will still prevent movement.
+ * 
+ * <p>This only affects the actor's visibility in play mode.
+ * Actors are always visible in edit mode.
+ *
+ * @param {boolean=} visible If <tt>true</tt> or omitted, makes the actor visible. If
+ *     <tt>false</tt>, makes the actor invisible.
+ */
+function show(visible = true) {
+  ApiV2Context.instance.getActor().setHideInPlayMode(!visible);
+}
+
+/**
+ * Makes the current actor invisible in play mode. Note that being visible
+ * or not will not affect the actor's physics behavior, so, for example,
+ * hitting an invisible wall will still prevent movement.
+ *
+ * <p>This only affects the actor's visibility in play mode.
+ * Actors are always visible in edit mode.
+ */
+function hide() {
+  show(false);
+}

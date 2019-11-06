@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a603ca56417194c4fbf2ac70d2c3efd1, type: 3}
+  m_Name: PtSettings
+  m_EditorClassIdentifier: 
+  playerColorSpace: 1
+  surfaceShaderMaterials:
+  - shaderUrl: https://vr.google.com/shaders/w/gvrss/paper.json
+    material: {fileID: 2100000, guid: 0e87b49c65463a343a448a556d7d6c3e, type: 2}
+    descriptor: {fileID: 11400000, guid: d6f6de76308b4b05386f187491479d94, type: 2}
+  - shaderUrl: https://vr.google.com/shaders/w/gvrss/gem.json
+    material: {fileID: 2100000, guid: 79b25d2d8ffdf4c4eb448df9609dfdc7, type: 2}
+    descriptor: {fileID: 11400000, guid: 71dc5ead67382b75789dd72c8058d553, type: 2}
+  - shaderUrl: https://vr.google.com/shaders/w/gvrss/glass.json
+    material: {fileID: 2100000, guid: 537db0387b31e004888533b91562f23d, type: 2}
+    descriptor: {fileID: 11400000, guid: 185ca6407d6d6095e95d6695d994a12b, type: 2}
+  assetObjectsPath: Assets/Poly/Assets
+  assetSourcesPath: Assets/Poly/Sources
+  resourcesPath: Assets/Poly/Resources
+  sceneUnit:
+    amount: 1
+    unit: 0
+  defaultImportOptions:
+    baseOptions:
+      rescalingMode: 0
+      scaleFactor: 1
+      desiredSize: 1
+      recenter: 1
+      clientThrottledMainThread: 0
+    alsoInstantiate: 1
+  brushManifest: {fileID: 11400000, guid: 2b3e59298bb8cfc47bddd1e1ea01be06, type: 2}
+  basePbrOpaqueDoubleSidedMaterial: {fileID: 2100000, guid: a24c5cab5717b124889fe758761686b4,
+    type: 2}
+  basePbrBlendDoubleSidedMaterial: {fileID: 2100000, guid: b2b07ce943390e34993803beeb1e8548,
+    type: 2}
+  authConfig:
+    apiKey: INSERT YOUR API KEY HERE
+    clientId: 
+    clientSecret: 
+    additionalScopes: []
+    serviceName: 
+  cacheConfig:
+    cacheEnabled: 1
+    maxCacheSizeMb: 512
+    maxCacheEntries: 2048
+    cachePathOverride: 
+  sendEditorAnalytics: 1
+  warnOnSourceOverwrite: 1
+  warnOfApiCompatibility: 1

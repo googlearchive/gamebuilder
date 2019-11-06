@@ -1,0 +1,328 @@
+{
+    "version": 2,
+    "label": "wateringcan",
+    "actors": [
+        {
+            "version": 8,
+            "name": "0015064cde744c15a17db75c1609f547",
+            "brainName": "cc488ff303fb4da59268c6d5e8bc7442",
+            "tags": [],
+            "renderableUri": "builtin:BuiltinAssets/Farming/wateringcan",
+            "memoryJson": "{\"__bulm\":{\"ed0ab3baf8e94e6a95ce46b9ec1d79ae\":{\"actionDeckState\":{}},\"5dbc13d8562b44b68b60e0badd9e8451\":{\"actionDeckState\":{\"decksInfo\":{\"UseDeck\":{\"active\":false,\"endTime\":9640.2275390625,\"lastActionMessageTime\":9639.7275390625}}}},\"77cf6f8917f94449aca3f03509684416\":{\"actionDeckState\":{\"decksInfo\":{}}},\"db933da7b4ce45509e400db46c77c208\":{\"actionDeckState\":{\"decksInfo\":{}}}},\"__variables\":{\"owner\":null,\"grabbable\":true}}",
+            "displayName": "wateringcan",
+            "description": "",
+            "tint": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+            },
+            "transformParent": "",
+            "position": {
+                "x": -23.412883758544923,
+                "y": -0.0000016391277313232422,
+                "z": 15.598373413085938
+            },
+            "rotation": {
+                "x": 4.889443072642052e-9,
+                "y": 0.9778274297714233,
+                "z": 4.9360089349193007e-8,
+                "w": -0.2094125598669052
+            },
+            "localScale": {
+                "x": 1.0000029802322388,
+                "y": 1.0,
+                "z": 1.0000029802322388
+            },
+            "renderableOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "renderableRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "commentText": "",
+            "spawnPosition": {
+                "x": -22.340545654296876,
+                "y": 0.0,
+                "z": 17.4788818359375
+            },
+            "spawnRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "preferOffstage": false,
+            "isSolid": true,
+            "enablePhysics": true,
+            "enableGravity": true,
+            "bounciness": 0.0,
+            "drag": 0.0,
+            "angularDrag": 0.05000000074505806,
+            "mass": 1.0,
+            "freezeRotations": false,
+            "freezeX": false,
+            "freezeY": false,
+            "freezeZ": false,
+            "enableAiming": false,
+            "hideInPlayMode": false,
+            "keepUpright": true,
+            "isPlayerControllable": false,
+            "debugString": "",
+            "cloneParent": "",
+            "velocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "angularVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "cameraActor": "",
+            "spawnTransformParent": "",
+            "wasClonedByScript": false,
+            "loopingAnimation": "",
+            "cameraSettingsJson": "",
+            "lightSettingsJson": "",
+            "pfxId": "",
+            "sfxId": "",
+            "useConcaveCollider": true,
+            "speculativeColDet": false,
+            "useStickyDesiredVelocity": false,
+            "stickyDesiredVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ],
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "cc488ff303fb4da59268c6d5e8bc7442"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.44800132513046267,\"viewPosition\":{\"x\":769.6481323242188,\"y\":-589.4622802734375},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":990.0,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "ed0ab3baf8e94e6a95ce46b9ec1d79ae",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "5dbc13d8562b44b68b60e0badd9e8451",
+                        "behaviorUri": "builtin:Grabbable Item Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "CanUse",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "UseDeck",
+                                "valueJson": "{\"value\":[\"77cf6f8917f94449aca3f03509684416\",\"db933da7b4ce45509e400db46c77c208\"]}"
+                            },
+                            {
+                                "propertyName": "CustomOffset",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "CustomRotation",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "RotationX",
+                                "valueJson": "{\"value\":0.0}"
+                            },
+                            {
+                                "propertyName": "RotationY",
+                                "valueJson": "{\"value\":315.0}"
+                            },
+                            {
+                                "propertyName": "RotationZ",
+                                "valueJson": "{\"value\":0.0}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "77cf6f8917f94449aca3f03509684416",
+                        "behaviorUri": "builtin:Spawn Particle Effect",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "ParticleEffect",
+                                "valueJson": "{\"value\":\"builtin:FountainPfx\"}"
+                            },
+                            {
+                                "propertyName": "Scale",
+                                "valueJson": "{\"value\":0.25}"
+                            },
+                            {
+                                "propertyName": "RotationY",
+                                "valueJson": "{\"value\":0.0}"
+                            },
+                            {
+                                "propertyName": "RotationX",
+                                "valueJson": "{\"value\":90.0}"
+                            },
+                            {
+                                "propertyName": "RotationZ",
+                                "valueJson": "{\"value\":315.0}"
+                            },
+                            {
+                                "propertyName": "OffsetX",
+                                "valueJson": "{\"value\":0.3499999940395355}"
+                            },
+                            {
+                                "propertyName": "OffsetZ",
+                                "valueJson": "{\"value\":0.3499999940395355}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "db933da7b4ce45509e400db46c77c208",
+                        "behaviorUri": "builtin:BroadcastMessageActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "LimitRange",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "Range",
+                                "valueJson": "{\"value\":1.0}"
+                            },
+                            {
+                                "propertyName": "Message",
+                                "valueJson": "{\"value\":\"Water\"}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "sojos": [
+        {
+            "id": "builtin:FountainPfx",
+            "name": "Fountain",
+            "contentType": "ParticleEffect",
+            "content": "{\"isLocal\":false,\"duration\":1.0,\"speed\":1.0,\"startSize\":0.5,\"endSize\":0.5,\"shapeType\":0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":0.6000000238418579,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"position\":0.0,\"id\":\"4d792bf3-23ab-41af-b663-635996710a74\"},{\"value\":{\"r\":0.0,\"g\":0.6000000238418579,\"b\":1.0,\"a\":0.0},\"position\":1.0,\"id\":\"34ecd760-eafa-4473-b9c6-3af7e72a64f9\"}],\"burstCount\":30}"
+        }
+    ],
+    "category": "gameplay",
+    "workshopId": "",
+    "actorData": {
+        "version": 0,
+        "name": "",
+        "brainName": "",
+        "tags": [],
+        "renderableUri": "",
+        "memoryJson": "",
+        "displayName": "",
+        "description": "",
+        "tint": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "localScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.0,
+        "mass": 0.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "angularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": "",
+        "useConcaveCollider": false,
+        "speculativeColDet": false,
+        "useStickyDesiredVelocity": false,
+        "stickyDesiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

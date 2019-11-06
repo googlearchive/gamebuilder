@@ -1,0 +1,130 @@
+{
+    "label": "Boulder",
+    "actorData": {
+        "version": 3,
+        "creatorName": "",
+        "name": "4fcd836ebe7e4538af78a6903fc37581",
+        "brainName": "a96e4868a7ad46a6b64a2ed62092ac74",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Boulder",
+        "memoryJson": "{\"__bulm\":{\"e792383a5949474b9ee396275189b20a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":3637.503662109375,\"lastActionMessageTime\":3637.003662109375}}}}},\"health\":3,\"__attribs\":{}}",
+        "displayName": "Boulder",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 91.73403930664063,
+            "y": 1.4643062353134156,
+            "z": 87.81660461425781
+        },
+        "rotation": {
+            "x": -0.7937695980072022,
+            "y": -0.4076996445655823,
+            "z": 0.4188195466995239,
+            "w": -0.168228879570961
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 2.2608489990234377,
+            "y": 0.0,
+            "z": 17.18412971496582
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.1558823585510254,
+            "y": 0.0,
+            "z": 0.4871774911880493
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "editorMetadata": ""
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "3a8a9d57833f4e7e896339c5d93611a3",
+            "63fe3484a65a41daad728df89a2d1e5c",
+            "e792383a5949474b9ee396275189b20a"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "a96e4868a7ad46a6b64a2ed62092ac74",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "a96e4868a7ad46a6b64a2ed62092ac74",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "a96e4868a7ad46a6b64a2ed62092ac74",
+                "behaviorUri": "builtin:Movement Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "moveDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    },
+    "category": "gameplay"
+}

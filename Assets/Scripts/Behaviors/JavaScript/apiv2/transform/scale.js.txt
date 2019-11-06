@@ -1,0 +1,123 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets the scale of an actor, assuming it's uniform. Uniform means
+ * the scale is the same in all 3 axes (x, y, z).
+ *
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {number} The scale of the actor, assuming it's uniform. If it
+ *   isn't, you will get the biggest of the X, Y and Z components of the scale.
+ * @example
+ * export function onTick() {
+ *   log("My uniform scale is " + getScaleUniform());
+ * }
+ */
+function getScaleUniform(actor) {
+  const localScale = getScale(actor);
+  return Math.max(localScale.x, localScale.y, localScale.z);
+}
+
+/**
+ * Sets the scale of the current actor (uniform scale). Uniform means the
+ * scale is the same in all 3 axes (x, y, z).
+ *
+ * @param {number} scale The new uniform scale of the actor.
+ * @example
+ * export function onTick() {
+ *   // Make the actor's size oscillate:
+ *   let size = 1.1 + Math.sin(getTime())
+ *   setScaleUniform(size);
+ * }
+ */
+function setScaleUniform(scale) {
+  setScale(new THREE.Vector3(scale, scale, scale));
+}
+
+/**
+ * Gets the scale of an actor.
+ *
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The scale of the actor.
+ * @example
+ * export function onTick() {
+ *   log("My scale is " + getScale());
+ * }
+ */
+function getScale(actor) {
+  return ApiV2Context.instance.getActor(actor).getLocalScale();
+}
+
+/**
+ * Sets the scale of the current actor.
+ *
+ * @param {THREE.Vector3} scale The new scale of the actor.
+ * @example
+ * export function onTick() {
+ *   // Make the size oscillate, and make it always twice as wide
+ *   // as it's tall.
+ *   let size = 1.1 + Math.sin(getTime())
+ *   let scale = vec3(size * 2, size, size)
+ *   setScale(scale);
+ * }
+ */
+function setScale(scale) {
+  assertVector3(scale);
+  ApiV2Context.instance.getActor().setLocalScale(scale);
+}
+
+/**
+ * Grows the actor by the given amount.
+ * 
+ * This means increasing the actor's scale component by
+ * the given amount. For example, if the actor started with the default
+ * scale (1,1,1) and you call grow(3), then the object's new scale will
+ * be (4,4,4).
+ *
+ * @param {number} amount The amount to grow. If this is negative,
+ *    then the object will shrink instead (as in {@link shrink}).
+ * @example
+ * export function onTick() {
+ *   // Increase actor's scale by 1 every second until the scale reaches 10.
+ *   if (getScaleUniform() < 10) grow(deltaTime());
+ * }
+ */
+function grow(amount) {
+  let scale = getScale();
+  setScale(vec3(Math.max(0, scale.x + amount), Math.max(scale.y + amount), Math.max(scale.z + amount)));
+}
+
+/**
+ * Shrinks the actor by the given amount.
+ * 
+ * This means decreasing the actor's scale component by
+ * the given amount. For example, if the actor started with the default
+ * scale (1,1,1) and you call shrink(0.25), then the object's new scale will
+ * be (0.75, 0.75, 0.75).
+ *
+ * @param {number} amount The amount to shrink. If this is negative,
+ *     the object will grow instead (as in {@link grow}).
+ * @example
+ * export function onTick() {
+ *   // Decrease actor's scale by 0.1 every second until the scale reaches 0.5.
+ *   if (getScaleUniform() > 0.5) shrink(0.1 * deltaTime());
+ * }
+ */
+function shrink(amount) {
+  grow(-amount);
+}

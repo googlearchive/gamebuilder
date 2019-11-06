@@ -1,0 +1,12 @@
+#!/bin/bash
+set -v
+if [ -z "$1" ]; then
+  echo "Provide search term."
+  exit 1
+fi
+
+grep \
+  --include '*.cs' \
+  --include '*.js.txt' \
+  -R "$1" *
+

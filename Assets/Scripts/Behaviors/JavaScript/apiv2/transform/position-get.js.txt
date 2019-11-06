@@ -1,0 +1,177 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets the actor's X coordinate (world coordinate).
+ * @param {ActorRef=} actor The actor whose X coordinate to get. If omitted, defaults to the current actor.
+ * @return {number} The actor's X coordinate, in world space.
+ * @example
+ * export function onTick() { 
+ *   log("My X coordinate is " + getPosX());
+ * }
+ */
+function getPosX(actor) {
+  return getPos(actor).x;
+}
+
+/**
+ * Gets the actor's Y coordinate (world coordinate).
+ * @param {ActorRef=} actor The actor whose Y coordinate to get. If omitted, defaults to the current actor.
+ * @return {number} The actor's Y coordinate, in world space.
+ * @example
+ * export function onTick() { 
+ *   log("My Y coordinate is " + getPosY());
+ * }
+ */
+function getPosY(actor) {
+  return getPos(actor).y;
+}
+
+/**
+ * Gets the actor's Z coordinate (world coordinate).
+ * @param {ActorRef=} actor The actor whose Z coordinate to get. If omitted, defaults to the current actor.
+ * @return {number} The actor's Z coordinate, in world space.
+ * @example
+ * export function onTick() { 
+ *   log("My Z coordinate is " + getPosZ());
+ * }
+ */
+function getPosZ(actor) {
+  return getPos(actor).z;
+}
+
+/**
+ * Gets the actor's position, in world coordinates.
+ * @param {ActorRef=} actor The actor whose position to get. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The position of the actor, in world coordinates.
+ * @example
+ * export function onTick() {
+ *   log("My position is " + getPos())
+ * }
+ */
+function getPos(actor) {
+  return ApiV2Context.instance.getActor(actor).getPosition();
+}
+
+/**
+ * Calculates the distance from the current actor to the given actor.
+ * @param {ActorRef|THREE.Vector3} actorOrPoint The actor or point in world space
+ *     to measure the distance to.
+ * @return {number} The distance to the given actor or point in world space.
+ */
+function getDistanceTo(actorOrPoint) {
+  return getPos().distanceTo(ApiV2Context.instance.getActorPosOrPoint(actorOrPoint));
+}
+
+/**
+ * Calculates the distance between the two given actors or points.
+ * @param {ActorRef|THREE.Vector3} actorOrPoint1
+ *     The actor or point in world space to measure the distance from.
+ * @param {ActorRef|THREE.Vector3} actorOrPoint2
+ *     The actor or point in world space to measure the distance to.
+ * @return {number} The distance.
+ */
+function getDistanceBetween(actorOrPoint1, actorOrPoint2) {
+  const p1 = ApiV2Context.instance.getActorPosOrPoint(actorOrPoint1);
+  const p2 = ApiV2Context.instance.getActorPosOrPoint(actorOrPoint2);
+  return p1.distanceTo(p2);
+}
+
+/**
+ * Gets the local position of an actor (relative to parent).
+ *
+ * @param {ActorRef=} actor The actor to get the position of. If ommitted,
+ *     will get the position of the current actor.
+ * @return {THREE.Vector3} The position of the actor, in local coordinates.
+ *
+ * @example
+ * export function onTick() {
+ *   log("My LOCAL position is " + getLocalPos())
+ * }
+ */
+function getLocalPos(actor) {
+  return ApiV2Context.instance.getActor(actor).getLocalPosition();
+}
+
+/**
+ * Gets the actor's spawn position.
+ * @param {ActorRef=} actor The actor whose spawn position to get. If omitted, defaults
+ *     to the current actor.
+ * @return {THREE.Vector3} The spawn position of the actor, in world coordinates.
+ * @example
+ * export function onTick() {
+ *   log("My spawn position is " + getSpawnPos())
+ * }
+ */
+function getSpawnPos(actor) {
+  return ApiV2Context.instance.getActor(actor).getSpawnPosition();
+}
+
+/**
+ * Converts a point in the actor's (self) space to world space.
+ * @param {THREE.Vector3} selfPos The position in the actor's space.
+ * @param {ActorRef=} actor The actor. If omitted, defaults
+ *     to the current actor.
+ * @return {THREE.Vector3} The corresponding point in world space.
+ */
+function selfToWorldPos(selfPos, actor) {
+  const mat = new THREE.Matrix4();
+  // NOTE: We don't use scale here, since scale should only affect the actor's visual geometry,
+  // not the actor space (questionable?)
+  mat.compose(getPos(actor), getRot(actor), new THREE.Vector3(1, 1, 1));
+  return selfPos.clone().applyMatrix4(mat);
+}
+
+/**
+ * Converts a point in world space to the actor's (self) space.
+ * @param {THREE.Vector3} worldPos The position in world space.
+ * @param {ActorRef=} actor The actor. If omitted, defaults
+ *     to the current actor.
+ * @return {THREE.Vector3} The corresponding point in the actor's self space.
+ */
+function worldToSelfPos(worldPos, actor) {
+  const mat = new THREE.Matrix4();
+  const inverseMat = new THREE.Matrix4();
+  // NOTE: We don't use scale here, since scale should only affect the actor's visual geometry,
+  // not the actor space (questionable?)
+  mat.compose(getPos(actor), getRot(actor), new THREE.Vector3(1, 1, 1));
+  inverseMat.getInverse(mat, false);
+  return worldPos.clone().applyMatrix4(inverseMat);
+}
+
+/**
+ * Converts a direction in the actor's (self) space to world space.
+ * @param {THREE.Vector3} selfDir The direction in the actor's space.
+ * @param {ActorRef=} actor The actor. If omitted, defaults
+ *     to the current actor.
+ * @return {THREE.Vector3} The corresponding direction in world space.
+ */
+function selfToWorldDir(selfDir, actor) {
+  return selfDir.clone().applyQuaternion(getRot(actor));
+}
+
+/**
+ * Converts a direction in world space to the actor's (self) space.
+ * @param {THREE.Vector3} worldDir The direction in world space.
+ * @param {ActorRef=} actor The actor. If omitted, defaults
+ *     to the current actor.
+ * @return {THREE.Vector3} The corresponding direction in the actor's self space.
+ */
+function worldToSelfDir(worldDir, actor) {
+  return worldDir.clone().applyQuaternion(getRot(actor).inverse());
+}

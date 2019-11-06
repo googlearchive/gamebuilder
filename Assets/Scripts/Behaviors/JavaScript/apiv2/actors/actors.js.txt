@@ -1,0 +1,452 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * An actor reference is an opaque reference that you can use without
+ * worrying about what its type actually is. It's just a way to refer
+ * to an actor.
+ * 
+ * <p>Spoiler: it's really just a string with its internal ID, nothing fancy.
+ * 
+ * <p>Any time you see that a function takes an <tt>ActorRef</tt> as a parameter,
+ * you can pass any actor. Functions typically default to the <em>current</em> actor
+ * (the actor on which the script is running) when the <tt>ActorRef</tt> parameter
+ * is omitted.</p>
+ * 
+ * <p>You can always get the reference to the current actor by calling {@link myself()}.</p>
+ * 
+ * @typedef {string} ActorRef
+ */
+// DOC_ONLY: var ActorRef = {};
+
+/**
+ * An actor group reference is an opaque type (spoiler: it's a string) that
+ * specifies a criterion to select some actors.
+ *
+ * <p>You can use it with such functions as {@link isActorInGroup} or
+ * {@link getActorsInGroup}.
+ * 
+ * <p>You normally get a value of this type when you have an actor group
+ * property on your script. See {@link propActorGroup}.
+ * 
+ * @typedef {string} ActorGroupRef
+ */
+// DOC_ONLY: var ActorRef = {};
+
+
+/**
+ * Gets the current actor (self).
+ * @return {ActorRef} The current actor (the one on which this script is running).
+ */
+function myself() {
+  return ApiV2Context.instance.getActor().getName();
+}
+
+/**
+ * Destroys the current actor.
+ * This is not immediate, so any code you have after this call might still
+ * execute. For safety, put this at the end of your logic, or put a return statement
+ * right after it.
+ * 
+ * <p>Use this with caution! Resetting the game will NOT bring the actor back.
+ *
+ * @example
+ * export function onTick() {
+ *   if (someConditionHere) {
+ *     destroySelf();
+ *     return;
+ *   }
+ *   // ... other logic here ...
+ * }
+ */
+function destroySelf() {
+  ApiV2Context.instance.api.destroySelf();
+}
+
+/**
+ * Checks if the given actor exists.
+ * 
+ * <p>This is useful if you have a reference to an actor that could be either
+ * unset or could refer to an actor that no longer exists. For example,
+ * if your reference is set from a script property (see {@link props}),
+ * then the user of your script (which could be you!) might have forgotten
+ * to set the actor reference.</p>
+ * 
+ * <p>So, when in doubt, check.
+ * 
+ * @param {ActorRef} actor The actor to check.
+ * @example
+ * export const PROPS = [
+ *   propActor("target")
+ * ]
+ *
+ * export function onTick() {
+ *   if (!exists(props.target)) {
+ *     // User forgot to assign an actor to our "target" property,
+ *     // or the assigned actor was deleted.
+ *     log("Turret has no target set! Fix this in the Inspector!");
+ *     cooldown(5);
+ *   }
+ * }
+ */
+function exists(actor) {
+  return !!ApiV2Context.instance.api.isValidActor(actor);
+}
+
+/**
+ * Gets a list of all the actors in the scene.
+ * Use sparingly. This may be slow if you have a lot of actors.
+ * It's best to use {@link getAllWithTag} or get a smaller subset
+ * with {@link overlapSphere} or {@link raycast} if possible.
+ * @return {ActorRef[]} All the actors in the scene.
+ */
+function getActors() {
+  return ApiV2Context.instance.api.getActorNames();
+}
+
+/**
+ * Gets a list of actors that are players.
+ * @return {ActorRef[]} The list of player actors.
+ */
+function getPlayerActors() {
+  return ApiV2Context.instance.getPlayerActorNames();
+}
+
+/**
+ * Gets a list of all actors with the given tag.
+ * If you just want one actor with the given tag, use {@link getActorWithTag}.
+ *
+ * @param {string} tag The tag to look for.
+ * @return {Actor[]} An array of all actors with the given tag.
+ * @example
+ * // Imagine this is a button that the user can press on a spaceship cockpit:
+ * export function onCollision() {
+ *   // Get all objects tagged as "podbaydoor":
+ *   let actors = getActorsWithTag("podbaydoor");
+ *   // Now open all the pod bay doors.
+ *   sendToMany(actors, "Open");
+ * }
+ */
+function getActorsWithTag(tag) {
+  assertString(tag);
+  return ApiV2Context.instance.api.getActorNamesWithTag(tag);
+}
+
+/**
+ * Gets the actor that has the given tag. If there is more than one,
+ * returns an arbitrary one. If you want all the actors with a given
+ * tag, use {@link getActorsWithTag} instead.
+ *
+ * @param {string} tag The tag to look for.
+ * @return {ActorRef} The actor with the given tag, if there was one.
+ *     If there was more than one, returns an arbitrary one. If there was
+ *     none, returns <tt>null</tt>.
+ */
+function getActorWithTag(tag) {
+  const actors = getActorsWithTag(tag);
+  return actors.length > 0 ? actors[0] : null;
+}
+
+/**
+ * Determines if the actor has a given tag.
+ * @param {string} tag The tag to check.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {boolean} <tt>true</tt> if the actor has the given tag,
+ *     otherwise <tt>false</tt>.
+ */
+function hasTag(tag, actor) {
+  assertString(tag);
+  return ApiV2Context.instance.getActor(actor).hasTag(tag);
+}
+
+// DEPRECATED. Kept for compatibility with old games.
+var getGameRulesActor = function () {
+  // Kept for legacy scenes that have a Game Rules actor.
+  return "__GameRules__";
+}
+
+/**
+ * Checks if the given actor is onstage.
+ * @param {ActorRef=} actor actor The actor to check. If omitted, defaults to the
+ *     current actor.
+ * @return {boolean} True if the actor is onstage, false if offstage.
+ */
+function isOnstage(actor) {
+  return !isOffstage(actor);
+}
+
+/**
+ * Checks if the given actor is offstage.
+ * @param {ActorRef=} actor actor The actor to check. If omitted, defaults to the
+ *     current actor.
+ * @return {boolean} True if the actor is offstage, false if onstage.
+ */
+function isOffstage(actor) {
+  return ApiV2Context.instance.getActor(actor).isOffstageEffective();
+}
+
+/**
+ * If the current actor is onstage, move it to the offstage area (that is,
+ * remove it from the scene).
+ * 
+ * <p>Offstage actors are not rendered and do not collide, so they are effectively
+ * removed from the scene.
+ * 
+ * <p>(Advanced) Note about hierarchies: when an actor moves on or offstage, it brings its
+ * entire subtree of descendants with it. Example: suppose you have a plane actor
+ * that's the parent of a wing actor that's the parent of a turbine actor.
+ * Then, if you move the plane offstage, the wing and the turbine will also
+ * go offstage with the plane. When you bring the plane back onstage, the
+ * wing and turbine will come with it. HOWEVER, if you move a child on/offstage
+ * independently of the parent, it will detach itself from the parent.
+ * In this example, if the plane starts out onstage and you move JUST the
+ * wing offstage, then the wing will detach from the plane and go offstage,
+ * resulting in a wingless plane left onstage, and the wing-with-turbine
+ * system offstage. If later you bring the wing back onstage, it will not
+ * automatically reattach to the plane, you must do that manually.
+ */
+function goOffstage() {
+  ApiV2Context.instance.goOnOrOffstage(false);
+}
+
+/**
+ * If the current actor is offstage, moves it onstage (adding it back to the scene).
+ *
+ * <p>(Advanced) Note about hierarchies: when an actor moves on or offstage, it brings its
+ * entire subtree of descendants with it. Example: suppose you have a plane actor
+ * that's the parent of a wing actor that's the parent of a turbine actor.
+ * Then, if you move the plane offstage, the wing and the turbine will also
+ * go offstage with the plane. When you bring the plane back onstage, the
+ * wing and turbine will come with it. HOWEVER, if you move a child on/offstage
+ * independently of the parent, it will detach itself from the parent.
+ * In this example, if the plane starts out onstage and you move JUST the
+ * wing offstage, then the wing will detach from the plane and go offstage,
+ * resulting in a wingless plane left onstage, and the wing-with-turbine
+ * system offstage. If later you bring the wing back onstage, it will not
+ * automatically reattach to the plane, you must do that manually.
+ */
+function goOnstage() {
+  ApiV2Context.instance.goOnOrOffstage(true);
+}
+
+/**
+ * Determines if the actor is part of the given group.
+ * @param {ActorGroupRef} actorGroup The actor group to check.
+ * @example
+ * export const PROPS = [
+ *   propActorGroup("actorsOfInterest");
+ * ]
+ * 
+ * // If I collide against any actors in the actorsOfInterest group,
+ * // I set my color to green.
+ * export function onCollision(msg) {
+ *   if (isActorInGroup(msg.other, props.actorsOfInterest)) {
+ *     setTintHex("#00ff00");
+ *   }
+ * }
+ */
+function isActorInGroup(actor, actorGroup) {
+  assert(exists(actor), `Given actor ${actor} does not exist.`);
+  assertString(actorGroup, "actorGroup should be the value of an actor group property.");
+  if (!actorGroup) {
+    return false;
+  } else if (actorGroup.toUpperCase() === "@ANY") {
+    return true;
+  } else if (actorGroup.toUpperCase().startsWith("@TAG:")) {
+    return hasTag(actorGroup.substr("@TAG:".length), actor);
+  }
+  return actorGroup === actor;
+}
+
+/**
+ * Returns a list of actors that are part of the given actor group and that are
+ * within a certain range.
+ *
+ * @param {ActorGroupRef} actorGroup The actor group to check.
+ * @param {number?} range The range to check. If omitted, the range is infinite (whole scene).
+ * @param {boolean=} includeSelf If true, include self in list if applicable. If false, excludes self.
+ * @return {ActorRef[]} An array of actors, which may be empty.
+ */
+function getActorsInGroup(actorGroup, range, includeSelf = false) {
+  assertString(actorGroup, "actorGroup should be the value of an actor group property.");
+  // Cheap cases first (optimization):
+  if (!actorGroup) {
+    // Actor group is not set (null or ""). Matches no actors.
+    return [];
+  }
+  if (!actorGroup.startsWith("@")) {
+    // Group is a specific actor. Return a list with only that actor, if in range, or
+    // an empty list, if not in range.
+    return exists(actorGroup) && (!range || getDistanceTo(actorGroup) <= range) ? [actorGroup] : [];
+  }
+  let tag = null;
+  if (actorGroup.toUpperCase().startsWith("@TAG:")) {
+    tag = actorGroup.substr("@TAG:".length);
+  } else if (actorGroup.toUpperCase().startsWith("@ANY")) {
+    // No filtering needed.
+  } else {
+    throw new Error("Invalid actor group: " + actorGroup);
+  }
+  let candidates;
+  if (range) {
+    // Special opt for "sees player" case
+    // TODO technically if the player is huge, this won't behave the same as an
+    // overlap test.
+    if (tag !== null && tag.toUpperCase() == "PLAYER") {
+      candidates = [];
+      for (let player of getPlayerActorsCached()) {
+        if (getDistanceTo(player) <= range) {
+          candidates.push(player);
+        }
+      }
+    }
+    else {
+      candidates = overlapSphere(getPos(), range, tag);
+    }
+  } else {
+    candidates = getActors().filter(actor =>
+      isOnstage(actor) &&
+      (tag == null || hasTag(tag, actor)));
+  }
+  if (!includeSelf) {
+    candidates = candidates.filter(actor => myself() !== actor);
+  }
+  return candidates;
+}
+
+/**
+ * Returns a human-readable description of an actor group. The actor group
+ * is the value of a {@link propActorGroup} property.
+ *
+ * @param {ActorGroupRef} actorGroup The actor group.
+ * @param {boolean=} wantSingular If true, try to return the string in the singular.
+ *     So for example, say 'any actor' instead of 'all actors', 'a player' instead
+ *     of 'players', etc.
+ * @return {string} A human-readable description of what the actor group is.
+ */
+function getActorGroupDescription(actorGroup, wantSingular = false) {
+  if (!actorGroup) {
+    // No actors.
+    return wantSingular ? "no actor" : "no actors";
+  }
+  if (actorGroup.toUpperCase().startsWith("@TAG:")) {
+    // Actors with a tag.
+    const tag = actorGroup.substr("@TAG:".length);
+    return tag === 'player' ? (wantSingular ? "a player" : "players") :
+      ((wantSingular ? "an actor" : "actors") + " tagged '" + tag + "'");
+  }
+  if (actorGroup.toUpperCase().startsWith("@ANY")) {
+    return wantSingular ? "any actor" : "all actors";
+  }
+  // Specific actor.
+  return exists(actorGroup) ? "actor '" + getDisplayName(actorGroup) + "'" : "MISSING";
+}
+
+/**
+ * Returns the actor in the given list that is the closest to the current actor.
+ * If omitted, returns the closest actor in the scene.
+ * @param {ActorRef[]?} actors The list of actors to search.
+ * @return {ActorRef} The closest actor, or null if none.
+ */
+function getClosestActor(actors) {
+  actors = actors || getActors();
+  let closest = null, closestDist;
+  for (const actor of actors) {
+    if (!exists(actor) || actor === myself()) continue;
+    const thisDist = getDistanceTo(actor);
+    if (!closest || thisDist < closestDist) {
+      closest = actor;
+      closestDist = thisDist;
+    }
+  }
+  return closest;
+}
+
+/**
+ * Gets what actor this card should act on, based on the "target actor" property.
+ * This requires the card to declare a target actor property with {@link propCardTargetActor}.
+ *
+ * @param {string} propName Name of the property. Defaults to CardTargetActor.
+ * @param {ActionMessage} actionMessage The action message (for action cards).
+ * @return {ActorRef?} The actor, or null if not found.
+ */
+function getCardTargetActor(propName, actionMessage = null) {
+  assertString(propName, "propName");
+  if (props[propName] === undefined) {
+    throw new Error("getCardTargetActor: property " + propName + " does not exist. You need to add it to your card.");
+  }
+  const owner = getAttrib("owner");
+  let rv;
+  switch (props[propName]) {
+    case "SELF":
+      rv = myself();
+      break;
+    case "EVENT_CAUSER":
+      rv = (actionMessage && actionMessage.event) ? actionMessage.event.actor : null;
+      break;
+    case "AIM_TARGET":
+      if (isPlayerControllable()) {
+        rv = getAimTarget();
+      } else if (owner && exists(owner) && isPlayerControllable(owner)) {
+        // I'm owned by a player actor, so use my owner's aim target.
+        rv = getAimTarget(owner);
+      } else {
+        throw new Error("'My aim target' value can only be used on players (or on items held by a player), not on " + getDisplayName());
+      }
+      break;
+    case "OWNER":
+      rv = owner;
+      break;
+    case "OTHER":
+      rv = props[propName + "Other"];
+      break;
+    default:
+      throw new Error("Invalid value for target actor property: " + props[propName]);
+  }
+  return exists(rv) ? rv : null;
+}
+
+/**
+ * Returns a human-readable description of the property value of the given
+ * card target actor property (defined with {@link propCardTargetActor}).
+ * 
+ * @param {string} propName The name of the property for which to return the description.
+ * @return {string} A human-readable description that's suitable for debug text
+ *     or card description text, like 'myself', 'the event causer', 'the aim target', etc.
+ */
+function getCardTargetActorDescription(propName) {
+  switch (props[propName]) {
+    case "SELF":
+      return 'myself';
+      break;
+    case "EVENT_CAUSER":
+      return 'the event causer';
+      break;
+    case "AIM_TARGET":
+      return 'my aim target';
+      break;
+    case "OWNER":
+      return 'my owner';
+      break;
+    case "OTHER":
+      const otherActor = props[propName + "Other"];
+      return `actor '${getDisplayName(otherActor)}'`;
+    default:
+      return '???';
+  }
+}

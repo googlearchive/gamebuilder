@@ -1,0 +1,93 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets the actor's velocity.
+ * 
+ * <p>Note that this only works for actors whose position is being modified as an
+ * effect of physics, not for actors whose position is being directly manipulated by
+ * functions like {@link move}, etc. Those will have zero velocity.
+ *
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ * @return {THREE.Vector3} The actor's velocity, in world space.
+ */
+function getVelocity(actor) {
+  return ApiV2Context.instance.getActor(actor).getVelocity();
+}
+
+/**
+ * Adds a velocity change to the current actor.
+ * 
+ * <p>This only applies to actors that can be affected by physics
+ * (non-kinematic objects), so only actors that use the <tt>OBJECT</tt>
+ * or <tt>CHARACTER</tt> physics preset.
+ *
+ * <p>Note: the velocity of the actor will change on the next tick,
+ * so calling {@link getVelocity} on the actor on the same tick as
+ * {@link addVelocity} may not return the recently added velocity.
+ *
+ * @param {THREE.Vector3} velocity The velocity to add, in world coordinates.
+ */
+function addVelocity(velocity) {
+  assertVector3(velocity);
+  ApiV2Context.instance.api.addVelocityChange(velocity);
+}
+
+/**
+ * Adds a torque to the current actor.
+ * 
+ * <p>This only applies to actors that can be affected by physics
+ * (non-kinematic objects), so only actors that use the <tt>OBJECT</tt>
+ * or <tt>CHARACTER</tt> physics preset.
+ *
+ * <p>Note: the velocity of the actor will change on the next tick,
+ * so calling {@link getAngularVelocity} on the actor on the same tick as
+ * {@link addTorque} may not reflect the recently added torque.
+ *
+ * @param {THREE.Vector3} torque The torque to add, in world coordinates.
+ */
+function addTorque(torque) {
+  assertVector3(torque);
+  ApiV2Context.instance.api.addTorque(torque);
+}
+
+/**
+ * Requests a change in velocity in (that is, "push") another actor.
+ * 
+ * <p>The result of this is "pushing" the actor, meaning adding an instantaneous
+ * velocity to it. You could do this to kick a ball, launch a projectile, etc.
+ * 
+ * <p>In technical terms, what happens is that this function will send a message
+ * to the given actor asking it to add a velocity to itself. So technically
+ * you don't kick the ball, you gently send it a message asking it to kick itself.
+ * So the target actor must have a handler for the <tt>VelocityChange</tt>
+ * message in order for this to work. This is in the default behavior for actors,
+ * so unless you changed it, it should work as expected.
+ * 
+ * @param {ActorRef} actor The actor to add the velocity to.
+ * @param {THREE.Vector3} velocity The velocity to add.
+ * @param {boolean=} affectKinematic If true (default), affects kinematic objects
+ *     as well (send them flying with the given kinematic velocity). If false
+ *     only physics-based objects will be affected.
+ */
+function push(actor, velocity, affectKinematic = true) {
+  assertString(actor, 'actor');
+  assertVector3(velocity, 'velocity');
+  send(actor, 'AddVelocityChange', { velocityChange: velocity, affectKinematic: affectKinematic });
+}
+

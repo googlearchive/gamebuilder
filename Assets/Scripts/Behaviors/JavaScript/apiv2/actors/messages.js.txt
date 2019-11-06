@@ -1,0 +1,458 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Sets a cooldown time for re-delivery of the current message type.
+ * 
+ * <p>This means that further deliveries of the same message type will
+ * be ignored for the given amount of time.
+ * 
+ * <p>This is useful if a message triggers some game effect that shouldn't
+ * happen all the time and you want to wait a few seconds before
+ * it can be triggered again.
+ *
+ * <p>For example, a floor tile might trigger a trap
+ * where a rotten egg shoots from the wall (how do we even come up with these
+ * examples?), but you don't want that trap to trigger more than once every 5
+ * seconds.
+ * 
+ * <p>It's a good practice to set a cooldown of a few seconds on anything
+ * that can be triggered repeatedly in a short period of time, like
+ * collisions, etc, especially when the event involves doing something
+ * costly like cloning an actor.
+ * 
+ * @example
+ * export PROPS = [
+ *   propActor("egg")
+ * ]
+ *
+ * export function onCollision() {
+ *   // Shoot a rotten egg.
+ *   clone(props.egg, getPointBehind(2));
+ *   // Disable onCollision messages for 30 seconds. Otherwise if the player
+ *   // hits the treasure chest 30 times, we'd have 30 dragons.
+ *   cooldown(30);
+ * }
+ *
+ * @param {number} deltaSeconds The number of seconds during which
+ *     re-delivery of the current message type will be blocked. 
+ */
+function cooldown(deltaSeconds) {
+  assertNumber(deltaSeconds);
+  ApiV2Context.instance.api.setCooldown(deltaSeconds);
+}
+
+/**
+ * Sends a message to the given actor.
+ * @param {ActorRef} actor The actor to which to send the message.
+ * @param {string} messageName The name of the message to send.
+ * @param arg Optional argument to the message. This can be anything
+ *     you want (a number, a string, a complex object). The destination
+ *     actor will receive this as a parameter in the message handler.
+ *
+ * @example
+ * // SENDING ACTOR:
+ *
+ * // Send a message with no argument:
+ * send(targetActor, "OpenEyes");
+ * // Send a message with a numeric argument:
+ * send(targetActor, "GoToFloor", 12);
+ * // Send a message with a string argumnet:
+ * send(targetActor, "EatFruit", "blueberry");
+ * // Send a message with an object argument:
+ * send(targetActor, "MakeTea", { name: "Earl Grey", temperature: 195 });
+ *
+ * @example
+ * // RECEIVING ACTOR:
+ *
+ * // The correct handler for the message will automatically get
+ * // called on the target actor:
+ * export function onOpenEyes(arg) {
+ *   // arg is null, since the caller didn't provide an argument.
+ *   // (You could omit it from the declaration for clarity
+ *   // and use just 'export function onOpenEyes()').
+ *   log("Opening eyes.");
+ * }
+ * export function onGoToFloor(arg) {
+ *   // arg is 12
+ *   log("Going to floor " + arg);
+ * }
+ * export function onEatFruit(arg) {
+ *   // arg is "blueberry"
+ *   log("Eating a " + arg);
+ * }
+ * export function onMakeTea(arg) {
+ *   // arg is an object.
+ *   // arg.name is "Earl Grey"
+ *   // arg.temperature is 195
+ *   log("Making " + arg.name + "...");
+ *   log("Heating it to " + arg.temperature + " degrees...");
+ * }
+ */
+function send(actor, messageName, arg) {
+  ApiV2Context.instance.sendMessage(actor, messageName, null, arg);
+}
+
+/**
+ * Sends a delayed message to the given actor.
+ * 
+ * This is like {@link send} but waits for the specified amount of time before
+ * delivering the message.
+ *
+ * @param {number} delaySeconds The delay in seconds.
+ * @param {ActorRef} actor The actor to which to send the message.
+ * @param {string} messageName The name of the message to send.
+ * @param arg Optional argument to the message.
+ */
+function sendDelayed(delaySeconds, actor, messageName, arg) {
+  ApiV2Context.instance.sendMessage(actor, messageName, delaySeconds, arg);
+}
+
+/**
+ * Sends a message to the given actors.
+ *
+ * This is a convenient variant
+ * of {@link send} that sends a message to multiple actors instead of one.
+ *
+ * @param {ActorRef[]} actors The actors to which to send the message.
+ *     This is an array.
+ * @param {string} messageName The name of the message to send.
+ * @param arg Optional argument to the message. This can be anything
+ *     you want (a number, a string, a complex object). The destination
+ *     actor will receive this as a parameter in the message handler.
+ *
+ * @example
+ * // Figure out who's within a distance of 5 units of me.
+ * let actorsNearby = overlapSphere(getPos(), 5);
+ * // Send them all a message, with argument 1234.
+ * sendToMany(actorsNearby, "SomeMessage", 1234);
+ */
+function sendToMany(actors, messageName, arg) {
+  for (const actor of actors) {
+    send(actor, messageName, arg);
+  }
+}
+
+/**
+ * Sends a delayed message to the given actors.
+ *
+ * This is the same as {@link sendToMany}, but with a delay parameter
+ * indicating how long to wait before message delivery.
+ *
+ * @param {ActorRef[]} actors The actors to which to send the message.
+ *     This is an array.
+ * @param {string} messageName The name of the message to send.
+ * @param arg Optional argument to the message.
+ */
+function sendToManyDelayed(delaySeconds, actors, messageName, arg) {
+  for (const actor of actors) {
+    sendDelayed(delaySeconds, actor, messageName, arg);
+  }
+}
+
+/**
+ * Sends a message to yourself.
+ *
+ * Note that the message is still asynchronous, so it will only be
+ * delivered later. Do not assume that your message handler will be
+ * called instantaneously.
+ *
+ * @param {string} messageName The name of the message to send.
+ * @param arg Optional argument to the message.
+ *
+ * @example
+ * // Send a message to myself:
+ * sendToSelf("EatFruit", "blueberry");
+ * 
+ * @example
+ * // Later, this will be called:
+ * export function onEatFruit(arg) {
+ *   // arg is "blueberry"
+ *   log("Eating a " + arg);
+ * }
+ */
+function sendToSelf(messageName, arg) {
+  send(myself(), messageName, arg);
+}
+
+/**
+ * Sends a message to yourself, with a delay.
+ * 
+ * Same as {@link sendToSelf}, but with a parameter specifying how long to wait
+ * before delivering the message.
+ *
+ * @param {number} delaySeconds The delay, in seconds.
+ * @param {string} messageName The name of the message to send.
+ * @param arg Optional argument to the message.
+ */
+function sendToSelfDelayed(delaySeconds, messageName, arg) {
+  sendDelayed(delaySeconds, myself(), messageName, arg);
+}
+
+/**
+ * Sends a message to all actors on stage.
+ * 
+ * Note that the current actor will also receive it (if it is on stage).
+ *
+ * @param {string} messageName The message to send.
+ * @param arg Optional argument to the message.
+ * @param {boolean=} includeOffstage If true, also send to off-stage actors.
+ *
+ * @example
+ * // I'm the sending actor. I've decided we should all
+ * // be eating blueberries now:
+ * sendToAll("EatFruit", "blueberry");
+ *
+ * @example
+ * // This will be called on EVERY actor (including the sender):
+ *
+ * export function onEatFruit(arg) {
+ *   // arg is "blueberry"
+ *   log("Eating a " + arg);
+ * }
+ */
+function sendToAll(messageName, arg, includeOffstage = false) {
+  ApiV2Context.instance.sendMessageToAll(messageName, null, arg, { onstage: true, offstage: !!includeOffstage });
+}
+
+/** Synonym for {@link sendToAll}. */
+function broadcast(messageName, arg, includeOffstage = false) {
+  sendToAll(messageName, arg, includeOffstage);
+}
+
+/**
+ * Sends a message to all actors on stage, after a given delay.
+ * 
+ * Note that the current actor will also receive it (if it is on stage).
+ * This is the same as {@link sendToAll} but with a delay parameter indicating how long to wait.
+ *
+ * @param {string} messageName The message to send.
+ * @param arg Optional argument to the message.
+ * @param {boolean=} includeOffstage If true, also send to off-stage actors.
+ */
+function sendToAllDelayed(delaySeconds, messageName, arg, includeOffstage = false) {
+  ApiV2Context.instance.sendMessageToAll(messageName, delaySeconds, arg, { onstage: true, offstage: !!includeOffstage });
+}
+
+/**
+ * Returns the actor that sent us the current message, if any.
+ * @return {ActorRef?} The actor that sent us the current message, or null if there is no sender
+ *     (this could happen if the message was delivered by the system or by an actor that no
+ *     longer exists, for instance).
+ * @example
+ * export function onRequestWeather() {
+ *   const sender = getMessageSender();
+ *   if (exists(sender)) {
+ *     // Let's reply.
+ *     log(getDisplayName(sender) + " asked us for the weather.");
+ *     send(sender, "WeatherReport", "It's 28 degrees and cloudy.");
+ *   }
+ * }
+ */
+function getMessageSender() {
+  const sender = ApiV2Context.instance.api.messageSender;
+  return exists(sender) ? sender : null;
+}
+
+/** @typedef {string} CardRef */
+/** @typedef {CardRef[]} CardDeckRef */
+
+/**
+ * Calls a card deck (or single card).
+ * 
+ * This is meant for use from within panel scripts that have slots for cards.
+ * This will deliver a synchronous message to the individual card or deck of cards.
+ *
+ * @param {CardDeckRef|CardRef} deckOrCard The card deck or single card to call.
+ * @param {string} messageName The name of the message to deliver.
+ * @param arg The argument of the message. This can be of any type.
+ * @return If called with an array of cards (typical), the return value is an array of the
+ *     return values of the message handlers called on the individual cards. If called
+ *     with a single card, the return value is the return value of the handler for that
+ *     one card. A value of <tt>undefined</tt> means the handler did not return a value,
+ *     or could not be called for some reason.
+ * @example
+ * export const PROPS = [
+ *   propDeck("DeckA"),
+ *   propDeck("DeckB")
+ * ]
+ * 
+ * // Imagine this is a panel that accepts two deck of cards. One of them
+ * // should be executed on odd seconds of game time, and the other is supposed
+ * // to be executed on even seconds of game time (a somewhat contrived example,
+ * // but it's simple to demonstrate!)
+ * export function onTick() {
+ *   const even = Math.floor(getTime()) % 2 == 0;
+ *   // Send the Ping message to the appropriate deck of cards depending on the timer:
+ *   callDeck(even ? props.DeckA : props.DeckB, "Ping");
+ * }
+ */
+function callDeck(deckOrCard, messageName, arg) {
+  // Don't let users call this with action cards -- they should use callActionDeck instead.
+  if (messageName === "Activate" || messageName === "Action" || messageName === "Deactivate" || messageName === "ActiveTick") {
+    throw new Error("callDeck() can't be used with action card decks " +
+      " (Activate, Action, Deactivate, ActiveTick messages). Use callActionDeck() instead.");
+  }
+  // If card ID is empty or null, do nothing.
+  if (!deckOrCard) return;
+  // If this is called with an array, it's the same as calling it for each element (convenience):
+  if (Array.isArray(deckOrCard)) {
+    return ApiV2Context.instance.callDeck(deckOrCard, messageName, arg);
+  } else {
+    return ApiV2Context.instance.callCard(deckOrCard, messageName, arg);
+  }
+}
+
+/**
+ * Calls an action card deck.
+ *
+ * <p>This is meant to be used from a panel that has a {@see propDeck}
+ * property that contains Action cards. When you want to execute
+ * the actions in the deck, call this function.
+ *
+ * <p>If your panel executes actions continuously, call this on every
+ * frame while the action is supposed to be happening. If your panel
+ * executes actions sporadically, call this only once when you want the
+ * action to execute. The underlying implementation takes care of
+ * all the details of delivering the right messages to the action
+ * cards in either case. If you want to know the technical details,
+ * keep reading (but you don't need to).
+ *
+ * <p>Technical details: actions can be either discrete (fire a projectile) or
+ * continuous (movement). Discrete actions are signaled through
+ * the <tt>Action</tt> message, and continuous actions are signaled
+ * through the delivery of <tt>ActiveTick</tt> message on every frame.
+ * When you call this function every frame, it will start by sending
+ * an <tt>Action</tt> message and an <tt>Activate</tt> message on the
+ * first frame, then will send <tt>ActiveTick</tt> on every subsequent
+ * frame (and will send <tt>Action</tt> again every
+ * <tt>pulseInterval</tt> seconds), then will finally send
+ * <tt>Deactivate</tt> on the last frame (at which point it also
+ * stops sending <tt>ActiveTick</tt>.
+ *
+ * <p>This means that an Action card can either react to
+ * the <tt>ActiveTick</tt> message (if it's a continuous action)
+ * or to the <tt>Action</tt> message, if it's a discrete action.
+ *
+ * @param {string} deckName The name of the deck property.
+ * @param {GActionMessage} actionMessage The action message to deliver.
+ * @param {number=} duration How long to keep the action deck activated,
+ *     after you stop calling this function every frame (so if you
+ *     call just once, this is the duration of the activation).
+ * @param {number=} pulseInterval What interval to pulse the action deck.
+ *     The action deck will receive the <tt>Action</tt> message every
+ *     pulse interval while activated.
+ * @example
+ * export const PROPS = [
+ *   propString("KeyToListenFor"),
+ *   propDeck("ActionsToRun")
+ * ]
+ * 
+ * // Imagine this is a panel where the user can specify which keyboard
+ * // key to listen to, and a deck of action cards to run when the
+ * // key is pressed.
+ * export function onKeyDown(msg) {
+ *   if (msg.keyName === props.KeyToListenFor) {
+ *     // Call the action deck. This handles all the bookkeeping of
+ *     // sending the right messages at the right times to the deck.
+ *     callActionDeck("ActionsToRun");
+ *   }
+ * }
+ */
+function callActionDeck(deckName, actionMessage, duration = 0.5, pulseInterval = 0.6) {
+  actionMessage = actionMessage || { event: {} };
+  assertString(deckName);
+  if (props[deckName] === undefined) {
+    // Props are not initialized yet - this can happen on startup, so don't sweat it.
+    return;
+  }
+  assert(props[deckName], "deckName must be an existing property of the card.");
+  assert(Array.isArray(props[deckName]), "props[deckName] must be a card deck.");
+  assert(actionMessage && actionMessage.event, "actionMessage must be a GActionMessage with an event");
+  assertNumber(duration);
+  assertNumber(pulseInterval);
+  ApiV2Context.instance.getActionDeckHelper().activateDeck(deckName, actionMessage, duration, pulseInterval);
+}
+
+/**
+ * Calls an event card deck.
+ *
+ * <p>This is meant to be used from a panel that has a {@see propDeck}
+ * property that contains Event cards. When you want to check for.
+ * events, use this function.</p>
+ *
+ * @param {string} deckName The name of the event deck.
+ * @param {boolean=} onlyEdge If true, only fire events on an edge, that is,
+ *     only consider it an event if an event fires after no event has fired
+ *     for a while (currently 0.2s).
+ * @return {GEvent} The event that fired, or null if none.
+ */
+function callEventDeck(deckName, onlyEdge = false) {
+  const eventDeck = props[deckName];
+  assert(eventDeck && Array.isArray(eventDeck), "callEventDeck: not a card deck: " + deckName);
+  let eventToDeliver = null;
+  let evalFinished = false;
+  // Go through event deck asking them to check for events.
+  // The semantics is AND, so all cards must return an event or true in order for us to succeed.
+  for (const eventCard of eventDeck) {
+    const ret = callDeck(eventCard, "Check", { event: eventToDeliver });
+    // Reminder: all cards in the event deck expect a call to Check on every frame, so we
+    // can't "short circuit" the evaluation once we have a result (this causes subtle bugs where
+    // event cards hold on to stale triggered events).
+    if (evalFinished) continue;
+    if (ret === true) {
+      // Card is just a predicate and evaluated to true, so keep current event and proceed.
+      // If we didn't have an event yet, make an empty event corresponding to "predicate is true".
+      eventToDeliver = eventToDeliver || {};
+    } else if (!ret) {
+      // Card evaluated to false as a predicate, or no event was fired, so we don't trigger
+      // (because we use AND semantics).
+      eventToDeliver = null;
+      evalFinished = true;
+    } else if (typeof (ret) === "object") {
+      // Card fired an event. So that's our current event now.
+      eventToDeliver = ret;
+    }
+  }
+  // Is this an "edge"? An edge happens when we have no event in one frame but have
+  // an event on the next.
+  const hasEvent = !!eventToDeliver;
+  temp.eventFiredLastTick = temp.eventFiredLastTick || {};
+  const isEdge = hasEvent && !temp.eventFiredLastTick[deckName];
+  temp.eventFiredLastTick[deckName] = hasEvent;
+
+  return (isEdge || !onlyEdge) ? eventToDeliver : null;
+}
+
+/**
+ * Explicitly deactivates an action deck activated with {@link callActionDeck}.
+ *
+ * <p>This function is rarely needed. Use it if you want to manually
+ * deactivate the action deck that you activated before, instead of
+ * waiting for the timeout to run out.
+ *
+ * <p>We don't know why we have this function. If you discover a
+ * useful purpose for it, please tell us.
+ */
+function deactivateActionDeck(deckName) {
+  assertString(deckName);
+  assert(props[deckName], "deckName must be an existing property of the card.");
+  assert(Array.isArray(props[deckName]), "props[deckName] must be a card deck.");
+  ApiV2Contrext.instance.getActionDeckHelper().deactivateDeck(deckName);
+}
+

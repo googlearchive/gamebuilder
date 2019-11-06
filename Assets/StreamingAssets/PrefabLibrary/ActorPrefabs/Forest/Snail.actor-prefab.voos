@@ -1,0 +1,197 @@
+{
+    "version": 1,
+    "label": "Snail",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "e2c2f0f748d94c9cb1c8db742dfacbd5",
+        "brainName": "2d5f06138b1f4525bd0e825310e0d56e",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Snail",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"42f5da8a5550479e8b7c5bff1ad42474\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":9621.74609375,\"lastActionMessageTime\":9621.24609375}}}},\"ec2327af0ab9480793c9aef858f0c21b\":{},\"d443759d489747db8433afb8c82aac78\":{},\"1a29da28b6e849289c56687b09cc6a13\":{},\"4b9fe7b3b3ab4729a849340a01381a1b\":{},\"9eb54fb1d3f3495f9b7a295c3075c05f\":{},\"a2c747b6f1cf42429c275ca4363fbc59\":{}},\"health\":3,\"__variables\":{\"health\":3,\"startingHealth\":3},\"walkDist\":1.3602728322148323,\"walkDistTarget\":2.793585100473585,\"turnAmount\":0,\"turnAmountTarget\":-1.0351827740033162}",
+        "displayName": "Snail",
+        "description": "",
+        "tint": {
+            "r": 0.9002561569213867,
+            "g": 0.41725245118141177,
+            "b": 0.4274221956729889,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -12.64175796508789,
+            "y": 0.0,
+            "z": 8.248075485229493
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.9999595880508423,
+            "z": 0.0,
+            "w": -0.008993406780064106
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -20.991943359375,
+            "y": 0.0,
+            "z": 11.0274658203125
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": true,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.01798846758902073,
+            "y": 0.0,
+            "z": -0.9998161792755127
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "2d5f06138b1f4525bd0e825310e0d56e"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.5111637711524963,\"viewPosition\":{\"x\":85.96996307373047,\"y\":184.5193328857422},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":2032.070068359375,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":467.07000732421877,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"a2c747b6f1cf42429c275ca4363fbc59\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ec2327af0ab9480793c9aef858f0c21b",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1112.070068359375,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"d443759d489747db8433afb8c82aac78\",\"4b9fe7b3b3ab4729a849340a01381a1b\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"1a29da28b6e849289c56687b09cc6a13\",\"9eb54fb1d3f3495f9b7a295c3075c05f\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d443759d489747db8433afb8c82aac78",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "1a29da28b6e849289c56687b09cc6a13",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "4b9fe7b3b3ab4729a849340a01381a1b",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Hit\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "9eb54fb1d3f3495f9b7a295c3075c05f",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Explosion\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "a2c747b6f1cf42429c275ca4363fbc59",
+                        "behaviorUri": "builtin:MoveRandomWalk",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "character"
+}

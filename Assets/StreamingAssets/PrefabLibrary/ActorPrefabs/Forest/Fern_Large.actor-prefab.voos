@@ -1,0 +1,129 @@
+{
+    "label": "Fern_Large",
+    "actorData": {
+        "version": 3,
+        "creatorName": "",
+        "name": "fe2881dd6cfa4524a92e9c4d10387923",
+        "brainName": "8d2cc0b8129e4393a38db9390557ac0c",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Fern_Large",
+        "memoryJson": "{\"__bulm\":{\"226ee4a47ffe4fc09f6478e207db5a2a\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":2636.30078125,\"lastActionMessageTime\":2635.80078125}}}}},\"health\":3,\"__attribs\":{}}",
+        "displayName": "Fern_Large",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 12.672897338867188,
+            "y": 0.0,
+            "z": -0.5587902069091797
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 12.672897338867188,
+            "y": 0.0,
+            "z": -0.5587902069091797
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "editorMetadata": ""
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+            "f55adcc4c3e949ca994f647d973fda90",
+            "226ee4a47ffe4fc09f6478e207db5a2a"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "8d2cc0b8129e4393a38db9390557ac0c",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "8d2cc0b8129e4393a38db9390557ac0c",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "8d2cc0b8129e4393a38db9390557ac0c",
+                "behaviorUri": "builtin:Movement Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "moveDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    }
+}

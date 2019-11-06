@@ -1,0 +1,109 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * If you implement this function, it will get called when
+ * the game is reset.
+ *
+ * <p>The user can reset the game by clicking the reset button
+ * or by pressing the reset key (usually F6). Resetting the game
+ * means reverting it to the original situation, starting a new
+ * game session.
+ *
+ * <p>Normally, this means that anything the player did during
+ * gameplay should be undone: items should return
+ * to their initial locations, unlocked doors should get
+ * locked again, collapsible bridges must un-collapse,
+ * coins are un-collected, monsters must un-die, the Great Evil
+ * Villain must be un-defeated and once again inhabit the great
+ * evil tower, etc.
+ *
+ * <p>What this means in practice is that if you have anything in
+ * your script that can change due to player interaction, then
+ * <tt>onResetGame</tt> is where you should undo it in preparation
+ * for a new game session.
+ *
+ * @example
+ * export function onCollision() {
+ *   // Collided! Start spinning!
+ *   mem.spinning = true;
+ * }
+ *
+ * export function onTick() {
+ *   // If mem.spinning was set, spin.
+ *   if (mem.spinning) {
+ *     turn(0.1 * deltaTime());
+ *   }
+ * }
+ *
+ * export function onResetGame() {
+ *   // Reset back to non-spinning state.
+ *   mem.spinning = false;
+ * }
+ */
+// DOC_ONLY: function onResetGame() {}
+
+/**
+ * If you implement this function, it will get called when
+ * the game is reset, and also when the card has just been added to
+ * an actor.
+ * 
+ * <p>You can use this function to initialize your card memory
+ * variables.</p>
+ * 
+ * @example
+ * export function onInit() {
+ *   card.collisionCount = 0;
+ * }
+ * 
+ * @example
+ * export function onCollision() {
+ *   card.collisionCount++;
+ *   log("I collided " + card.collisionCount + "times"); 
+ * }
+ */
+// DOC_ONLY: function onInit() {}
+
+/**
+ * If you implement this function, it will get called when an actor
+ * has just spawned (as a clone). This is called on the CLONE, not
+ * on the original.
+ *
+ * <p>You can use this to implement logic that should happen when a
+ * new clone has just been spawned. For example, it could play a sound,
+ * spawn some cool particles, etc.
+ * 
+ * @example
+ * export function onSpawnAsClone(msg) {
+ *   log("I just spawned as a clone!");
+ * 
+ *   // msg.creator is the actor that created the clone:
+ *   log("I was cloned by " + msg.creator);
+ *   // msg.original is the actor that this was cloned from:
+ *   log("The original is " + msg.original);
+ * }
+ */
+// DOC_ONLY: function onSpawnAsClone() {}
+
+/**
+ * Resets the game.
+ * This is equivalent to what happens when you press Ctrl+R (or click the Reset Game button) while playing.
+ */
+function resetGame() {
+  sendToAll("ResetGame", {}, true /* Must include offstage!! */);
+}

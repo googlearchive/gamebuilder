@@ -1,0 +1,1270 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+// Convenience class for some common math things.
+// TODO this should just be part of the MutableActorApi
+class ActorMovementApi {
+  constructor(api) {
+    this.api_ = api;
+  }
+
+  turnLeft(revsPerSecond) {
+    this.turnRight(-1 * revsPerSecond);
+  }
+
+  get dt() {
+    return this.api_.dt;
+  }
+
+  turnRight(revsPerSecond) {
+    const delta = new THREE.Quaternion();
+    delta.setFromAxisAngle(UP_DIR, revsPerSecond * this.dt * 2 *
+      Math.PI);
+    const rot = this.api_.getActor().getRotation();
+    rot.premultiply(delta);
+    this.api_.getActor().setRotation(rot);
+  }
+
+  backward(maxSpeed) {
+    this.forward(maxSpeed * -1);
+  }
+
+  move(deltaVector, scale = 1) {
+    const pos = this.api_.getActor().getPosition();
+    pos.addScaledVector(deltaVector, scale);
+    this.api_.getActor().setPosition(pos);
+  }
+
+  forward(maxSpeed) {
+    const dir = this.getForward();
+    this.move(dir, this.dt * maxSpeed);
+  }
+
+  rightward(maxSpeed) {
+    const dir = this.getRightward();
+    this.move(dir, this.dt * maxSpeed);
+  }
+
+  getForward() {
+    const dir = FORWARD_DIR.clone();
+    dir.applyQuaternion(this.api_.getActor().getRotation());
+    return dir;
+  }
+
+  getRightward() {
+    const dir = RIGHT_DIR.clone();
+    dir.applyQuaternion(this.api_.getActor().getRotation());
+    return dir;
+  }
+
+  getInFrontOf(meters) {
+    const p = this.api_.getActor().getPosition();
+    p.addScaledVector(this.getForward(), meters);
+    return p;
+  }
+
+  above(meters) {
+    const p = this.api_.getActor().getPosition();
+    p.addScaledVector(UP_DIR, meters);
+    return p;
+  }
+}
+
+/**
+ * Read-only interface to read properties of other actors.
+ */
+class OtherActor {
+  constructor(actor) {
+    this.actor_ = actor;
+  }
+
+  getInternalActor() {
+    return this.actor_;
+  }
+
+  /**
+   * Get the name of this actor, for sending messages, etc.
+   * @returns {string}
+   */
+  getName() {
+    return this.actor_.name;
+  }
+
+  /**
+   * Returns true if the actor has the given tag.
+   * @param {string} tag
+   * @returns {boolean}
+   */
+  hasTag(tag) {
+    return this.getJoinedTags().split(",").includes(tag);
+  }
+
+  /**
+   * Get the forward direction of this actor.
+   * @param {THREE.Vector3=} existing Optional. If provided, the forward direction will be stored in this vector.
+   * @returns {THREE.Vector3} A new Vector3, or the provided 'existing'.
+   */
+  getForward(existing = null) {
+    if (!existing) {
+      existing = new THREE.Vector3();
+    }
+    assertVector3(existing);
+    existing.set(0, 0, 1);
+    existing.applyQuaternion(this.getRotation());
+    return existing;
+  }
+
+  /**
+   * Getter for: The dimensions of the bounding box of this actor, in world space.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getBoundsSize(existing = null) {
+    return this.getWorldRenderBoundsSize(existing);
+  }
+  /**
+   * Getter for: The center of the bounding box of this actor, in world space.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getBoundsCenter(existing = null) {
+    return this.getWorldRenderBoundsCenter(existing);
+  }
+
+  getTintRGB() {
+    return this.getActor().getTint();
+  }
+
+  getOpacity() {
+    return this.getActor().getTint().a;
+  }
+
+  // BEGIN_GAME_BUILDER_CODE_GEN OTHER_ACTOR_CLASS_JAVASCRIPT
+  /**
+   * Getter for: (Only valid if isPlayerControllable is true) True if the player is holding the sprint key (usually shift)
+   * @returns {boolean}
+   */
+  getIsSprinting() {    // GENERATED
+    return this.actor_.isSprinting;    // GENERATED
+  }
+  /**
+   * Getter for: (Only valid if isPlayerControllable is true) The player input throttle transformed into world space, according to the camera.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getWorldSpaceThrottle(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getWorldSpaceThrottle argument');    // GENERATED
+    existing.copy(this.actor_.worldSpaceThrottle);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: (Only valid if isPlayerControllable is true) The raw player input throttle, so X is horizontal (A/D) and Y is vertical (W/S)
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getInputThrottle(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getInputThrottle argument');    // GENERATED
+    existing.copy(this.actor_.inputThrottle);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: (Only valid if isPlayerControllable is true) For aiming ray casts, use this direction.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getAimDirection(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getAimDirection argument');    // GENERATED
+    existing.copy(this.actor_.aimDirection);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: (Only valid if isPlayerControllable is true) For aiming ray casts, use this origin.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getAimOrigin(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getAimOrigin argument');    // GENERATED
+    existing.copy(this.actor_.aimOrigin);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: TODO
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getLastAimHitPoint(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getLastAimHitPoint argument');    // GENERATED
+    existing.copy(this.actor_.lastAimHitPoint);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: TODO
+   * @returns {string}
+   */
+  getAimingAtName() {    // GENERATED
+    return this.actor_.aimingAtName;    // GENERATED
+  }
+  /**
+   * Getter for: (Only valid if isPlayerControllable is true) Look axes.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getLookAxes(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getLookAxes argument');    // GENERATED
+    existing.copy(this.actor_.lookAxes);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: If true, this object is in the virtual off-stage area, not on the actual scene.
+   * @returns {boolean}
+   */
+  getPreferOffstage() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 0);    // GENERATED
+  }
+  /**
+   * Getter for: If true, other objects will collide and not go thruogh it. If false, it will still be visible, but other objects can go through it like a ghost.
+   * @returns {boolean}
+   */
+  getIsSolid() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 1);    // GENERATED
+  }
+  /**
+   * Getter for: Enable physics!
+   * @returns {boolean}
+   */
+  getEnablePhysics() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 2);    // GENERATED
+  }
+  /**
+   * Getter for: Enable gravity! Only works if enablePhysics is also true.
+   * @returns {boolean}
+   */
+  getEnableGravity() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 3);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {boolean}
+   */
+  getFreezeRotations() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 4);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {boolean}
+   */
+  getFreezeX() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 5);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {boolean}
+   */
+  getFreezeY() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 6);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {boolean}
+   */
+  getFreezeZ() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 7);    // GENERATED
+  }
+  /**
+   * Getter for: GET RID OF THIS!
+   * @returns {boolean}
+   */
+  getEnableAiming() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 8);    // GENERATED
+  }
+  /**
+   * Getter for: This actor's model will not be rendered in play mode (but still visible in edit). Good for hiding things, like picked-up items.
+   * @returns {boolean}
+   */
+  getHideInPlayMode() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 9);    // GENERATED
+  }
+  /**
+   * Getter for: Keeps the object standing upright, but still responding to physics otherwise.
+   * @returns {boolean}
+   */
+  getKeepUpright() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 10);    // GENERATED
+  }
+  /**
+   * Getter for: Makes the object obey the "desiredVelocity" value, like a motor.
+   * @returns {boolean}
+   */
+  getUseDesiredVelocity() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 11);    // GENERATED
+  }
+  /**
+   * Getter for: Ignore the vertical Y component of desiredVelocity. Use this if your character only moves on the ground, and does not fly, for example.
+   * @returns {boolean}
+   */
+  getIgnoreVerticalDesiredVelocity() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 12);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now.
+   * @returns {boolean}
+   */
+  getIsPlayerControllable() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 13);    // GENERATED
+  }
+  /**
+   * Getter for: If true, this object was created/cloned by script. So it will be treated differently by various systems, such as getting auto-destroyed upon ResetGame.
+   * @returns {boolean}
+   */
+  getWasClonedByScript() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 14);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {boolean}
+   */
+  getUseConcaveCollider() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 15);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {boolean}
+   */
+  getIsGrounded() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 16);    // GENERATED
+  }
+  /**
+   * Getter for: Enable continuous, speculative collision detection. This is expensive, but will help with fast objects going through walls. Note this only works if the object has primitive colliders!
+   * @returns {boolean}
+   */
+  getSpeculativeColDet() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 17);    // GENERATED
+  }
+  /**
+   * Getter for: If true, then stickyDesiredVelocity should be enforced.
+   * @returns {boolean}
+   */
+  getUseStickyDesiredVelocity() {    // GENERATED
+    return getActorBoolean(this.actor_.tempId_, 18);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {number}
+   */
+  getBounciness() {    // GENERATED
+    return getActorFloat(this.actor_.tempId_, 0);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {number}
+   */
+  getDrag() {    // GENERATED
+    return getActorFloat(this.actor_.tempId_, 1);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {number}
+   */
+  getAngularDrag() {    // GENERATED
+    return getActorFloat(this.actor_.tempId_, 2);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {number}
+   */
+  getMass() {    // GENERATED
+    return getActorFloat(this.actor_.tempId_, 3);    // GENERATED
+  }
+  /**
+   * Getter for: The world-space position of the actor origin, which by default is the bottom-center of the object, ie. its position on the floor. However, this can be changed with setRenderableOffset.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getPosition(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getPosition argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 0, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The local position (position relative to parent's coordinate system).
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getLocalPosition(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getLocalPosition argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 1, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The local scale of the actor.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getLocalScale(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getLocalScale argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 2, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The local position/offset of the rendered model (and collider) relative to the actor's origin.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getRenderableOffset(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getRenderableOffset argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 3, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The position the actor will be reset to upon ResetGame (F6). When you move it using the Move Tool, it also affects this, but scripted motion or physics does not.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getSpawnPosition(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getSpawnPosition argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 4, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The velocity the actor should move with. Make sure "useDesiredVelocity" is true for this to work.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getDesiredVelocity(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getDesiredVelocity argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 5, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: Axis-aligned current world bounds
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getWorldRenderBoundsSize(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getWorldRenderBoundsSize argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 6, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: Axis-aligned current world bounds
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getWorldRenderBoundsCenter(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getWorldRenderBoundsCenter argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 7, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The direct rigidbody velocity parameter. Not valid if physics is not enabled.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getVelocity(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getVelocity argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 8, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The direct rigidbody angular velocity parameter. Not valid if physics is not enabled.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getAngularVelocity(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getAngularVelocity argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 9, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: Only relevant is useStickDesiredVelocity is true. Unlike normal desiredVelocity, this is persisted and networked. For things like kinematic projectiles (laser bolts) that just fly in one direction, this is all you need and it allows us to predict on remote clients.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getStickyDesiredVelocity(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getStickyDesiredVelocity argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 10, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: A constant force applied to the objects center of mass. Only valid if physics is enabled.
+   * @param {THREE.Vector3=} existing
+   * @returns {THREE.Vector3}
+   */
+  getStickyForce(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Vector3();    // GENERATED
+    }
+    assertVector3(existing, 'getStickyForce argument');    // GENERATED
+    getActorVector3(this.actor_.tempId_, 11, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The world-space rotation of the actor. This should be used to compute directions, like the forward facing direction of the actor, and if it does not correspond to the renderable model's forward (like where the head is facing for a lion model), you should fix it using the Rotate Tool or setRenderableRotation.
+   * @param {THREE.Quaternion=} existing
+   * @returns {THREE.Quaternion}
+   */
+  getRotation(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Quaternion();    // GENERATED
+    }
+    assertQuaternion(existing, 'getRotation argument');    // GENERATED
+    getActorQuaternion(this.actor_.tempId_, 0, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The local rotation (rotation relative to parent's coordinate system).
+   * @param {THREE.Quaternion=} existing
+   * @returns {THREE.Quaternion}
+   */
+  getLocalRotation(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Quaternion();    // GENERATED
+    }
+    assertQuaternion(existing, 'getLocalRotation argument');    // GENERATED
+    getActorQuaternion(this.actor_.tempId_, 1, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The local rotation of the rendered model (and collider) relative to the actor's rotation.
+   * @param {THREE.Quaternion=} existing
+   * @returns {THREE.Quaternion}
+   */
+  getRenderableRotation(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Quaternion();    // GENERATED
+    }
+    assertQuaternion(existing, 'getRenderableRotation argument');    // GENERATED
+    getActorQuaternion(this.actor_.tempId_, 2, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: Like spawnPosition, but for rotation.
+   * @param {THREE.Quaternion=} existing
+   * @returns {THREE.Quaternion}
+   */
+  getSpawnRotation(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Quaternion();    // GENERATED
+    }
+    assertQuaternion(existing, 'getSpawnRotation argument');    // GENERATED
+    getActorQuaternion(this.actor_.tempId_, 3, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  /**
+   * Getter for: The human-readable display name for the actor. Useful for edit mode inspecting and debugging.
+   * @returns {string}
+   */
+  getDisplayName() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 0);    // GENERATED
+  }
+  /**
+   * Getter for: The user-customizable descripion of the actor.
+   * @returns {string}
+   */
+  getDescription() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 1);    // GENERATED
+  }
+  /**
+   * Getter for: The name of the actor that is the transform-parent of this actor. Used for attach yourself to another, like when you get picked up.
+   * @returns {string}
+   */
+  getTransformParent() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 2);    // GENERATED
+  }
+  /**
+   * Getter for: The text shown on comment signs created using the Comment Tool. Does not matter for non-sign actors.
+   * @returns {string}
+   */
+  getCommentText() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 3);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now
+   * @returns {string}
+   */
+  getDebugString() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 4);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {string}
+   */
+  getCloneParent() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 5);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now
+   * @returns {string}
+   */
+  getJoinedTags() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 6);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now
+   * @returns {string}
+   */
+  getCameraActor() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 7);    // GENERATED
+  }
+  /**
+   * Getter for: The name of the actor that is the transform-parent of this actor upon reset.
+   * @returns {string}
+   */
+  getSpawnTransformParent() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 8);    // GENERATED
+  }
+  /**
+   * Getter for: The clip name of the currently looping animation
+   * @returns {string}
+   */
+  getLoopingAnimation() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 9);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now
+   * @returns {string}
+   */
+  getControllingVirtualPlayerId() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 10);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now
+   * @returns {string}
+   */
+  getCameraSettingsJson() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 11);    // GENERATED
+  }
+  /**
+   * Getter for: Internal - do not use for now
+   * @returns {string}
+   */
+  getLightSettingsJson() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 12);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {string}
+   */
+  getPfxId() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 13);    // GENERATED
+  }
+  /**
+   * Getter for: 
+   * @returns {string}
+   */
+  getSfxId() {    // GENERATED
+    return getActorString(this.actor_.tempId_, 14);    // GENERATED
+  }
+  /**
+   * Getter for: tint
+   * @param {THREE.Color=} existing
+   * @returns {THREE.Color}
+   */
+  getTint(existing = null) {    // GENERATED
+    if (!existing) {    // GENERATED
+      existing = new THREE.Color();    // GENERATED
+    }
+    assertColor(existing, 'getTint argument');    // GENERATED
+    const o = getActorColor(this.actor_.tempId_, 0);    // GENERATED
+    existing.r = o.r;    // GENERATED
+    existing.g = o.g;    // GENERATED
+    existing.b = o.b;    // GENERATED
+    existing.a = o.a;    // GENERATED
+    return existing;    // GENERATED
+  }
+  // END_GAME_BUILDER_CODE_GEN
+
+  /**
+   * To maintain backwards compatibility, where the throttle had sprinting rolled into it.
+   * @deprecated
+   * @ignore
+   */
+  getLegacyWorldSpaceThrottle(existing = null) {
+    if (!existing) {
+      existing = new THREE.Vector3();
+    }
+    assertVector3(existing);
+    existing.copy(this.actor_.worldSpaceThrottle);
+
+    if (this.getIsSprinting()) {
+      existing.multiplyScalar(2.0);
+    }
+    return existing;
+  }
+
+  /**
+   * To maintain backwards compatibility, where the throttle had sprinting rolled into it.
+   * @deprecated
+   * @ignore
+   */
+  getLegacyInputThrottle(existing = null) {
+    if (!existing) {
+      existing = new THREE.Vector3();
+    }
+    assertVector3(existing);
+    existing.copy(this.actor_.inputThrottle);
+    if (this.getIsSprinting()) {
+      existing.multiplyScalar(2.0);
+    }
+    return existing;
+  }
+
+  isOffstageEffective() {
+    return this.actor_.isOffstageEffective;
+  }
+}
+
+/**
+ * Primary read-write interface for the actor handling the message.
+ * @extends OtherActor
+ */
+class HandlingActor extends OtherActor {
+  constructor(actor) {
+    super(actor);
+    this.actor_ = actor;
+  }
+
+  /**
+   * Rotates this actor by the given quaternion (as opposed to setting it with setRotation).
+   * @param {!THREE.Quaternion} deltaRotation 
+   */
+  applyRotation(deltaRotation) {
+    this.setRotation(this.getRotation().premultiply(deltaRotation));
+  }
+
+  /**
+   * Rotates the actor to look at the target position.
+   * @param {!THREE.Vector3} targetPos 
+   * @param {boolean=} yawOnly If true, the actor will only yaw (turn left and right) - not pitch (tilt up and down)
+   * @param {number=} maxRads Maximum radians to rotate.
+   * @param {number=} dampRads The larger this angle, the more smoothing will be done to the rotations.
+   */
+  lookAt(targetPos, yawOnly = false, maxRads = Math.PI / 30, dampRads = Math.PI / 3) {
+    const toTarget = targetPos.clone().sub(this.getPosition());
+    if (yawOnly) { toTarget.setY(0); }
+    toTarget.normalize();
+
+    const lookerFwd = FORWARD_DIR.clone().applyQuaternion(this.getRotation());
+    const rotAxis = lookerFwd.clone().cross(toTarget).normalize();
+
+    // trying a critical-damped effect by adjusting maxRads depending on how far
+    const remainRads = lookerFwd.angleTo(toTarget);
+    if (remainRads < dampRads) {
+      maxRads *= remainRads / dampRads;
+    }
+
+    // Enforce maximum delta radians
+    const angle = Math.min(maxRads, remainRads);
+    const rot = new THREE.Quaternion();
+    rot.setFromAxisAngle(rotAxis, angle);
+
+    this.applyRotation(rot);
+
+    if (!yawOnly) {
+      // if we're not yaw-only, do some rolling, along the current forward, to maintain stable 'up'
+      const worldUp = new THREE.Vector3(0, 1, 0);
+      const newRot = this.getRotation();
+      const lookerUp = worldUp.clone().applyQuaternion(newRot);
+      lookerFwd.copy(FORWARD_DIR).applyQuaternion(newRot);
+      worldUp.projectOnPlane(lookerFwd).normalize();
+      lookerUp.projectOnPlane(lookerFwd).normalize();
+      rot.setFromUnitVectors(lookerUp, worldUp);
+      this.applyRotation(rot);
+    }
+  }
+
+  // BEGIN_GAME_BUILDER_CODE_GEN HANDLING_ACTOR_CLASS_JAVASCRIPT
+  /**
+   * Setter for: If true, this object is in the virtual off-stage area, not on the actual scene.
+   * @param {boolean} newPreferOffstage
+   */
+  setPreferOffstage(newPreferOffstage) {    // GENERATED
+    assertBoolean(newPreferOffstage, 'setPreferOffstage argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 0, newPreferOffstage);    // GENERATED
+  }
+  /**
+   * Setter for: If true, other objects will collide and not go thruogh it. If false, it will still be visible, but other objects can go through it like a ghost.
+   * @param {boolean} newIsSolid
+   */
+  setIsSolid(newIsSolid) {    // GENERATED
+    assertBoolean(newIsSolid, 'setIsSolid argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 1, newIsSolid);    // GENERATED
+  }
+  /**
+   * Setter for: Enable physics!
+   * @param {boolean} newEnablePhysics
+   */
+  setEnablePhysics(newEnablePhysics) {    // GENERATED
+    assertBoolean(newEnablePhysics, 'setEnablePhysics argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 2, newEnablePhysics);    // GENERATED
+  }
+  /**
+   * Setter for: Enable gravity! Only works if enablePhysics is also true.
+   * @param {boolean} newEnableGravity
+   */
+  setEnableGravity(newEnableGravity) {    // GENERATED
+    assertBoolean(newEnableGravity, 'setEnableGravity argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 3, newEnableGravity);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {boolean} newFreezeRotations
+   */
+  setFreezeRotations(newFreezeRotations) {    // GENERATED
+    assertBoolean(newFreezeRotations, 'setFreezeRotations argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 4, newFreezeRotations);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {boolean} newFreezeX
+   */
+  setFreezeX(newFreezeX) {    // GENERATED
+    assertBoolean(newFreezeX, 'setFreezeX argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 5, newFreezeX);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {boolean} newFreezeY
+   */
+  setFreezeY(newFreezeY) {    // GENERATED
+    assertBoolean(newFreezeY, 'setFreezeY argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 6, newFreezeY);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {boolean} newFreezeZ
+   */
+  setFreezeZ(newFreezeZ) {    // GENERATED
+    assertBoolean(newFreezeZ, 'setFreezeZ argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 7, newFreezeZ);    // GENERATED
+  }
+  /**
+   * Setter for: GET RID OF THIS!
+   * @param {boolean} newEnableAiming
+   */
+  setEnableAiming(newEnableAiming) {    // GENERATED
+    assertBoolean(newEnableAiming, 'setEnableAiming argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 8, newEnableAiming);    // GENERATED
+  }
+  /**
+   * Setter for: This actor's model will not be rendered in play mode (but still visible in edit). Good for hiding things, like picked-up items.
+   * @param {boolean} newHideInPlayMode
+   */
+  setHideInPlayMode(newHideInPlayMode) {    // GENERATED
+    assertBoolean(newHideInPlayMode, 'setHideInPlayMode argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 9, newHideInPlayMode);    // GENERATED
+  }
+  /**
+   * Setter for: Keeps the object standing upright, but still responding to physics otherwise.
+   * @param {boolean} newKeepUpright
+   */
+  setKeepUpright(newKeepUpright) {    // GENERATED
+    assertBoolean(newKeepUpright, 'setKeepUpright argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 10, newKeepUpright);    // GENERATED
+  }
+  /**
+   * Setter for: Makes the object obey the "desiredVelocity" value, like a motor.
+   * @param {boolean} newUseDesiredVelocity
+   */
+  setUseDesiredVelocity(newUseDesiredVelocity) {    // GENERATED
+    assertBoolean(newUseDesiredVelocity, 'setUseDesiredVelocity argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 11, newUseDesiredVelocity);    // GENERATED
+  }
+  /**
+   * Setter for: Ignore the vertical Y component of desiredVelocity. Use this if your character only moves on the ground, and does not fly, for example.
+   * @param {boolean} newIgnoreVerticalDesiredVelocity
+   */
+  setIgnoreVerticalDesiredVelocity(newIgnoreVerticalDesiredVelocity) {    // GENERATED
+    assertBoolean(newIgnoreVerticalDesiredVelocity, 'setIgnoreVerticalDesiredVelocity argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 12, newIgnoreVerticalDesiredVelocity);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now.
+   * @param {boolean} newIsPlayerControllable
+   */
+  setIsPlayerControllable(newIsPlayerControllable) {    // GENERATED
+    assertBoolean(newIsPlayerControllable, 'setIsPlayerControllable argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 13, newIsPlayerControllable);    // GENERATED
+  }
+  /**
+   * Setter for: If true, this object was created/cloned by script. So it will be treated differently by various systems, such as getting auto-destroyed upon ResetGame.
+   * @param {boolean} newWasClonedByScript
+   */
+  setWasClonedByScript(newWasClonedByScript) {    // GENERATED
+    assertBoolean(newWasClonedByScript, 'setWasClonedByScript argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 14, newWasClonedByScript);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {boolean} newUseConcaveCollider
+   */
+  setUseConcaveCollider(newUseConcaveCollider) {    // GENERATED
+    assertBoolean(newUseConcaveCollider, 'setUseConcaveCollider argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 15, newUseConcaveCollider);    // GENERATED
+  }
+  /**
+   * Setter for: Enable continuous, speculative collision detection. This is expensive, but will help with fast objects going through walls. Note this only works if the object has primitive colliders!
+   * @param {boolean} newSpeculativeColDet
+   */
+  setSpeculativeColDet(newSpeculativeColDet) {    // GENERATED
+    assertBoolean(newSpeculativeColDet, 'setSpeculativeColDet argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 16, newSpeculativeColDet);    // GENERATED
+  }
+  /**
+   * Setter for: If true, then stickyDesiredVelocity should be enforced.
+   * @param {boolean} newUseStickyDesiredVelocity
+   */
+  setUseStickyDesiredVelocity(newUseStickyDesiredVelocity) {    // GENERATED
+    assertBoolean(newUseStickyDesiredVelocity, 'setUseStickyDesiredVelocity argument');    // GENERATED
+    setActorBoolean(this.actor_.tempId_, 17, newUseStickyDesiredVelocity);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {number} newBounciness
+   */
+  setBounciness(newBounciness) {    // GENERATED
+    assertNumber(newBounciness, 'setBounciness argument');    // GENERATED
+    setActorFloat(this.actor_.tempId_, 0, newBounciness);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {number} newDrag
+   */
+  setDrag(newDrag) {    // GENERATED
+    assertNumber(newDrag, 'setDrag argument');    // GENERATED
+    setActorFloat(this.actor_.tempId_, 1, newDrag);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {number} newAngularDrag
+   */
+  setAngularDrag(newAngularDrag) {    // GENERATED
+    assertNumber(newAngularDrag, 'setAngularDrag argument');    // GENERATED
+    setActorFloat(this.actor_.tempId_, 2, newAngularDrag);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {number} newMass
+   */
+  setMass(newMass) {    // GENERATED
+    assertNumber(newMass, 'setMass argument');    // GENERATED
+    setActorFloat(this.actor_.tempId_, 3, newMass);    // GENERATED
+  }
+  /**
+   * Setter for: The world-space position of the actor origin, which by default is the bottom-center of the object, ie. its position on the floor. However, this can be changed with setRenderableOffset.
+   * @param {THREE.Vector3} newPosition
+   */
+  setPosition(newPosition) {    // GENERATED
+    assertVector3(newPosition, 'setPosition argument');    // GENERATED
+    const v = newPosition;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 0, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The local position (position relative to parent's coordinate system).
+   * @param {THREE.Vector3} newLocalPosition
+   */
+  setLocalPosition(newLocalPosition) {    // GENERATED
+    assertVector3(newLocalPosition, 'setLocalPosition argument');    // GENERATED
+    const v = newLocalPosition;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 1, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The local scale of the actor.
+   * @param {THREE.Vector3} newLocalScale
+   */
+  setLocalScale(newLocalScale) {    // GENERATED
+    assertVector3(newLocalScale, 'setLocalScale argument');    // GENERATED
+    const v = newLocalScale;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 2, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The local position/offset of the rendered model (and collider) relative to the actor's origin.
+   * @param {THREE.Vector3} newRenderableOffset
+   */
+  setRenderableOffset(newRenderableOffset) {    // GENERATED
+    assertVector3(newRenderableOffset, 'setRenderableOffset argument');    // GENERATED
+    const v = newRenderableOffset;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 3, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The position the actor will be reset to upon ResetGame (F6). When you move it using the Move Tool, it also affects this, but scripted motion or physics does not.
+   * @param {THREE.Vector3} newSpawnPosition
+   */
+  setSpawnPosition(newSpawnPosition) {    // GENERATED
+    assertVector3(newSpawnPosition, 'setSpawnPosition argument');    // GENERATED
+    const v = newSpawnPosition;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 4, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The velocity the actor should move with. Make sure "useDesiredVelocity" is true for this to work.
+   * @param {THREE.Vector3} newDesiredVelocity
+   */
+  setDesiredVelocity(newDesiredVelocity) {    // GENERATED
+    assertVector3(newDesiredVelocity, 'setDesiredVelocity argument');    // GENERATED
+    const v = newDesiredVelocity;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 5, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The direct rigidbody velocity parameter. Not valid if physics is not enabled.
+   * @param {THREE.Vector3} newVelocity
+   */
+  setVelocity(newVelocity) {    // GENERATED
+    assertVector3(newVelocity, 'setVelocity argument');    // GENERATED
+    const v = newVelocity;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 6, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The direct rigidbody angular velocity parameter. Not valid if physics is not enabled.
+   * @param {THREE.Vector3} newAngularVelocity
+   */
+  setAngularVelocity(newAngularVelocity) {    // GENERATED
+    assertVector3(newAngularVelocity, 'setAngularVelocity argument');    // GENERATED
+    const v = newAngularVelocity;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 7, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: Only relevant is useStickDesiredVelocity is true. Unlike normal desiredVelocity, this is persisted and networked. For things like kinematic projectiles (laser bolts) that just fly in one direction, this is all you need and it allows us to predict on remote clients.
+   * @param {THREE.Vector3} newStickyDesiredVelocity
+   */
+  setStickyDesiredVelocity(newStickyDesiredVelocity) {    // GENERATED
+    assertVector3(newStickyDesiredVelocity, 'setStickyDesiredVelocity argument');    // GENERATED
+    const v = newStickyDesiredVelocity;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 8, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: A constant force applied to the objects center of mass. Only valid if physics is enabled.
+   * @param {THREE.Vector3} newStickyForce
+   */
+  setStickyForce(newStickyForce) {    // GENERATED
+    assertVector3(newStickyForce, 'setStickyForce argument');    // GENERATED
+    const v = newStickyForce;    // GENERATED
+    setActorVector3(this.actor_.tempId_, 9, v.x, v.y, v.z);    // GENERATED
+  }
+  /**
+   * Setter for: The world-space rotation of the actor. This should be used to compute directions, like the forward facing direction of the actor, and if it does not correspond to the renderable model's forward (like where the head is facing for a lion model), you should fix it using the Rotate Tool or setRenderableRotation.
+   * @param {THREE.Quaternion} newRotation
+   */
+  setRotation(newRotation) {    // GENERATED
+    assertQuaternion(newRotation, 'setRotation argument');    // GENERATED
+    const q = newRotation;    // GENERATED
+    setActorQuaternion(this.actor_.tempId_, 0, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  /**
+   * Setter for: The local rotation (rotation relative to parent's coordinate system).
+   * @param {THREE.Quaternion} newLocalRotation
+   */
+  setLocalRotation(newLocalRotation) {    // GENERATED
+    assertQuaternion(newLocalRotation, 'setLocalRotation argument');    // GENERATED
+    const q = newLocalRotation;    // GENERATED
+    setActorQuaternion(this.actor_.tempId_, 1, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  /**
+   * Setter for: The local rotation of the rendered model (and collider) relative to the actor's rotation.
+   * @param {THREE.Quaternion} newRenderableRotation
+   */
+  setRenderableRotation(newRenderableRotation) {    // GENERATED
+    assertQuaternion(newRenderableRotation, 'setRenderableRotation argument');    // GENERATED
+    const q = newRenderableRotation;    // GENERATED
+    setActorQuaternion(this.actor_.tempId_, 2, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  /**
+   * Setter for: Like spawnPosition, but for rotation.
+   * @param {THREE.Quaternion} newSpawnRotation
+   */
+  setSpawnRotation(newSpawnRotation) {    // GENERATED
+    assertQuaternion(newSpawnRotation, 'setSpawnRotation argument');    // GENERATED
+    const q = newSpawnRotation;    // GENERATED
+    setActorQuaternion(this.actor_.tempId_, 3, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  /**
+   * Setter for: The human-readable display name for the actor. Useful for edit mode inspecting and debugging.
+   * @param {string} newDisplayName
+   */
+  setDisplayName(newDisplayName) {    // GENERATED
+    assertStringOrNull(newDisplayName, 'setDisplayName argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 0, newDisplayName);    // GENERATED
+  }
+  /**
+   * Setter for: The user-customizable descripion of the actor.
+   * @param {string} newDescription
+   */
+  setDescription(newDescription) {    // GENERATED
+    assertStringOrNull(newDescription, 'setDescription argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 1, newDescription);    // GENERATED
+  }
+  /**
+   * Setter for: The name of the actor that is the transform-parent of this actor. Used for attach yourself to another, like when you get picked up.
+   * @param {string} newTransformParent
+   */
+  setTransformParent(newTransformParent) {    // GENERATED
+    assertStringOrNull(newTransformParent, 'setTransformParent argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 2, newTransformParent);    // GENERATED
+  }
+  /**
+   * Setter for: The text shown on comment signs created using the Comment Tool. Does not matter for non-sign actors.
+   * @param {string} newCommentText
+   */
+  setCommentText(newCommentText) {    // GENERATED
+    assertStringOrNull(newCommentText, 'setCommentText argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 3, newCommentText);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now
+   * @param {string} newDebugString
+   */
+  setDebugString(newDebugString) {    // GENERATED
+    assertStringOrNull(newDebugString, 'setDebugString argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 4, newDebugString);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now
+   * @param {string} newJoinedTags
+   */
+  setJoinedTags(newJoinedTags) {    // GENERATED
+    assertStringOrNull(newJoinedTags, 'setJoinedTags argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 5, newJoinedTags);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now
+   * @param {string} newCameraActor
+   */
+  setCameraActor(newCameraActor) {    // GENERATED
+    assertStringOrNull(newCameraActor, 'setCameraActor argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 6, newCameraActor);    // GENERATED
+  }
+  /**
+   * Setter for: The name of the actor that is the transform-parent of this actor upon reset.
+   * @param {string} newSpawnTransformParent
+   */
+  setSpawnTransformParent(newSpawnTransformParent) {    // GENERATED
+    assertStringOrNull(newSpawnTransformParent, 'setSpawnTransformParent argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 7, newSpawnTransformParent);    // GENERATED
+  }
+  /**
+   * Setter for: The clip name of the currently looping animation
+   * @param {string} newLoopingAnimation
+   */
+  setLoopingAnimation(newLoopingAnimation) {    // GENERATED
+    assertStringOrNull(newLoopingAnimation, 'setLoopingAnimation argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 8, newLoopingAnimation);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now
+   * @param {string} newControllingVirtualPlayerId
+   */
+  setControllingVirtualPlayerId(newControllingVirtualPlayerId) {    // GENERATED
+    assertStringOrNull(newControllingVirtualPlayerId, 'setControllingVirtualPlayerId argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 9, newControllingVirtualPlayerId);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now
+   * @param {string} newCameraSettingsJson
+   */
+  setCameraSettingsJson(newCameraSettingsJson) {    // GENERATED
+    assertStringOrNull(newCameraSettingsJson, 'setCameraSettingsJson argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 10, newCameraSettingsJson);    // GENERATED
+  }
+  /**
+   * Setter for: Internal - do not use for now
+   * @param {string} newLightSettingsJson
+   */
+  setLightSettingsJson(newLightSettingsJson) {    // GENERATED
+    assertStringOrNull(newLightSettingsJson, 'setLightSettingsJson argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 11, newLightSettingsJson);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {string} newPfxId
+   */
+  setPfxId(newPfxId) {    // GENERATED
+    assertStringOrNull(newPfxId, 'setPfxId argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 12, newPfxId);    // GENERATED
+  }
+  /**
+   * Setter for: 
+   * @param {string} newSfxId
+   */
+  setSfxId(newSfxId) {    // GENERATED
+    assertStringOrNull(newSfxId, 'setSfxId argument');    // GENERATED
+    setActorString(this.actor_.tempId_, 13, newSfxId);    // GENERATED
+  }
+  /**
+   * Setter for: tint
+   * @param {THREE.Color} newTint
+   */
+  setTint(newTint) {    // GENERATED
+    assertColor(newTint, 'setTint argument');    // GENERATED
+    setActorColor(this.actor_.tempId_, 0, newTint);    // GENERATED
+  }
+  // END_GAME_BUILDER_CODE_GEN
+
+  /** @ignore */
+  getInternalActor() {
+    return this.actor_;
+  }
+}

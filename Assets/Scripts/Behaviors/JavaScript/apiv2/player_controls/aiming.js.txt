@@ -1,0 +1,95 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets the actor that the given actor is <em>aiming at</em>.
+ * 
+ * <p>Player-controllable actors can "aim" at another actor. The aim is an
+ * imaginary ray that shoots from the player in the direction they are
+ * looking. The first actor that is hit by this ray is called the
+ * "aim target actor".
+ *
+ * <p>In first and third-person view, the aim ray is aligned with the camera and the
+ * circular reticle that's at the center of the screen, so the aim target
+ * is the actor that's under the reticle.
+ * 
+ * <p>In isometric mode, the aim ray starts near the player and shoots in the direction
+ * of the mouse cursor, and the target is the first actor on that math. It is NOT
+ * the actor under the mouse cursor! It may just seem that way because the mouse
+ * cursor determines the direction the player is facing, and the aim ray uses
+ * that direction.
+ * 
+ * <p>If the player is not currently aiming at any actor, returns <tt>null</tt>.
+ * 
+ * @param {ActorRef=} actor The actor whose target is to be retrieved. If omitted, defaults
+ *     to the current actor.
+ * @return {ActorRef} The actor being targeted, or <tt>null</tt> if none.
+ */
+function getAimTarget(actor) {
+  return ApiV2Context.instance.getActor(actor).getAimingAtName();
+}
+
+/**
+ * Gets the point in world space that serves as the origin for the "aiming ray"
+ * of a player-controllable actor.
+ * 
+ * <p>For more information about what aiming means, see {@link getAimTarget}.
+ * 
+ * <p>This is a point near the player. It is not exactly ON the player because
+ * in third-person view the ray is aligned with the camera, not the player, for
+ * better user experience.
+ * 
+ * <p>This only returns a meaningful value for player-controllable actors.
+ * 
+ * @param {ActorRef=} actor The actor for which to get the aim origin. If omitted,
+ *     defaults to the current actor.
+ * @return {THREE.Vector3} The point in world space that is the origin of the aiming ray.
+ */
+function getAimOrigin(actor) {
+  return ApiV2Context.instance.getActor(actor).getAimOrigin();
+}
+
+/**
+ * Gets the direction in world space for the "aiming ray" of a player-controllable actor.
+ * 
+ * <p>For more information about what aiming means, see {@link getAimTarget}.
+ *
+ * <p>This only returns a meaningful value for player-controllable actors.
+ * 
+ * @param {ActorRef=} actor The actor for which to get the aim origin. If omitted,
+ *     defaults to the current actor.
+ * @return {THREE.Vector3} The aim direction, in world space.
+ */
+function getAimDirection(actor) {
+  return ApiV2Context.instance.getActor(actor).getAimDirection();
+}
+
+/**
+ * Gets the point on the target actor that the "aim ray" has last hit.
+ * 
+ * <p>For more information about what aiming means, see {@link getAimTarget}.
+ *
+ * <p>This only returns a meaningful value for player-controllable actors.
+ * 
+ * @param {ActorRef=} actor The actor for which to get the last aim hit point. If omitted,
+ *     defaults to the current actor.
+ * @return {THREE.Vector3} The last aim hit point, in world space.
+ */
+function getLastAimHitPoint(actor) {
+  return ApiV2Context.instance.getActor(actor).getLastAimHitPoint();
+}

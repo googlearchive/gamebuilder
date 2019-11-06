@@ -1,0 +1,73 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Plays a sound effect.
+ *
+ * @param {string} soundId ID of the sound effect to play. There are some built-in
+ *     IDs you can use, see {@link Sounds}. Or you can use a sound property
+ *     that you defined with {@link propSound} (see examples below).
+ * @param {THREE.Vector3?} position If omitted (normally this is
+ *     what you want), the sound will be played at the current actor's position.
+ *     If this parameter is provided, it is the position in world coordinates
+ *     where the sound should play.
+ * @example
+ * export function onCollision() {
+ *   playSound(Sounds.HIT);
+ *   cooldown(1);
+ * }
+ *
+ * @example
+ * export const PROPS = [
+ *   propSound("soundToPlay", Sounds.EXPLOSION),
+ * ];
+ *
+ * export function onCollision() {
+ *   playSound(props.soundToPlay);
+ *   cooldown(1);
+ * } 
+ */
+function playSound(soundId, position) {
+  if (!tryPlaySound(soundId, position)) {
+    throw new Error("Sound does not exist: " + soundId + ". Did you delete it?");
+  }
+}
+
+/**
+ * Like {@link playSound}, but does not throw an error if the sound does not exist.
+ * Instead of throwing an error, it just returns false.
+ * 
+ * @param {string} soundId Same as in {@link playSound}.
+ * @param {THREE.Vector3?} position Same as in {@link playSound}.
+ * @return {boolean} True if the sound played successfully, false if it failed.s
+ */
+function tryPlaySound(soundId, position) {
+  return ApiV2Context.instance.tryPlaySound(soundId, position);
+}
+
+/**
+ * Enum of built-in sound IDs.
+ * @enum {string}
+ */
+var Sounds = {
+  EXPLOSION: "builtin:Explosion",
+  COLLECT: "builtin:Collect",
+  LASER: "builtin:Laser",
+  HIT: "builtin:Hit",
+  LOSE: "builtin:Lose"
+};

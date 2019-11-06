@@ -1,0 +1,127 @@
+{   "version": 1,
+    "label": "Score Board",
+    "actorData": {
+        "version": 4,
+        "creatorName": "",
+        "name": "0dc485b57e204bbdb7432762424ce027",
+        "brainName": "4e59614ff938464cbd5b76fba9e90647",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/BillboardTextPanel",
+        "memoryJson": "{\"__bulm\":{\"2cee40a445c5497183757f196afbe3d3\":{},\"f2d8cb1c5dd248cf910bad6ac5cef116\":{},\"ec0c1a048fed4c5799fde828ae3dd49c\":{\"scores\":{}}},\"health\":3,\"__attribs\":{\"isDead\":false},\"isDead\":false}",
+        "displayName": "Score Board",
+        "description": "",
+        "tint": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.75
+        },
+        "transformParent": "",
+        "position": {
+            "x": 8.061878204345704,
+            "y": 1.0,
+            "z": 21.054616928100587
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 6.0,
+            "y": 6.0,
+            "z": 6.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 8.061878204345704,
+            "y": 1.0,
+            "z": 21.054616928100587
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "4e59614ff938464cbd5b76fba9e90647"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"viewMetadata\":{\"version\":1,\"scale\":0.36088141798973086,\"viewPosition\":{\"x\":678.8582153320313,\"y\":143.6150665283203},\"addPanelPosition\":{\"x\":1036.1500244140625,\"y\":0.0},\"panelNotes\":[]},\"miscPanelUseMetadata\":{\"version\":0,\"position\":{\"x\":0.0,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "2cee40a445c5497183757f196afbe3d3",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "f2d8cb1c5dd248cf910bad6ac5cef116",
+                        "behaviorUri": "builtin:Screen Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":302.845947265625,\"y\":-41.088287353515628}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "screenDeck",
+                                "valueJson": "{\"value\":[\"ec0c1a048fed4c5799fde828ae3dd49c\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ec0c1a048fed4c5799fde828ae3dd49c",
+                        "behaviorUri": "builtin:ScoreBoard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "gameplay"
+}

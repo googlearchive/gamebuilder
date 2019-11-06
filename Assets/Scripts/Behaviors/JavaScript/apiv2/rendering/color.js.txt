@@ -1,0 +1,83 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Sets the tint of the current actor.
+ * @param {number} r The red component (0 to 1).
+ * @param {number} g The green component (0 to 1).
+ * @param {number} b The blue component (0 to 1).
+ * @example
+ * // Give the actor a green tint.
+ * setTint(0, 1, 0);
+ */
+function setTint(r, g, b) {
+  assertNumber(r, "r");
+  assertNumber(g, "g");
+  assertNumber(b, "b");
+  ApiV2Context.instance.api.setTintRGB(r, g, b);
+}
+
+/**
+ * Sets the tint of the current actor.
+ * @param {THREE.Color} color The tint color to set.
+ * @example
+ * setTintColor(new THREE.Color(0xff0000));
+ */
+function setTintColor(color) {
+  setTint(color.r, color.g, color.b);
+}
+
+/**
+ * Sets the tint of the current actor.
+ * @param {string} colorHex The color hex code (e.g., "#ff8000").
+ * @example
+ * // Make the actor bright green.
+ * setTint("#00ff00");
+ */
+function setTintHex(colorHex) {
+  assertString(colorHex);
+  const color = colorFromHex(colorHex);
+  assert(color, "Invalid colorHex: " + colorHex);
+  setTint(color.r, color.g, color.b);
+}
+
+/**
+ * Same as {@link getTintColor}.
+ * @deprecated
+ */
+function getTint(actor) {
+  return getTintColor(actor);
+}
+
+/**
+ * Gets the tint of the given actor.
+ * @param {ActorRef=} actor The actor to get the tint of. If omitted, uses the current actor.
+ * @return {THREE.Color} The actor's tint (R, G and B are between 0 and 1).
+ */
+function getTintColor(actor) {
+  return ApiV2Context.instance.getActor(actor).getTint();
+}
+
+/**
+ * Gets the tint of the given actor.
+ * @param {ActorRef=} actor The actor to get the tint of. If omitted, uses the current actor.
+ * @return {string} The actor's tint in hex format, for example "#ff8000".
+ */
+function getTintHex(actor) {
+  return colorToHex(getTint(actor));
+}

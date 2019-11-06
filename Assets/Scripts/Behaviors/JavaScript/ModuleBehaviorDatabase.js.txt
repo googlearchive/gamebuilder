@@ -1,0 +1,273 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+// Handler prefix for legacy messages (APIv1)
+const MESSAGE_HANDLER_FUNCTION_NAME_PREFIX_LEGACY = "On"; // upper-case "O"!
+
+// Handler prefix for messages (APIv2)
+const MESSAGE_HANDLER_FUNCTION_NAME_PREFIX = "on";  // lowercase "o"!
+
+const GET_DYNAMIC_MESSAGES_HANDLED_FUNCTION_NAME = 'getOtherMessagesHandled';
+const HANDLE_DYNAMIC_MESSAGES_FUNCTION_NAME = 'handleOtherMessage';
+
+class ModuleBehavior {
+  constructor(moduleKey) {
+    assert(typeof moduleKey == 'string');
+    assert(getVoosModule(moduleKey), `Could not find behavior module for key ${moduleKey}`);
+    this.moduleKey_ = moduleKey;
+  }
+
+  getHandlerFor_(messageName) {
+    assert(getVoosModule(this.moduleKey_), `Could not find module for key ${this.moduleKey_}. How did we get here?`);
+    return getVoosModule(this.moduleKey_)[`${MESSAGE_HANDLER_FUNCTION_NAME_PREFIX}${messageName}`];
+  }
+
+  getLegacyHandlerFor_(messageName) {
+    assert(getVoosModule(this.moduleKey_), `Could not find module for key ${this.moduleKey_}. How did we get here?`);
+    return getVoosModule(this.moduleKey_)[`${MESSAGE_HANDLER_FUNCTION_NAME_PREFIX_LEGACY}${messageName}`];
+  }
+
+  getDynamicMessageHandler_() {
+    assert(getVoosModule(this.moduleKey_), `Could not find module for key ${this.moduleKey_}. How did we get here?`);
+    return getVoosModule(this.moduleKey_)[HANDLE_DYNAMIC_MESSAGES_FUNCTION_NAME];
+  }
+
+  getDynamicallyDeclaredMessages_(use) {
+    const mod = getVoosModule(this.moduleKey_);
+    assert(mod, `Could not find module for key ${this.moduleKey_}. How did we get here?`);
+    if (GET_DYNAMIC_MESSAGES_HANDLED_FUNCTION_NAME in mod) {
+      return mod[GET_DYNAMIC_MESSAGES_HANDLED_FUNCTION_NAME](use.properties);
+    }
+    else {
+      return [];
+    }
+  }
+
+  // Returns a pair, [handlerFunc, isLegacy]
+  getHandlerInfo(messageName) {
+    let handler = this.getHandlerFor_(messageName);
+    let isLegacy = false;
+
+    if (!handler) {
+      // Try the legacy handler
+      handler = this.getLegacyHandlerFor_(messageName);
+
+      if (handler) {
+        isLegacy = true;
+      }
+      else {
+        // Must be the dynamic handler
+        handler = this.getDynamicMessageHandler_();
+      }
+    }
+
+    return [handler, isLegacy];
+  }
+
+  getModuleKey() {
+    return this.moduleKey_;
+  }
+
+  getBehaviorUri() {
+    return this.moduleKey_;
+  }
+
+  /**
+   * @param {BehaviorUse} use
+   * @param {Set} outSet
+   */
+  getHandledMessageNames(use, outSet) {
+    for (const funcName in getVoosModule(this.moduleKey_)) {
+      if (funcName.startsWith(MESSAGE_HANDLER_FUNCTION_NAME_PREFIX)
+        || funcName.startsWith(MESSAGE_HANDLER_FUNCTION_NAME_PREFIX_LEGACY)) {
+        outSet.add(funcName.substring(2));
+      }
+    }
+    this.getDynamicallyDeclaredMessages_(use).forEach(msg => outSet.add(msg));
+    return outSet;
+  }
+}
+
+class ModuleBehaviorUse {
+  constructor(id, jsonUse, behavior) {
+    assert(behavior);
+    assert(behavior instanceof ModuleBehavior);
+    this.id = id;
+    this.behavior = behavior;
+    this.brainId = jsonUse.brainId;
+
+    this.properties = {};
+
+    const propTypes = {};
+
+    // Fill properties with defaults first
+    getBehaviorProperties(behavior.getModuleKey()).forEach(def => {
+      propTypes[def.variableName] = def.type;
+      if (["Number", "Decimal", "Boolean", "NumberArray", "StringArray", "EnumArray", "ActorArray"].includes(def.type)) {
+        this.properties[def.variableName] = JSON.parse(def.defaultValueString);
+      }
+      else if (["String", "Actor", "ActorGroup", "Image", "Sound", "ParticleEffect", "Color", "Enum"].includes(def.type)) {
+        this.properties[def.variableName] = def.defaultValueString;
+      }
+      else if (["CardDeck"].includes(def.type)) {
+        this.properties[def.variableName] = [];
+      }
+      else {
+        throw new Error(`Did you add a new property type, ${def.type}? You need to edit ModuleBehaviorUse`);
+      }
+    });
+
+    // Then load overrides from DB use.
+    jsonUse.propertyAssignments.forEach(assignment => {
+      this.properties[assignment.propertyName] = JSON.parse(assignment.valueJson).value;
+    });
+
+    // For colors, convert to THREE.Color.
+    for (let propName in propTypes) {
+      if (propTypes[propName] === "Color") {
+        this.properties[propName] = colorFromHex(this.properties[propName]) || new THREE.Color(1, 0, 1);
+      }
+    }
+
+    // Full querying the behavior for "can handle msg" can take ~2-4ms
+    // for ~100 actors, on 3.1GHZ mac. Worth optimizing.
+    // We need to cache this at the use-level, since prop values may affect
+    // what a behavior handles.
+    this.handledMessages_ = new Set();
+    this.behavior.getHandledMessageNames(this, this.handledMessages_);
+
+    // Cache handler functions as well
+    this.handlerInfos_ = new Map();
+    this.handledMessages_.forEach(msg => {
+      this.handlerInfos_.set(msg, this.behavior.getHandlerInfo(msg));
+    })
+  }
+
+  getBehaviorUri() {
+    return this.behavior.getBehaviorUri();
+  }
+
+  getId() {
+    return this.id;
+  }
+
+  // Returns true if this use can handle messageName. This is
+  // at the use level, because property values may affect what
+  // messages are handled! Example: ReceiveMessage card.
+  canHandleMessage(messageName) {
+    assertString(messageName);
+    return this.handledMessages_.has(messageName);
+  }
+
+  /**
+   * @returns {!Set<string>}
+   */
+  getHandledMessageNames() {
+    return this.handledMessages_;
+  }
+
+  getHandlerInfo(messageName) {
+    return this.handlerInfos_.get(messageName);
+  }
+}
+
+class ModuleBehaviorBrain {
+  constructor(name, behaviorUses) {
+    this.name_ = name;
+    this.behaviorUses_ = behaviorUses;
+
+    // Union of all uses' handled messages
+    this.handledMessages_ = new Set();
+    this.behaviorUses_.forEach(use => {
+      use.getHandledMessageNames().forEach(msg => this.handledMessages_.add(msg));
+    });
+  }
+
+  /**
+   * @param {string} messageName
+   * @returns {boolean}
+   */
+  hasHandlersFor(messageName) {
+    return this.handledMessages_.has(messageName);
+  }
+
+  forUsesHandling(messageName, func) {
+    // TODO actually filter. Although, filtering by actor is probably more
+    // important to do first.
+    this.behaviorUses_.forEach(use => func(use));
+  }
+
+  hasUse(useId) {
+    for (const use of this.behaviorUses_) {
+      if (use.id === useId) return true;
+    }
+    return false;
+  }
+
+  getUse(useId) {
+    for (const use of this.behaviorUses_) {
+      if (use.id === useId) return use;
+    }
+    return null;
+  }
+}
+
+class ModuleBehaviorDatabase {
+  constructor() {
+    this.brainsByName_ = new Map();
+  }
+
+  getBrain(brainName) {
+    assertString(brainName, 'getBrain arg');
+    return this.brainsByName_.get(brainName);
+  }
+
+  reset(jsonDb) {
+    assert(typeof jsonDb == 'object');
+    this.brainsByName_.clear();
+    const behaviorsByUri = new Map();
+
+    const brainsHandlingCollisions = [];
+
+    for (let i = 0; i < jsonDb.brains.length; i++) {
+      const brainJson = jsonDb.brains[i];
+      const uses = [];
+      for (let j = 0; j < brainJson.behaviorUses.length; j++) {
+        const jsonUse = brainJson.behaviorUses[j]
+        if (!getVoosModule(jsonUse.behaviorUri)) {
+          // This can happen on start up, if there is an error in the VOOS file. Let it slide.
+          sysLog(`WARNING: Could not find module for behavior URI ${jsonUse.behaviorUri}. Ignoring this use for now.`);
+          continue;
+        }
+        assertString(jsonUse.id, "json use ID");
+        const behavior = mapGetOrCreate(behaviorsByUri, jsonUse.behaviorUri, () => new ModuleBehavior(jsonUse.behaviorUri));
+        const use = new ModuleBehaviorUse(jsonUse.id, jsonUse, behavior);
+        uses.push(use);
+      }
+      const brainId = jsonDb.brainIds[i];
+      const brain = new ModuleBehaviorBrain(brainId, uses);
+      this.brainsByName_.set(brainId, brain);
+
+      if (brain.hasHandlersFor("Collision") || brain.hasHandlersFor("TouchEnter")
+        || brain.hasHandlersFor("TerrainCollision")) {
+        brainsHandlingCollisions.push(brainId);
+      }
+    }
+
+    return brainsHandlingCollisions;
+  }
+} 

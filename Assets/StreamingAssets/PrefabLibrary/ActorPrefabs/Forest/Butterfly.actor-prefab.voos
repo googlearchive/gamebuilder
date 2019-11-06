@@ -1,0 +1,148 @@
+{
+    "version": 1,
+    "label": "Butterfly",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "17d5ddc72522404f8caae6981fcd7638",
+        "brainName": "ab9081fa0f954754939cb91daef29fc3",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Butterfly",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"42f5da8a5550479e8b7c5bff1ad42474\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":9705.08203125,\"lastActionMessageTime\":9704.58203125}}}},\"d29e238ab04b4141a7ddc73ed1c2224d\":{}},\"walkDist\":2.213405415415764,\"walkDistTarget\":4.096342190489079,\"turnAmount\":0,\"turnAmountTarget\":1.2785335609139337}",
+        "displayName": "Butterfly",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 0.6724803447723389,
+            "b": 0.16189730167388917,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -20.572500228881837,
+            "y": 0.0,
+            "z": 11.618010520935059
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.9875078797340393,
+            "z": 0.0,
+            "w": 0.15757018327713014
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -18.5225830078125,
+            "y": 0.0,
+            "z": 10.553070068359375
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": -0.31122905015945437,
+            "y": 0.0,
+            "z": -0.9503622055053711
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "ab9081fa0f954754939cb91daef29fc3"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.3265429139137268,\"viewPosition\":{\"x\":1001.7583618164063,\"y\":-4.05908203125},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":930.1799926757813,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":467.07000732421877,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"d29e238ab04b4141a7ddc73ed1c2224d\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d29e238ab04b4141a7ddc73ed1c2224d",
+                        "behaviorUri": "builtin:MoveRandomWalk",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "character"
+}

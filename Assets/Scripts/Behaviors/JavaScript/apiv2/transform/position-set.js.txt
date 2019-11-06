@@ -1,0 +1,291 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Moves the actor forward with the given speed. The notion of "forward" is
+ * relative to the actor itself (that is, it's where the actor is facing).
+ * @param {number} speed The speed with which to move, in units/second.
+ * @example
+ * export function onTick() {
+ *   // Move actor forward at 2 units/second.
+ *   moveForward(2);
+ * }
+ */
+function moveForward(speed) {
+  assertNumber(speed, "speed");
+  ApiV2Context.instance.addDesiredVelocity(getForward(speed));
+}
+
+/**
+ * Moves the actor backward with the given speed. The notion of "backward" is
+ * relative to the actor itself (that is, it's the opposite of where the actor is facing).
+ * @param {number} speed The speed with which to move, in units/second.
+ * @example
+ * export function onTick() {
+ *   // Move actor backward at 2 units/second.
+ *   moveBackward(2);
+ * } 
+ */
+function moveBackward(speed) {
+  assertNumber(speed, "speed");
+  ApiV2Context.instance.addDesiredVelocity(getBackward(speed));
+}
+
+/**
+ * Moves the actor to its left with the given speed. The notion of "left" is
+ * relative to the actor itself (that is, it's what the actor thinks of as its left).
+ * @param {number} speed The speed with which to move, in units/second.
+ * @example
+ * export function onTick() {
+ *   // Move actor to the left at 2 units/second.
+ *   moveLeft(2);
+ * }
+ */
+function moveLeft(speed) {
+  assertNumber(speed, "speed");
+  ApiV2Context.instance.addDesiredVelocity(getLeft(speed));
+}
+
+/**
+ * Moves the actor to its right with the given speed. The notion of "right" is
+ * relative to the actor itself (that is, it's what the actor thinks of as its right).
+ * @param {number} speed The speed with which to move, in units/second.
+ * @example
+ * export function onTick() {
+ *   // Move actor to the right at 2 units/second.
+ *   moveRight(2);
+ * } 
+ */
+function moveRight(speed) {
+  assertNumber(speed, "speed");
+  ApiV2Context.instance.addDesiredVelocity(getRight(speed));
+}
+
+/**
+ * Moves the actor up with the given speed. The notion of "up" is relative
+ * to the actor itself (it's what the actor thinks of as "up", so for a
+ * bird flying that would be up towards the sky but for a bat sleeping upside-down,
+ * its "up" direction would be actually towards the ground).
+ * 
+ * <p>IMPORTANT: If gravity is enabled for the actor, it will not be
+ * able to move up/down of its own accord (gravity will override it).
+ * If you want the actor to move up/down, disable gravity for it.</p>
+ *
+ * @param {number} speed The speed with which to move, in units/second.
+ * @example
+ * export function onTick() {
+ *   // Move actor up at 2 units/second.
+ *   moveUp(2);
+ * }  
+ */
+function moveUp(speed) {
+  assertNumber(speed, "speed");
+  ApiV2Context.instance.addDesiredVelocity(getUp(speed));
+}
+
+/**
+ * Moves the actor down with the given speed. The notion of "down" is relative
+ * to the actor itself (it's what the actor thinks of as "down", so for a
+ * bird in flight that would be down towards the ground but for a bat sleeping upside-down,
+ * "down" would be actually towards the sky).
+ * 
+ * <p>IMPORTANT: If gravity is enabled for the actor, it will not be
+ * able to move up/down of its own accord (gravity will override it).
+ * If you want the actor to move up/down, disable gravity for it.</p>
+ *
+ * @param {number} speed The speed with which to move, in units/second.
+ * @example
+ * export function onTick() {
+ *   // Move actor down at 2 units/second.
+ *   moveDown(2);
+ * }   
+ */
+function moveDown(speed) {
+  assertNumber(speed, "speed");
+  ApiV2Context.instance.addDesiredVelocity(getDown(speed));
+}
+
+/**
+ * Moves with the given velocity (relative to the actor itself).
+ * @param {THREE.Vector3} velocitySelf The velocity with which to move,
+ *    relative to the actor itself (so the Z axis points towards the actor's
+ *    forward direction, the Y axis point towards the actor's up direction
+ *    and the X axis towards the actor's right). If you prefer to specify
+ *    the velocity in global (world) coordinates, use {@link moveGlobal}.
+ */
+function move(velocitySelf) {
+  assertVector3(velocitySelf, "velocitySelf");
+  ApiV2Context.instance.addDesiredVelocity(selfToWorldDir(velocitySelf));
+}
+
+/**
+ * Moves the actor with the given velocity (in global coordinates).
+ * @param {THREE.Vector3} velocityGlobal The velocity with which
+ *    to move, in global coordinates. This means that the Z axis always
+ *    points to the world's north direction, regardless of where the
+ *    actor is facing.
+ */
+function moveGlobal(velocityGlobal) {
+  assertVector3(velocityGlobal, "velocityGlobal");
+  ApiV2Context.instance.addDesiredVelocity(velocityGlobal);
+}
+
+/**
+ * Moves toward (or away from) the given point or actor.
+ * 
+ * <p>If gravity is enabled, the motion will only happen on the plane, not up/down.
+ * If gravity is disabled, motion occurs on all 3 dimensions.
+ * 
+ * @param {ActorRef|Vector3} pointOrActor The point (in world coordinates) or
+ *     the actor towards which to move.
+ * @param {number} speed The speed with which to move towards the target.
+ * @param {number} desiredDistance The desired distance to the target. If we are
+ *     farther than this, we will move towards the target; if we are closer
+ *     than this, we move away from the target.
+ */
+function moveToward(pointOrActor, speed, desiredDistance = 0) {
+  assertNumber(speed, "speed");
+  assertNumber(desiredDistance, "desiredDistance");
+  assert(speed >= 0, "moveToward(): speed can't be negative: " + speed);
+  const targetPos = ApiV2Context.instance.getActorPosOrPoint(pointOrActor);
+  const curDistance = getDistanceTo(targetPos);
+  // If we're close enough, there's nothing to do.
+  if (curDistance < 0.1) return;
+  // How long will it take for us to get to the desired distance?
+  const timeToDesiredDistance = Math.abs(curDistance - desiredDistance) / speed;
+  // Based on that, modulate speed so we don't overshoot it.
+  // (If we overshoot it we'll come back but it will look ugly because we will flicker
+  // back and forth).
+  speed *= interp(0, 0, 0.05, 1, timeToDesiredDistance);
+  // Vector from myself to the target position, scaled to the given speed.
+  let vel = vec3withLength(vec3sub(targetPos, getPos()), speed);
+  // If we're too close, invert it so we move away from it.
+  if (curDistance < desiredDistance) {
+    vel = vec3neg(vel);
+  }
+  moveGlobal(vel);
+}
+
+/**
+ * Sets the X coordinate of the current actor (world coordinates).
+ * @param {number} worldX The X coordinate.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's X position to a random number between 0 and 1
+ *   // on every frame.
+ *   setPosX(Math.random());
+ * }
+ */
+function setPosX(worldX) {
+  const pos = getPos();
+  pos.x = worldX;
+  setPos(pos);
+}
+
+/**
+ * Sets the Y coordinate of the current actor (world coordinates).
+ * @param {number} worldY The Y coordinate.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's Y position to a random number between 0 and 1
+ *   // on every frame.
+ *   setPosY(Math.random());
+ * }
+ */
+function setPosY(worldY) {
+  const pos = getPos();
+  pos.y = worldY;
+  setPos(pos);
+}
+
+/**
+ * Sets the Z coordinate of the current actor (world coordinates).
+ * @param {number} worldZ The Z coordinate.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's Z position to a random number between 0 and 1
+ *   // on every frame.
+ *   setPosZ(Math.random());
+ */
+function setPosZ(worldZ) {
+  const pos = getPos();
+  pos.z = worldZ;
+  setPos(pos);
+}
+
+/**
+ * Sets the current actor's X, Y and Z coordinates (world coordinates).
+ * @param {number} worldX The new X coordinate (world coordinate).
+ * @param {number} worldY The new Y coordinate (world coordinate).
+ * @param {number} worldZ The new Z coordinate (world coordinate).
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's X, Y and Z coordinates to random coordinates
+ *   // between 0 and 1 on every frame.
+ *   setPosXYZ(Math.random(), Math.random(), Math.random());
+ * }
+ */
+function setPosXYZ(worldX, worldY, worldZ) {
+  setPos(vec3(worldX, worldY, worldZ));
+}
+
+/**
+ * Sets the position of the actor, in world coordinates.
+ * @param {THREE.Vector3} worldPos The new position, in world coordinates.
+ * @example
+ * export const PROPS = [
+ *   propActor("target")
+ * ]
+ *
+ * export function onTick() {
+ *   // Set my position to be 2 unit above the target actor:
+ *   const aboveTarget = getPointAbove(2, target);
+ *   setPos(aboveTarget);
+ * }
+ */
+function setPos(worldPos) {
+  ApiV2Context.instance.getActor().setPosition(worldPos);
+}
+
+/**
+ * Sets the spawn position of the current actor (world coordinates).
+ * @param {THREE.Vector3} newSpawnPosWorldCoords The actor's new spawn position.
+ * @example
+ * // Set the actor's spawn position to (2,3,4):
+ * let pos = vec3(2, 3, 4);
+ * setSpawnPos(pos);
+ */
+function setSpawnPos(newSpawnPosWorldCoords) {
+  ApiV2Context.instance.getActor().setSpawnPosition(newSpawnPosWorldCoords);
+}
+
+/**
+ * Sets the LOCAL position of the current actor (relative to parent).
+ * @param {THREE.Vector3} pos The actor's new local position.
+ * @example
+ * export function onTick() { 
+ *   // Set the actor's local X position to a random number between 0 and 1
+ *   // on every frame.
+ *   let pos = vec3(Math.random(), 0, 0);
+ *   setLocalPos(pos);
+ * }
+ */
+function setLocalPos(pos) {
+  ApiV2Context.instance.getActor().setLocalPosition(pos);
+}
+

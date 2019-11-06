@@ -1,0 +1,16 @@
+
+'v8_in_unity' is the Unity native plugin that allows our Unity code (such as
+VoosEngine) to use V8, Chromium's JavaScript engine. It provides functions for
+compiling scripts at run time, interacting between JS and the actor model, etc.
+
+If you need to modify it, you will need to first build the V8 static libraries.
+The last build of the DLL was based on V8 commit:
+d2e0166ded485df126c765b9196f7edd1ce50f82.
+Make sure you build for x64, non-debug.
+
+Then, you can use Microsoft Visual Studio 2017 to open v8_in_unity.sln to
+rebuild the DLLs (for OSX, use the projects in xcode_projects).
+
+In addition to the DLL/bundle projects, there is also a quick test project
+'v8_in_unity_test'. This should run and display "All XX checks passed :)" to
+indicate success. Make sure this works before trying to use your DLL in Unity.

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Lato|Oswald|Inconsolata" rel="stylesheet" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="../third_party/prettify/prettify.js"> </script>
+<script src="../third_party/prettify/lang-css.js"> </script>
+<link type="text/css" rel="stylesheet" href="../third_party/prettify/prettify-tomorrow.css">
+</head>
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+  <img src="images/logo.png">
+</div>
+
+<!-- TEMPORARY REMOVED UNTIL WE UPDATE IT -->
+<div class="content">
+  <div class="nav">
+    <a href="index.html">About Game Builder</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="intro.html">Getting Started</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="ref.html">API Reference</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="tips.html">Tips and Tricks</a>
+  </div>
+
+  <h1>Game Builder: Intro to Scripting (API v2)</h1>
+
+  <p>While it's perfectly possible to make an entire game in Game Builder
+  without writing a single line of code, writing code will allow you to
+  create much richer and more interactive experiences that wouldn't be
+  possible just with built-in objects and cards.</p>
+
+  <p>Anyway, enough about the benefits of code :) If you are reading this,
+  it's because you are already interested in writing some code and you
+  know that coding is fun, so let's get right to it.</p>
+
+  <h2>Fundamentals</h2>
+
+  <p>Any game in Game Builder is made up of two fundamental things:
+  <b>terrain</b> and <b>actors</b>. Terrain means the ground and any
+  blocks, ramps, corners, etc, that you have placed with the
+  <b>Construct</b> tool. Everything else is an <b>actor</b>. For example,
+  in the scene below, can you tell what's terrain and what's an actor?
+
+  <div class="img_display"> <img src="images/actors_and_terrain.png" /> </div>
+
+  <p>Answer: there are 5 actors in the scene:
+  <ul>
+    <li>The slime on the left
+    <li>The rock
+    <li>The tree
+    <li>The "Hey there" text box
+    <li>The player!
+  </ul>
+  </p>
+
+  <p>The ground and the metal platform in the center are terrain.</p>
+
+  <h2>Let's add some code!</h2>
+
+  <p>Let's start simple. Create a new game and put just a slime on
+  the ground. Not a very exciting game (yet!), I know, but let's start
+  simple.</p>
+
+  <p>You can see that the slime moves around. That's a behavior
+  that comes with it by default because wandering around aimlessly
+  sounds like something a slime would do, but for our purposes let's
+  remove it.</p>
+
+  <p>Select the <b>Logic</b> tool and click on the slime. Then look
+  for its <b>Enemy AI</b> panel and remove the <b>Wander Around</b> cards.</p>
+
+  <p>You should now have a slime that's standing still.</p>
+
+  <div class="img_display"> <img src="images/just_a_slime.png" /> </div>
+
+  <p>Now comes the fun part. Use the <b>Logic</b> tool again on the slime,
+  but this time click the <b>Code</b> tab at the top.</p>
+
+  <p>And we get... a Javascript editor!</p>
+
+  <div class="img_display"> <img src="images/code_window.png" /> </div>
+
+  <p>What you are doing now is you're <b>creating a new card</b> that we
+  will later use on the slime (but you could use it on anything else).</p>
+
+  <p>Cards are what give behaviors to actors. Each card corresponds to a
+  code module like the one you're seeing right now. Yep, cards are just
+  a bunch of Javascript. There is no magic, only code!</p>
+
+  <p>First, rename your new card by clicking on the card title field
+  (it's the text field highlighted in red the image above). Name it
+  something interesting, say, <b>MY CARD</b>.</p>
+
+  <p>Ok, now delete all the sample code you see in the editor and
+  replace it by this:</p>
+
+  <pre class="prettyprint">
+  export function onTick() {
+    log("Tick...");
+  }
+  </pre>
+
+  <p>Now click the <b>Save</b> button above the coding area in order to
+  apply your changes.</p>
+
+  <p>What happens now?</p>
+
+  <p>You have just <b>created a card</b>. You have not yet <b>added</b>
+  that card to the slime. This is what we will do next.</p>
+
+  <h2>Adding the card to the slime</h2>
+
+  <p>Now go back to the <b>Logic</b> tab (make sure the slime is selected).</p>
+
+  <p>In the <b>Custom</b> panel, click the dotted rectangle to add a new
+  card. Then drag your fancy new <b>My Card</b> card from the list
+  into the slot:</p>
+
+  <div class="img_display"> <img src="images/card_into_slot.gif" /> </div>
+
+  <p>Don't let your hopes up too much yet, this example isn't going to
+  do anything, but it will show you an important feature.</p>
+
+  <p>When you drop the card, your slime is now printing "Tick..." to the console
+  every time the <tt>onTick()</tt> function is called.</p>
+
+  <p>Where is this console, you ask? Just <b>press the ~ key</b> to
+  view it. On a US keyboard, that's the key at the top-left of the keyboard
+  below the ESC key, normally just to the left of the 1 key. You should
+  now see a little console appear at the top of the screen, filled
+  with "Tick..." messages. Close it by pressing ~ again.</p>
+
+  <p>You now know how to print logs. It may not sound exciting, but
+  it will be useful later when you're debugging something and need
+  to print stuff out!</p>
+
+  <p>Ok, now let's change that code to do something more interesting
+  than printing a log. Ready? Replace it with this:</p>
+
+  <pre class="prettyprint">
+  export function onTick() {
+    spin(2);
+  }
+  </pre>
+
+  <p>Now click the <b>Run</b> button above the coding area in order
+  to apply your changes to your slime.</p>
+
+  <p>What do you get? Yes, a spinning slime:</p>
+
+  <div class="img_display"> <img src="images/spinning_slime.gif" /> </div>
+
+  <p>How does this happen? We are calling the <tt>spin</tt> API function,
+  which spins an actor with the given rotational speed. In this case
+  we set it to 2 radians/second. Prefer to use degrees/second? No worries,
+  just use the handy <tt>degToRad</tt> function.</p>
+
+  <pre class="prettyprint">
+  export function onTick() {
+    // Spin at 45 degrees/second.
+    spin(degToRad(45));
+  }
+  </pre>
+
+  <p>Ok, enough spinning for now. Let's talk about moving around.
+  This slime is going places.</p>
+
+  <h2>Movement</h2>
+
+  <p>Now try replacing the code by this:</p>
+
+  <pre class="prettyprint">
+  export function onTick() {
+    moveForward(1);
+  }
+  </pre>
+
+  <p>What do you get? If your answer was <em>runaway slime</em>, you
+  are right! The slime just moves forward infinitely:</p>
+
+  <div class="img_display"> <img src="images/runaway_slime.gif" /> </div>
+
+  <p>The <tt>moveForward</tt> API call moves the actor forward with
+  the given speed. In this case we required a speed of 1 meter/second.</p>
+  
+  <p>So what exactly does <em>forward</em> mean? Well, it's the direction
+  the slime is currently looking.</p>
+
+  <p>To be more precise, we need to do a quick intro to coordinate systems
+  (also called <em>spaces</em>).</p>
+
+  <h2>Brief intro to spaces</h2>
+  
+  <p>Briefly stated, a <em>space</em> or a <em>coordinate system</em>
+  is a way to interpret a set of <em>(x, y, z),</em> coordinates.
+  By convention, the X value means "to the right", Y means "up" and
+  Z means "forward". With relation to what? Well, that's exactly
+  what we have to always clearly state! If I tell you to "go two
+  steps to the right", your immediate question will be "my right or your
+  right?" (ok, maybe it would be the second question, just after
+  "why are you giving me orders?").</p>
+
+  <p>A <em>space</em> is just a formalization of this. A space is just
+  a notion of which way is right/up/forward and with relation to what:
+
+  <div class="img_display"> <img src="images/slime_lion_space.png" /> </div>
+
+  <p>The names we normally give to these arrows are:
+  <ul>
+    <li>X axis - red arrow. This points to the <b>right</b>.
+    <li>Y axis - green arrow. This points <b>up</b>.
+    <li>Z axis - blue arrow. This points <b>forward</b>.
+  </ul>
+  </p>
+
+  <p>Look at the slime in this scene. The three arrows on it represent
+  the slime's actor space. That's what the slime thinks of as "forward" (blue
+  arrow), "right" (red arrow) and "up" (green arrow). Same thing with the lion:
+  that's the lion's actor space. That's what it thinks of as forward/right/up.
+  It's different than the slime's notion. It's a different space.</p>
+
+  <p>The third space or coordinate system in the picture (the one in
+  the center) is what we call <b>world space</b>. It's a global coordinate
+  system that everyone agrees on. When something is given in
+  <b>world coordinates</b> that's the space that it's represented on.
+  So if I say "go two steps in the <em>world forward</em> direction",
+  everyone in the scene would agree about in which direction to go.
+  World space is the same for everyone.</p>
+
+  <p>When we are talking about world space, instead of saying "forward",
+  "backward", "right" and "left", we tend to say <b>north</b>, <b>south</b>
+  <b>east</b> and <b>west</b> instead, because that makes it more clear
+  that we are talking about world space. So if I say "everyone, move
+  two steps north", everyone would go in the same direction regardless
+  of where they are facing.</p>
+
+  <p class="secondary">Note: if you have used other game engines and graphics
+  programs before, you may have noticed that some of them like to think of Z as
+  pointing "backward" instead of "forward". We use forward because we think
+  it's more intuitive this way.</p>
+
+  <h2>Moving in actor space</h2>
+
+  <p>We already saw <tt>moveForward()</tt> in the last section. Now we
+  can be more precise about it: <tt>moveForward()</tt> moves forward
+  in <em>actor space</em>, so the actor will go in the direction that it's
+  looking at.</p>
+
+  <p>Just like we have <tt>moveForward()</tt>, we also have
+  <tt>moveBackward()</tt>, <tt>moveRight()</tt>, <tt>moveLeft()</tt>,
+  <tt>moveUp()</tt> and <tt>moveDown()</tt>. Those are all in actor space,
+  so relative to where the actor is looking.</p>
+
+  <p>Let's combine <tt>spin()</tt> with <tt>moveForward</tt> now for
+  an interesting effect:</p>
+
+  <pre class="prettyprint">
+  // My script
+
+  export function onTick() {
+    spin(1);
+    moveForward(1);
+  }
+  </pre>
+
+  <p>What do you get now? Yes, a slime that runs around in circles:</p>
+
+  <div class="img_display"> <img src="images/slime_circles.gif" /> </div>
+
+  <p>Why does this happen? Think about what happens on every tick:
+  the slime turns a little bit, then takes a tiny step forward. The fact
+  that it's turning means that "forward" is different every time, so
+  the net effect is that it runs around in a circle. Neat, right?</p>
+
+  <h2>Moving in world space</h2>
+
+  <p>All of those move in actor space. Now let's see how we'd move in
+  world space. Suppose for example that you wanted to move the slime
+  north, no matter where it's facing. In this case you can use
+  the <tt>moveGlobal</tt> function, which moves an actor with a world-space
+  velocity:</p>
+
+  <pre class="prettyprint">
+  export function onTick() {
+    // Move north.
+    moveGlobal(vec3(0,0,1));
+  }
+  </pre>
+
+  <div class="img_display"> <img src="images/slime_world_z.gif" /> </div>
+
+  <p>Note that the slime is moving towards the world's north direction
+  regardless of where it's looking. That's why it moves sideways.</p>
+
+  <h2>Interactions</h2>
+
+  <p>What's a fundamental thing that is missing in the examples we've done so
+  far? Hint: it's pretty fundamental in games.</p>
+
+  <p>Answer: player interaction! So far, the player has done nothing but
+  watch the slimes move, turn, etc. Let's change that now. For example,
+  let's make the slime change color when it collides with something.</p>
+
+  <p>For that, we need to introduce a fundamental
+  concept: <b>messages</b>.</p>
+
+  <p>A <b>message</b> is just a packet of information that gets sent
+  from the engine to an actor, or from an actor to another actor.
+  The message tells the actor that something happened, and gives the
+  actor a chance to react to it. The code that reacts to a message
+  is called the <b>message handler</b> function.</p>
+
+  <p>You have been using messages already! Guess what: <tt>Tick</tt>
+  is a message, so when you write your <tt>onTick</tt> function,
+  you are in fact handling the <tt>Tick</tt> message. The tick message
+  gets delivered to every actor on every tick.</p>
+
+  <p>Another message that the engine delivers to actors automatically
+  is the <tt>Collision</tt> message, which indicates that another
+  actor has collided with it. Let's try to write a handler for
+  that message and see what happens.</p>
+
+  <p>Go back to your slime and edit <b>My Card</b>. Replace the code with
+  this:</p>
+
+  <pre class="prettyprint">
+  export function onCollision() {
+    // Make it blue.
+    setTint(0, 0, 1);
+  }
+  </pre>
+
+  <p>We set things up so that when the slime hits another actor, it will
+  set its color to blue.</p>
+
+  <p>Try it out. When you bump against the slime, it turns blue.</p>
+
+  <div class="img_display"> <img src="images/slime_blue.gif" /> </div>
+
+  <p>Great, right?</p>
+
+  <h2>Gate: first try</h2>
+
+  <p>Let's use our new skills to make a gate that opens when you bump into
+  it. Place a gate between some terrain blocks like this:</p>
+
+  <div class="img_display"> <img src="images/fence.png" /> </div>
+
+  <p>Now, use the <b>Logic</b> tool on the gate and remove its built-in
+  IF-THEN panel, because it will interfere with our example. We just
+  want a plain gate!</p>
+
+  <div class="img_display"> <img src="images/if_then_trash.gif" /> </div>
+
+  <p>Now let's try to naively implement a script that opens the gate
+  when you bump into it. Make a new card (or reuse the card you already
+  had on the slime) and put it on the gate. Write this code on the
+  card:</p>
+
+  <pre class="prettyprint">
+  export function onCollision() {
+    // Open the gate by moving the the left a bit
+    moveLeft(1);
+  }
+  </pre>
+
+  <p>It says "if I collide with something, then move left". Sounds right,
+  doesn't it? Well... <em>almost</em>. Look at what happens:</p>
+
+  <div class="img_display"> <img src="images/gate_weird.gif" /> </div>
+
+  <p>As you can see, the gate moves left with a speed of 1 meter/second
+  only <em>while</em> the player is colliding with it. If you stop colliding
+  with the gate, it stops.</p>
+
+  <p>This happens because the <tt>onCollision</tt> message gets delivered
+  every frame only while the gate is colliding. After it stops colliding,
+  it is no longer delivered, so your <tt>moveLeft</tt> call doesn't execute,
+  hence the gate stops moving.</p>
+
+  <p>How could we implement a gate that opens smoothly all the way,
+  without needing the player to continually bump against it?</p>
+
+  <p>Well, for that, the gate needs to <em>remember</em> that it's
+  currently in the "opening" state. For that, we need memory!</p>
+
+  <h2>Memory</h2>
+
+  <p>Memory means a set of values that an actor or a card remembers.
+  You can store variables in memory so you can access them later. It also
+  gets included in the save file, so whatever values you store
+  are persisted if you save the game and load it again.</p>
+
+  <p>There are two levels of memory:</p>
+
+  <ul>
+    <li><b>Card memory:</b> This is the memory that's private to your
+    card on this actor. It is not shared with other cards, and not shared
+    with other actors. This is the recommended place to put most of your
+    state, unless you need to share that state between cards.
+    <li><b>Actor memory:</b> This is the memory that belongs to the actor
+    as a whole, and is <b>shared</b> by all the cards that exist on
+    the same actor. This is accessible through the <tt>mem</tt> global.
+    Use this sparingly, since what you write here can overwrite what other
+    cards have written.
+  </ul>
+
+  <p>Let's use <b>card memory</b> to create a smoother gate.
+  When the player bumps into
+  it, we will store a variable in card memory called <tt>triggered</tt>
+  (it could be called anything else, it's just a variable!), and it will
+  represent the fact that the gate has been triggered by the user.</p>
+
+  <p>Then, instead of opening the gate only while it's being collided
+  against, we will use the <tt>onTick</tt> function to slowly open it if
+  the <tt>triggered</tt> variable is set to <tt>true</tt>.</p>
+
+  <p>To access the card's memory, simply use the <tt>card</tt> object:</p>
+
+  <pre class="prettyprint">
+  export function onTick() {
+    if (card.triggered) {
+      moveLeft(2);
+    }
+  }
+
+  export function onCollision() {
+    card.triggered = true;
+  }
+  </pre>
+
+  <div class="img_display"> <img src="images/gate_smooth.gif" /> </div>
+  
+  <p>Much better, right? What is happening in this code is:</p>
+
+  <p><ol>
+    <li><tt>onTick</tt> gets called every frame. But we don't do anything
+      because <tt>card.triggered</tt> hasn't been set yet. So the gate
+      stays closed.
+    <li>The player bumps into the gate.
+    <li><tt>onCollision</tt> now gets called on the gate.
+    <li>We set <tt>card.triggered</tt> to <tt>true</tt>.
+    <li><tt>onTick</tt> continues to get called every frame, but now
+      that <tt>card.triggered</tt> is set, we call <tt>moveLeft(2)</tt>
+      That function moves the actor to its left with a speed of 2 meters/second.
+  </ol></p>
+
+  <h2>Resetting the game</h2>
+
+  <p>You may have noticed something weird in the previous example.
+  If you reset the game (press <tt>Ctrl+R</tt>), the gate will immediately open
+  again as if you had triggered it. Why?
+  This happens because memory <b>is not reset</b> automatically.</p>
+
+  <p>To ensure that things return to their initial state, you have to
+  implement <tt>onInit</tt> to reset any memory that you use to a known
+  initial state.</p>
+
+  <p>So here is our corrected code:</p>
+
+  <pre class="prettyprint">
+  // onInit is called every time the game is reset:
+  export function onInit() {
+    card.triggered = false;
+  }
+ 
+  export function onTick() {
+    if (card.triggered) {
+      moveLeft(2);
+    }
+  }
+
+  export function onCollision() {
+    card.triggered = true;
+  }
+  </pre>
+
+  <p>This ensures that when the game is reset, the variable <tt>triggered</tt>
+  starts with the value of <tt>false</tt>.</p>
+
+  <p>There is still something weird... the gate moves infinitely to
+  the left! Why? There is no stopping condition. Once <tt>triggered</tt>
+  is set to <tt>true</tt>, it's never reset.</p>
+
+  <p>What we want is to reset it after, say, 1 second. To do this, we
+  can send ourselves a "delayed message" to remind ourselves to reset it:</p>
+
+  <pre class="prettyprint">
+  export function onInit() {
+    card.triggered = false;
+  }
+
+  export function onTick() {
+    if (card.triggered) {
+      moveLeft(2);
+    }
+  }
+
+  export function onCollision() {
+    card.triggered = true;
+    // Remind ourselves to stop in 1 second.
+    sendToSelfDelayed(1, "StopIt");
+  }
+
+  export function onStopIt() {
+    card.triggered = false;
+  }
+  </pre>
+
+  <p>Now the gate stops after 1 second of motion.</p>
+
+  <h2>Properties</h2>
+
+  <p>When you're designing cards, it's a good strategy to make them as
+  reusable as possible. Don't over-optimize a card for that one particular
+  actor. Say, for instance, you need to make a slime that turns blue for
+  5 seconds when the player hits it. If the "blue" and "5 seconds" are
+  hard-coded into the card's code, what happens when you need a slime that
+  turns red for 4 seconds instead?</p>
+
+  <p>That's what <b>properties</b> are for.</p>
+
+  <p>This card, for example, could declare two properties: the color to
+  use, and the duration, and then implement its logic in terms of these
+  properties:</p>
+
+  <pre class="prettyprint">
+  export const PROPS = [
+    propColor("Color"),
+    propNumber("Duration", 3)
+  ];
+
+  export function onInit() {
+    // Start green.
+    setTint(0, 1, 0);
+  }
+
+  export function onCollision() {
+    // Bump! Change to the requested color.
+    setTintColor(props.Color);
+    // Remind ourselves to change back to green.
+    sendToSelfDelayed(props.Duration, "RestoreColor");
+  }
+
+  export function onRestoreColor() {
+    setTint(0, 1, 0);
+  }
+  </pre>
+
+  <p>Users of the card (you!) will now be able to assign its properties:</p>
+
+  <div class="img_display"> <img src="images/editing_props.gif" /> </div>
+
+  <p>The more flexible you make your cards, the more you will be
+  able to reuse them in different actors and contexts!</p>
+
+  <h2>Sending messages to other actors</h2>
+
+  <p>Now let's do a more complicated example: a button that launches
+  a rocketship.</p>
+
+  <p>There are 2 actors in this example: the rocketship and the button.
+  Hitting the button will cause it to send a "Launch" message
+  to the rocketship. The rocketship, upon receiving that message, will
+  start to go up slowly.</p>
+
+  <p>So let's build the scene first:</p>
+
+  <div class="img_display"> <img src="images/rocket.png" /> </div>
+
+  <p>Nothing fancy. Ok, now let's start with the code for the ship:</p>
+
+  <pre class="prettyprint">
+  // Ship script
+  export function onTick() {
+    // If rocket was launched, move up at 2 units/second.
+    if (card.launched) {
+      moveUp(2);
+    }
+  }
+
+  // This gets called when we receive the "Launch" message
+  // (sent by the button).
+  export function onLaunch() {
+    card.launched = true;
+  }
+
+  export function onInit() {
+    card.launched = false;
+  }
+  </pre>
+
+  <p>Notice how the rocket is programmed to just sit there doing nothing
+  until the <tt>card.launched</tt> variable is set to <tt>true</tt>,
+  at which point on every tick it will call <tt>moveY</tt> to move up
+  at 2 units/second.</p>
+
+  <p>When the rocket receives the <tt>Launch</tt> message (which the button
+  will send, as we will show next), then it sets the <tt>card.launched</tt>
+  variable to <tt>true</tt>, causing the motion to begin.</p>
+
+  <p>So here is what we write for the button:</p>
+
+  <pre class="prettyprint">
+  // Declare the "rocket" property of this script, of type Actor:
+  export const PROPS = [
+    propActor("rocket")
+  ];
+
+  // This gets called when the player collides with the button.
+  export function onCollision() {
+    // Tell rocket to launch.
+    send(props.rocket, "Launch");
+  }
+  </pre>
+
+  <p>There is a funny bit we haven't seen before. This thing:</p>
+  <pre class="prettyprint">
+  export const PROPS = [
+    propActor("rocket")
+  ];
+  </pre>
+
+  <p>This indicates that this script has an <b>actor property</b>
+  that can be set. This is similar to other properties we saw before
+  (<tt>propNumber</tt> and <tt>propColor</tt>), but the value of this
+  property is a <b>reference to another actor</b>.</p>
+  
+  <p>To assign it, go to the card on the button, and click on the field.
+  You can then select the rocket to set the value of that field, and
+  from that point on you can refer to the rocket from your card
+  as <tt>props.rocket</tt>.</p>
+
+  <div class="img_display"> <img src="images/set_prop_actor.gif" /> </div>
+
+  <p>This is used in <tt>onCollision</tt>, in which we use the <tt>send</tt>
+  function to send a message to the rocket. The message is simply
+  <tt>Launch</tt>, which causes the rocket's <tt>onLaunch</tt> function
+  to be called, which itself causes the rocket to start going up.
+
+  <p>Here is the result:</p>
+
+  <div class="img_display"> <img src="images/rocket_launch.gif" /> </div>
+
+  <h2>What's Next</h2>
+
+  <p>Now that you know the fundamental of how scripting works,
+  you can take a look at the <a href='index.html'>API reference</a>
+  for a full list of functions supported by the API. Happy coding!</p>
+
+</div>
+
+</div>
+<div class="legal">
+  <a href="https://policies.google.com/privacy">Privacy Policy</a>
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  <a href="https://policies.google.com/terms">Terms of Service</a>
+</div>
+
+
+<script> prettyPrint(); </script>
+</body>
+</html>
+

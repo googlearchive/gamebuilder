@@ -1,0 +1,59 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Plays a one-shot animation on the current actor.
+ * The name of the animation must be defined in the actor's visual asset. For example,
+ * if the actor has, as its visual asset, an FBX file that defines an animation
+ * called "Dance", you can call <tt>playAnimation("DANCE")</tt> to trigger it.
+ *
+ * @param {string} animationName The name of the animation to play.
+ * @example
+ * export function onCollision() {
+ *   // Note: "Dance" must be defined in the actor asset's file.
+ *   playAnimation("Dance");
+ *   cooldown(1);
+ * }
+ */
+function playAnimation(animationName) {
+  assertString(animationName, "animationName");
+  callVoosService("PlayOneShotAnimation", {
+    actorTempId: ApiV2Context.instance.getActor().getInternalActor().tempId_,
+    animationName: animationName
+  });
+}
+
+/**
+ * Gets the actor's looping animation name. This animation always plays, and
+ * when one-shot animations are done (played with playAnimation), it will return
+ * to looping this animation.
+ * @param {ActorRef=} actor The actor whose animation to get. If omitted,
+ * defaults to the current actor.
+ * @return {string} The looping animation name.
+ */
+function getLoopingAnimation(actor) {
+  return ApiV2Context.instance.getActor(actor).getLoopingAnimation();
+}
+
+/**
+ * Sets the looping animation of the actor. Begins playing immediately.
+ * @param {string} animationName The new animation to loop.
+ */
+function setLoopingAnimation(animationName) {
+  ApiV2Context.instance.getActor().setLoopingAnimation(animationName);
+}

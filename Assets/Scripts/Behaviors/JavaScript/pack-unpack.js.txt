@@ -1,0 +1,119 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+function packObj(obj, label = '', errorList = null) {
+  return packNode_(obj, label, new Set(), errorList || __dummyList);
+}
+
+function unpackObj(obj, label = '') {
+  return unpackNode_(obj, label);
+}
+
+function packNode_(node, label, visitedSet, errorList) {
+  assert(visitedSet && errorList);
+  switch (typeof node) {
+    case 'string':
+    case 'boolean':
+      // These are packed as-is.
+      return node;
+    case 'number':
+      // Must be finite.
+      if (!isFinite(node)) {
+        errorList.push(`${label} is a non-finite number and can't be stored in memory or messages. Math error somewhere?`);
+        return 0;
+      }
+      return node;
+    case 'object':
+      if (node === null) {
+        // Remember typeof null === 'object' (thanks, Javascript).
+        return null; // null is OK
+      } else if (node instanceof THREE.Vector3) {
+        // Replace with special representation for a Vector3.
+        return ['__v3__', node.x, node.y, node.z];
+      } else if (node instanceof THREE.Quaternion) {
+        // Special representation for a Quaternion.
+        return ['__qu__', node.x, node.y, node.z, node.w];
+      } else if (node instanceof THREE.Color) {
+        // Special representation for a Color.
+        return ['__co__', node.r, node.g, node.b];
+      }
+      if (visitedSet.has(node)) {
+        errorList.push(`Multiple/cyclical refs to an object can't be stored in memory/messages. One of the refs is: ${label}.`);
+        return null;
+      }
+      visitedSet.add(node);
+      const className = node.__proto__.constructor.name;
+      if (Array.isArray(node)) {
+        const result = [];
+        for (let i = 0; i < node.length; i++) {
+          result.push(packNode_(node[i], `${label}[${i}]`, visitedSet, errorList));
+        }
+        return result;
+      } else if (className === 'Object') {
+        const result = {};
+        for (let childKey in node) {
+          result[childKey] = packNode_(node[childKey], label + '.' + childKey, visitedSet, errorList);
+        }
+        return result;
+      } else {
+        errorList.push(`${label} is a class instance (${className}), so it can't be stored in memory or messages.`);
+        return null;
+      }
+    case 'undefined':
+      errorList.push(`${label} is undefined and can't be stored in memory or messages. Delete this value, or use null instead.`);
+      return null;
+    default:
+      errorList.push(`${label} is of an unsupported type for memory or messages: ${typeof node}`);
+      return null;
+  }
+}
+
+function unpackNode_(node, label) {
+  // Easy case: if it's null, or anything that's not of type object, 
+  // it's already unpacked.
+  if (node === null || typeof node !== 'object') {
+    return node;
+  }
+  const className = node.__proto__.constructor.name;
+  if (Array.isArray(node)) {
+    // Replace special object representations with the corresponding actual object.
+    switch (node[0]) {
+      case '__v3__':
+        return new THREE.Vector3(node[1], node[2], node[3]);
+      case '__qu__':
+        return new THREE.Quaternion(node[1], node[2], node[3], node[4]);
+      case '__co__':
+        return new THREE.Color(node[1], node[2], node[3]);
+    }
+    // It's a normal array, so just unpack each member.
+    const result = [];
+    for (let i = 0; i < node.length; i++) {
+      result.push(unpackNode_(node[i], `${label}[${i}]`));
+    }
+    return result;
+  } else if (className === 'Object') {
+    // Unpack each member.
+    const result = {};
+    for (let childKey in node) {
+      result[childKey] = unpackNode_(node[childKey], label + '.' + childKey);
+    }
+    return result;
+  } else {
+    throw new Error(`${label} is of an unexpected class of unpacking: ${className}.`)
+  }
+}
+
+var __dummyList = { push: function () { } }

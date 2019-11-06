@@ -1,0 +1,115 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * @typedef SkyType
+ * @prop {string} DAY
+ * @prop {string} SPACE
+ * @prop {string} OVERCAST
+ * @prop {string} SOLIDCOLOR
+ */
+
+/**
+ * Enum of possible sky types.
+ *
+ * Used with {@link setSkyType} and {@link getSkyType}.
+ *
+ * @enum {SkyType}
+ */
+var SkyType = {
+  DAY: "DAY",
+  SPACE: "SPACE",
+  OVERCAST: "OVERCAST",
+  SOLIDCOLOR: "SOLIDCOLOR"
+}
+
+/**
+ * @typedef SceneLightingMode
+ * @prop {string} DAY
+ * @prop {string} NIGHT
+ * @prop {string} DARK
+ */
+
+/**
+ * Enum of possible scene lighting modes.
+ *
+ * Used with {@link setSceneLighting} and {@link getSceneLighting}.
+ *
+ * @enum {SceneLightingMode}
+ */
+var SceneLightingMode = {
+  DAY: "DAY",
+  NIGHT: "NIGHT",
+  DARK: "DARK"
+}
+
+/**
+ * Sets the sky type.
+ *
+ * @param {SkyType} skyType The sky type to set.
+ */
+function setSkyType(skyType) {
+  assert(Object.keys(SkyType).includes(skyType), "Invalid sky type: " + skyType);
+  return callVoosService("SetSkyType", { value: "" + skyType });
+}
+
+/**
+ * Gets the current sky type.
+ * @return {SkyType} The current sky type.
+ */
+function getSkyType() {
+  return (callVoosService("GetSkyType").value || "").toUpperCase();
+}
+
+/**
+ * Sets the sky color.
+ * @param {THREE.Color} color The desired sky color.
+ */
+function setSkyColor(color) {
+  color = ApiV2Context.instance.normalizeColor(color, new THREE.Color(1, 1, 1));
+  callVoosService("SetSkyColor", { value: { r: color.r, g: color.g, b: color.b, a: 1 } });
+}
+
+/**
+ * Gets the current sky color
+ * @return {THREE.Color} The current sky color.
+ */
+function getSkyColor() {
+  const color = callVoosService("GetSkyColor").value;
+  return new THREE.Color(
+    clamp(color.r || 0, 0, 1),
+    clamp(color.g || 0, 0, 1),
+    clamp(color.b || 0, 0, 1));
+}
+
+/**
+ * Sets the scene lighting mode.
+ * @param {SceneLightingMode} lightingMode The lighting mode.
+ */
+function setSceneLighting(lightingMode) {
+  assert(Object.keys(SceneLightingMode).includes(lightingMode), "Invalid scene lighting mode: " + lightingMode);
+  return callVoosService("SetSceneLighting", { value: "" + lightingMode });
+}
+
+/**
+ * Gets the current scene lighting mode.
+ * @return {SceneLightingMode} The current lighting mode.
+ */
+function getSceneLighting() {
+  return (callVoosService("GetSceneLighting").value || "").toUpperCase();
+}

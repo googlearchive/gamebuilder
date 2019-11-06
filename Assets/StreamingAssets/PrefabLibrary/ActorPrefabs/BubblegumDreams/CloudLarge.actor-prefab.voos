@@ -1,0 +1,266 @@
+{
+    "version": 2,
+    "label": "CloudLarge",
+    "actors": [
+        {
+            "version": 8,
+            "name": "4ff16b83ab99455b8a7a4c42d8f94363",
+            "brainName": "b528adbe79b74862b8a892d7d72acff6",
+            "tags": [],
+            "renderableUri": "builtin:BuiltinAssets/BubblegumDreams/CloudLarge",
+            "memoryJson": "{\"__bulm\":{\"ed0ab3baf8e94e6a95ce46b9ec1d79ae\":{\"actionDeckState\":{}},\"1dd4906cce2d4b06a94a752009ffd31e\":{\"actionDeckState\":{\"decksInfo\":{\"actionDeck\":{\"active\":true,\"endTime\":9638.3076171875,\"lastActionMessageTime\":9637.8173828125}}}},\"c5b6c5bff71f43c49bc8af3de589a6f2\":{\"actionDeckState\":{}}}}",
+            "displayName": "CloudLarge",
+            "description": "",
+            "tint": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+            },
+            "transformParent": "",
+            "position": {
+                "x": -19.571868896484376,
+                "y": 0.0,
+                "z": 21.74151611328125
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "renderableOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "renderableRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "commentText": "",
+            "spawnPosition": {
+                "x": -19.571868896484376,
+                "y": 0.0,
+                "z": 21.74151611328125
+            },
+            "spawnRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "preferOffstage": false,
+            "isSolid": true,
+            "enablePhysics": false,
+            "enableGravity": false,
+            "bounciness": 0.0,
+            "drag": 0.0,
+            "angularDrag": 0.05000000074505806,
+            "mass": 1.0,
+            "freezeRotations": false,
+            "freezeX": false,
+            "freezeY": false,
+            "freezeZ": false,
+            "enableAiming": false,
+            "hideInPlayMode": false,
+            "keepUpright": false,
+            "isPlayerControllable": false,
+            "debugString": "",
+            "cloneParent": "",
+            "velocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "angularVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "cameraActor": "",
+            "spawnTransformParent": "",
+            "wasClonedByScript": false,
+            "loopingAnimation": "",
+            "cameraSettingsJson": "",
+            "lightSettingsJson": "",
+            "pfxId": "",
+            "sfxId": "",
+            "useConcaveCollider": true,
+            "speculativeColDet": false,
+            "useStickyDesiredVelocity": false,
+            "stickyDesiredVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ],
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "b528adbe79b74862b8a892d7d72acff6"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":1.0,\"viewPosition\":{\"x\":67.91912841796875,\"y\":66.0103759765625},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":0.0,\"y\":0.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "ed0ab3baf8e94e6a95ce46b9ec1d79ae",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "1dd4906cce2d4b06a94a752009ffd31e",
+                        "behaviorUri": "builtin:Always Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":0.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"c5b6c5bff71f43c49bc8af3de589a6f2\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "c5b6c5bff71f43c49bc8af3de589a6f2",
+                        "behaviorUri": "builtin:Back And Forth",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "DistForward",
+                                "valueJson": "{\"value\":0.0}"
+                            },
+                            {
+                                "propertyName": "DistUp",
+                                "valueJson": "{\"value\":0.5}"
+                            },
+                            {
+                                "propertyName": "RestTime",
+                                "valueJson": "{\"value\":0.0}"
+                            },
+                            {
+                                "propertyName": "Speed",
+                                "valueJson": "{\"value\":0.30000001192092898}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "sojos": [],
+    "category": "gameplay",
+    "workshopId": "",
+    "actorData": {
+        "version": 0,
+        "name": "",
+        "brainName": "",
+        "tags": [],
+        "renderableUri": "",
+        "memoryJson": "",
+        "displayName": "",
+        "description": "",
+        "tint": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "localScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.0,
+        "mass": 0.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "angularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": "",
+        "useConcaveCollider": false,
+        "speculativeColDet": false,
+        "useStickyDesiredVelocity": false,
+        "stickyDesiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

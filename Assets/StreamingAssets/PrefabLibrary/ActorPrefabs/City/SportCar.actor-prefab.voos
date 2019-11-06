@@ -1,0 +1,152 @@
+{
+    "version": 1,
+    "label": "SportCar",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "7ae6f03518dc47a68a39f0defaa1b9cf",
+        "brainName": "571be8ea14fc4dbca8f62261add050ac",
+        "tags": [
+            "player"
+        ],
+        "renderableUri": "builtin:BuiltinAssets/City/SportCar",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":8919.58203125,\"lastActionMessageTime\":8919.08203125}}}},\"2595819a267a4b808083308431567758\":{},\"7f388c910643431fa197fbfd3701ed05\":{\"speed\":0},\"281ff97e102641f8b0d03f79a6f5bd17\":{}}}",
+        "displayName": "SportCar",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 0.5940725803375244,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -3.4082183837890627,
+            "y": 0.014097332954406739,
+            "z": 35.977298736572269
+        },
+        "rotation": {
+            "x": -6.632034654785457e-8,
+            "y": 4.05267464032022e-9,
+            "z": 9.018505409130739e-8,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -3.4082183837890627,
+            "y": 0.0,
+            "z": 35.01824951171875
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": true,
+        "isPlayerControllable": true,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": -2.680006971900184e-8,
+            "y": -0.000001773238182067871,
+            "z": 4.159364852540648e-9
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "571be8ea14fc4dbca8f62261add050ac"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.5374530553817749,\"viewPosition\":{\"x\":-25.93526840209961,\"y\":-116.64083862304688},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1382.969970703125,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"2595819a267a4b808083308431567758\",\"7f388c910643431fa197fbfd3701ed05\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "2595819a267a4b808083308431567758",
+                        "behaviorUri": "builtin:Player Speed Based Turn",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "7f388c910643431fa197fbfd3701ed05",
+                        "behaviorUri": "builtin:Player Speed Throttle",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "281ff97e102641f8b0d03f79a6f5bd17",
+                        "behaviorUri": "builtin:Player Controls Panel v2",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":990.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "PlayerNumber",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "character"
+}

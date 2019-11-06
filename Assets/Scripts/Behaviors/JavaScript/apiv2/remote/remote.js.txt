@@ -1,0 +1,1106 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+// BEGIN_GAME_BUILDER_CODE_GEN REMOTE_API_FUNCTIONS_JAVASCRIPT
+
+/**
+ * Politely requests that the given actor call {@link setPos} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setPos} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param worldPos (see original function)
+
+ */
+function setPosPlease(actor, worldPos) {    // GENERATED
+  assert(exists(actor), 'setPosPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setPos(worldPos);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setPos', args: encodeUndefineds([worldPos]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setYaw} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setYaw} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param yawRadians (see original function)
+
+ */
+function setYawPlease(actor, yawRadians) {    // GENERATED
+  assert(exists(actor), 'setYawPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setYaw(yawRadians);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setYaw', args: encodeUndefineds([yawRadians]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setPitch} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setPitch} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param pitchRadians (see original function)
+
+ */
+function setPitchPlease(actor, pitchRadians) {    // GENERATED
+  assert(exists(actor), 'setPitchPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setPitch(pitchRadians);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setPitch', args: encodeUndefineds([pitchRadians]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setRoll} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setRoll} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param rollRadians (see original function)
+
+ */
+function setRollPlease(actor, rollRadians) {    // GENERATED
+  assert(exists(actor), 'setRollPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setRoll(rollRadians);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setRoll', args: encodeUndefineds([rollRadians]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setYawPitchRoll} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setYawPitchRoll} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param yawRadians (see original function)
+ * @param pitchRadians (see original function)
+ * @param rollRadians (see original function)
+
+ */
+function setYawPitchRollPlease(actor, yawRadians, pitchRadians, rollRadians) {    // GENERATED
+  assert(exists(actor), 'setYawPitchRollPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setYawPitchRoll(yawRadians, pitchRadians, rollRadians);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setYawPitchRoll', args: encodeUndefineds([yawRadians, pitchRadians, rollRadians]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link turn} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link turn} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param radians (see original function)
+ * @param axis (see original function)
+
+ */
+function turnPlease(actor, radians, axis) {    // GENERATED
+  assert(exists(actor), 'turnPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    turn(radians, axis);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'turn', args: encodeUndefineds([radians, axis]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link applyQuaternion} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link applyQuaternion} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param quat (see original function)
+
+ */
+function applyQuaternionPlease(actor, quat) {    // GENERATED
+  assert(exists(actor), 'applyQuaternionPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    applyQuaternion(quat);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'applyQuaternion', args: encodeUndefineds([quat]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link applyQuaternionSelf} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link applyQuaternionSelf} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param quat (see original function)
+
+ */
+function applyQuaternionSelfPlease(actor, quat) {    // GENERATED
+  assert(exists(actor), 'applyQuaternionSelfPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    applyQuaternionSelf(quat);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'applyQuaternionSelf', args: encodeUndefineds([quat]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setRot} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setRot} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param rot (see original function)
+
+ */
+function setRotPlease(actor, rot) {    // GENERATED
+  assert(exists(actor), 'setRotPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setRot(rot);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setRot', args: encodeUndefineds([rot]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link resetRot} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link resetRot} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param  (see original function)
+
+ */
+function resetRotPlease(actor) {    // GENERATED
+  assert(exists(actor), 'resetRotPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    resetRot();    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'resetRot', args: encodeUndefineds([]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link lookAt} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link lookAt} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param targetActorOrPoint (see original function)
+ * @param yawOnly (see original function)
+
+ */
+function lookAtPlease(actor, targetActorOrPoint, yawOnly) {    // GENERATED
+  assert(exists(actor), 'lookAtPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    lookAt(targetActorOrPoint, yawOnly);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'lookAt', args: encodeUndefineds([targetActorOrPoint, yawOnly]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link lookDir} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link lookDir} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param direction (see original function)
+ * @param yawOnly (see original function)
+
+ */
+function lookDirPlease(actor, direction, yawOnly) {    // GENERATED
+  assert(exists(actor), 'lookDirPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    lookDir(direction, yawOnly);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'lookDir', args: encodeUndefineds([direction, yawOnly]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setScaleUniform} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setScaleUniform} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param scale (see original function)
+
+ */
+function setScaleUniformPlease(actor, scale) {    // GENERATED
+  assert(exists(actor), 'setScaleUniformPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setScaleUniform(scale);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setScaleUniform', args: encodeUndefineds([scale]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setScale} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setScale} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param scale (see original function)
+
+ */
+function setScalePlease(actor, scale) {    // GENERATED
+  assert(exists(actor), 'setScalePlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setScale(scale);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setScale', args: encodeUndefineds([scale]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link attachToParent} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link attachToParent} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param newParent (see original function)
+
+ */
+function attachToParentPlease(actor, newParent) {    // GENERATED
+  assert(exists(actor), 'attachToParentPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    attachToParent(newParent);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'attachToParent', args: encodeUndefineds([newParent]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link detachFromParent} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link detachFromParent} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param  (see original function)
+
+ */
+function detachFromParentPlease(actor) {    // GENERATED
+  assert(exists(actor), 'detachFromParentPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    detachFromParent();    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'detachFromParent', args: encodeUndefineds([]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setVar} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setVar} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param name (see original function)
+ * @param value (see original function)
+
+ */
+function setVarPlease(actor, name, value) {    // GENERATED
+  assert(exists(actor), 'setVarPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setVar(name, value);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setVar', args: encodeUndefineds([name, value]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link deleteVar} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link deleteVar} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param name (see original function)
+
+ */
+function deleteVarPlease(actor, name) {    // GENERATED
+  assert(exists(actor), 'deleteVarPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    deleteVar(name);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'deleteVar', args: encodeUndefineds([name]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setDisplayName} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setDisplayName} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param name (see original function)
+
+ */
+function setDisplayNamePlease(actor, name) {    // GENERATED
+  assert(exists(actor), 'setDisplayNamePlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setDisplayName(name);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setDisplayName', args: encodeUndefineds([name]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setCommentText} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setCommentText} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param newText (see original function)
+
+ */
+function setCommentTextPlease(actor, newText) {    // GENERATED
+  assert(exists(actor), 'setCommentTextPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setCommentText(newText);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setCommentText', args: encodeUndefineds([newText]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setSolid} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setSolid} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param isSolid (see original function)
+
+ */
+function setSolidPlease(actor, isSolid) {    // GENERATED
+  assert(exists(actor), 'setSolidPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setSolid(isSolid);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setSolid', args: encodeUndefineds([isSolid]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setKinematic} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setKinematic} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param isKinematic (see original function)
+
+ */
+function setKinematicPlease(actor, isKinematic) {    // GENERATED
+  assert(exists(actor), 'setKinematicPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setKinematic(isKinematic);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setKinematic', args: encodeUndefineds([isKinematic]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link enableGravity} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link enableGravity} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param enableGravity (see original function)
+
+ */
+function enableGravityPlease(actor, enableGravity) {    // GENERATED
+  assert(exists(actor), 'enableGravityPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    enableGravity(enableGravity);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'enableGravity', args: encodeUndefineds([enableGravity]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link enableKeepUpright} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link enableKeepUpright} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param keepUpright (see original function)
+
+ */
+function enableKeepUprightPlease(actor, keepUpright) {    // GENERATED
+  assert(exists(actor), 'enableKeepUprightPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    enableKeepUpright(keepUpright);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'enableKeepUpright', args: encodeUndefineds([keepUpright]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setBounciness} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setBounciness} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param bounciness (see original function)
+
+ */
+function setBouncinessPlease(actor, bounciness) {    // GENERATED
+  assert(exists(actor), 'setBouncinessPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setBounciness(bounciness);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setBounciness', args: encodeUndefineds([bounciness]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setMass} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setMass} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param mass (see original function)
+
+ */
+function setMassPlease(actor, mass) {    // GENERATED
+  assert(exists(actor), 'setMassPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setMass(mass);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setMass', args: encodeUndefineds([mass]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setDrag} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setDrag} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param drag (see original function)
+
+ */
+function setDragPlease(actor, drag) {    // GENERATED
+  assert(exists(actor), 'setDragPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setDrag(drag);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setDrag', args: encodeUndefineds([drag]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setAngularDrag} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setAngularDrag} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param drag (see original function)
+
+ */
+function setAngularDragPlease(actor, drag) {    // GENERATED
+  assert(exists(actor), 'setAngularDragPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setAngularDrag(drag);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setAngularDrag', args: encodeUndefineds([drag]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setPhysicsPreset} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setPhysicsPreset} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param preset (see original function)
+
+ */
+function setPhysicsPresetPlease(actor, preset) {    // GENERATED
+  assert(exists(actor), 'setPhysicsPresetPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setPhysicsPreset(preset);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setPhysicsPreset', args: encodeUndefineds([preset]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link addVelocity} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link addVelocity} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param velocity (see original function)
+
+ */
+function addVelocityPlease(actor, velocity) {    // GENERATED
+  assert(exists(actor), 'addVelocityPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    addVelocity(velocity);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'addVelocity', args: encodeUndefineds([velocity]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setCameraActor} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setCameraActor} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param cameraActor (see original function)
+
+ */
+function setCameraActorPlease(actor, cameraActor) {    // GENERATED
+  assert(exists(actor), 'setCameraActorPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setCameraActor(cameraActor);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setCameraActor', args: encodeUndefineds([cameraActor]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setIsPlayerControllable} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setIsPlayerControllable} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param value (see original function)
+
+ */
+function setIsPlayerControllablePlease(actor, value) {    // GENERATED
+  assert(exists(actor), 'setIsPlayerControllablePlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setIsPlayerControllable(value);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setIsPlayerControllable', args: encodeUndefineds([value]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setControllingPlayer} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setControllingPlayer} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param playerId (see original function)
+
+ */
+function setControllingPlayerPlease(actor, playerId) {    // GENERATED
+  assert(exists(actor), 'setControllingPlayerPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setControllingPlayer(playerId);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setControllingPlayer', args: encodeUndefineds([playerId]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setBodyPos} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setBodyPos} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param pos (see original function)
+
+ */
+function setBodyPosPlease(actor, pos) {    // GENERATED
+  assert(exists(actor), 'setBodyPosPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setBodyPos(pos);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setBodyPos', args: encodeUndefineds([pos]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setBodyRot} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setBodyRot} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param rot (see original function)
+
+ */
+function setBodyRotPlease(actor, rot) {    // GENERATED
+  assert(exists(actor), 'setBodyRotPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setBodyRot(rot);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setBodyRot', args: encodeUndefineds([rot]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setTintColor} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setTintColor} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param color (see original function)
+
+ */
+function setTintColorPlease(actor, color) {    // GENERATED
+  assert(exists(actor), 'setTintColorPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setTintColor(color);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setTintColor', args: encodeUndefineds([color]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link setTintHex} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link setTintHex} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param colorHex (see original function)
+
+ */
+function setTintHexPlease(actor, colorHex) {    // GENERATED
+  assert(exists(actor), 'setTintHexPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    setTintHex(colorHex);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'setTintHex', args: encodeUndefineds([colorHex]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link show} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link show} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param visible (see original function)
+
+ */
+function showPlease(actor, visible) {    // GENERATED
+  assert(exists(actor), 'showPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    show(visible);    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'show', args: encodeUndefineds([visible]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link hide} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link hide} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param  (see original function)
+
+ */
+function hidePlease(actor) {    // GENERATED
+  assert(exists(actor), 'hidePlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    hide();    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'hide', args: encodeUndefineds([]) });    // GENERATED
+  }
+}
+
+
+/**
+ * Politely requests that the given actor call {@link destroySelf} on itself.
+ *
+ * <p>This has to be a request because actors can't directly modify other
+ * actors, so what this does is send a message to the other actor asking
+ * it to call a given function on itself.</p>
+ *
+ * <p>This is asynchronous and could take a while to execute in a networked
+ * game, so don't rely on the results being immediate.</p>
+ *
+ * <p>See the documentation for {@link destroySelf} for details
+ * about the function itself.</p>
+ *
+ * @param {ActorRef} actor The actor to send the request to.
+ * @param  (see original function)
+
+ */
+function destroySelfPlease(actor) {    // GENERATED
+  assert(exists(actor), 'destroySelfPlease: actor does not exist: ' + actor);    // GENERATED
+  if (actor === myself()) {    // GENERATED
+    destroySelf();    // GENERATED
+  } else {    // GENERATED
+    send(actor, 'PoliteRequest', { verb: 'destroySelf', args: encodeUndefineds([]) });    // GENERATED
+  }
+}
+
+// END_GAME_BUILDER_CODE_GEN

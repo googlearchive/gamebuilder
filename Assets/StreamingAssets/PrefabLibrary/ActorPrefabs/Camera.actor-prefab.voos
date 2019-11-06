@@ -1,0 +1,132 @@
+{
+    "version": 1,
+    "label": "Camera",
+    "actorData": {
+        "version": 4,
+        "creatorName": "",
+        "name": "24de2532ef9d4c1a99ea1ad1ce43c763",
+        "brainName": "7438a378cfd44e9fb3feb6ebe3588a5b",
+        "tags": [
+            "camera"
+        ],
+        "renderableUri": "builtin:BuiltinAssets/World/Gizmo_Camera",
+        "memoryJson": "",
+        "displayName": "Camera",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 1.285409927368164,
+            "y": 0.0,
+            "z": 21.547527313232423
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": true,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "7438a378cfd44e9fb3feb6ebe3588a5b"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.3117298185825348,\"viewPosition\":{\"x\":466.69671630859377,\"y\":-46.631195068359378},\"addPanelPosition\":{\"x\":1416.1500244140625,\"y\":0.0}},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":2336.08642578125,\"y\":-2094.76416015625}}}",
+                "behaviorUses": [
+                    {
+                        "id": "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "9541c8db87214ffa921eb6a30ea59fd7",
+                        "behaviorUri": "builtin:Camera Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":818.7036743164063,\"y\":-210.00140380859376}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "cameraDeck",
+                                "valueJson": "{\"value\":[\"3dbe8cede7164d818966c6f1efa75f23\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "3dbe8cede7164d818966c6f1efa75f23",
+                        "behaviorUri": "builtin:Top Down Camera Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "gameplay"
+}

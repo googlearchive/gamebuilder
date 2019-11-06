@@ -1,0 +1,192 @@
+{
+    "version": 1,
+    "label": "Bat",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "45166d19bcd84b088cca6b91ab306b97",
+        "brainName": "06b16b0768274c1c88924a0c685a0705",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Bat",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"42f5da8a5550479e8b7c5bff1ad42474\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":9785.7744140625,\"lastActionMessageTime\":9785.2744140625}}}},\"9685cd8629b1452fbe332d3af357cc47\":{},\"143f2895eeb94530a780c8af33f45dc0\":{},\"2b91a9fb309841f385c782ce2d39a4a1\":{},\"7960b0bb9ac449dfb5343caeec9e76f5\":{},\"e51432dfc43e40a5a1eb0dc7f1719e65\":{},\"a93e50d7cef64aa691b99796abade533\":{}},\"health\":3,\"__variables\":{\"health\":3,\"startingHealth\":3},\"walkDist\":1.4647648073732853,\"walkDistTarget\":2.141374312870381,\"turnAmount\":0,\"turnAmountTarget\":0.8297519760108935}",
+        "displayName": "Bat",
+        "description": "",
+        "tint": {
+            "r": 0.2794245481491089,
+            "g": 0.4620659649372101,
+            "b": 0.5842065215110779,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -18.98149299621582,
+            "y": 0.0,
+            "z": 13.463454246520996
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.9931942820549011,
+            "z": 0.0,
+            "w": 0.11646962910890579
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -20.612060546875,
+            "y": 0.0,
+            "z": 10.13348388671875
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.23139451444149018,
+            "y": 0.0,
+            "z": -0.9728620648384094
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "06b16b0768274c1c88924a0c685a0705"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.4361637532711029,\"viewPosition\":{\"x\":-160.69448852539063,\"y\":84.79034423828125},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":930.1799926757813,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":467.07000732421877,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"a93e50d7cef64aa691b99796abade533\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "9685cd8629b1452fbe332d3af357cc47",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":0.0,\"y\":0.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"143f2895eeb94530a780c8af33f45dc0\",\"7960b0bb9ac449dfb5343caeec9e76f5\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"2b91a9fb309841f385c782ce2d39a4a1\",\"e51432dfc43e40a5a1eb0dc7f1719e65\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "143f2895eeb94530a780c8af33f45dc0",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "2b91a9fb309841f385c782ce2d39a4a1",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "7960b0bb9ac449dfb5343caeec9e76f5",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Hit\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e51432dfc43e40a5a1eb0dc7f1719e65",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "a93e50d7cef64aa691b99796abade533",
+                        "behaviorUri": "builtin:MoveRandomWalk",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "character"
+}

@@ -1,0 +1,175 @@
+{
+    "version": 1,
+    "label": "BreadLoaf",
+    "actorData": {
+        "version": 8,
+        "name": "5cdd4c1f124e4171a61dacd798ee6550",
+        "brainName": "a3da08aedf204de794754815ecf876a1",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Cooking/BreadLoaf",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{\"actionDeckState\":{\"decksInfo\":{}}},\"ac2e5cc8d3374443857be4e8e406a37d\":{\"actionDeckState\":{\"decksInfo\":{}}},\"6e7891fcacbe4246ac99977ce9c1f6f0\":{\"actionDeckState\":{\"decksInfo\":{}}},\"199605c3d40542ad9cc433d5cac2943e\":{\"actionDeckState\":{\"decksInfo\":{}}},\"6dcfb848cf95404185bfad0e2e00842a\":{\"actionDeckState\":{}},\"6c6ffaf0e6ff4e04b041c4c451111004\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+        "displayName": "BreadLoaf",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -14.767608642578125,
+            "y": 0.0000019073486328125,
+            "z": 31.223052978515626
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -14.767608642578125,
+            "y": 0.0000019073486328125,
+            "z": 31.223052978515626
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "angularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": "",
+        "useConcaveCollider": true,
+        "speculativeColDet": false
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "a3da08aedf204de794754815ecf876a1"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.6063482165336609,\"viewPosition\":{\"x\":-114.01145935058594,\"y\":149.68585205078126},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1265.0,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "ac2e5cc8d3374443857be4e8e406a37d",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"6e7891fcacbe4246ac99977ce9c1f6f0\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"199605c3d40542ad9cc433d5cac2943e\",\"6dcfb848cf95404185bfad0e2e00842a\",\"6c6ffaf0e6ff4e04b041c4c451111004\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "6e7891fcacbe4246ac99977ce9c1f6f0",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "199605c3d40542ad9cc433d5cac2943e",
+                        "behaviorUri": "builtin:Play Sound",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Sound",
+                                "valueJson": "{\"value\":\"builtin:Collect\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "6dcfb848cf95404185bfad0e2e00842a",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "6c6ffaf0e6ff4e04b041c4c451111004",
+                        "behaviorUri": "builtin:Heal Damage Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Amount",
+                                "valueJson": "{\"value\":10}"
+                            },
+                            {
+                                "propertyName": "Target",
+                                "valueJson": "{\"value\":\"EVENT_CAUSER\"}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "item"
+}

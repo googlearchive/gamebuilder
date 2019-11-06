@@ -1,0 +1,252 @@
+<!-- Based on https://github.com/Microsoft/monaco-editor-samples/blob/master/browser-amd-editor/index.html -->
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2016 Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+  <style>
+    body,
+    html {
+
+      margin: 0px;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      overflow: hidden;
+      font-size: 14px;
+    }
+
+    #container {
+      flex-grow: 1;
+      min-height: 50%;
+      position: relative;
+    }
+
+    .monaco-editor {
+      max-height: 100% !important;
+      position: absolute !important;
+    }
+
+
+    .zone-error-container {
+      padding: .5rem .5rem .5rem 1rem;
+      background-color: #101010;
+      border-top: 1px solid #8c1414;
+    }
+
+    .zone-error {
+      font-family: Consolas, "Courier New", monospace;
+      color: #ff0202;
+    }
+  </style>
+
+  <script src="../monaco-editor-0.14.3/min/vs/loader.js"></script>
+  <script src="es5.d.ts.js"></script>
+  <script type="text/javascript">
+    var editor = null;
+    var initCode = null;
+
+    var errorStrings = [];
+    var errorMessages = [];
+
+    function addError(baseOneLineNumber, errorString) {
+      if (!isReady()) {
+        return;
+      }
+
+      // Limit to 3 errors only. Don't wanna spam.
+      if (errorStrings.length > 3) {
+        return;
+      }
+
+      // Also, de-dupe
+      if (errorStrings.includes(errorString)) {
+        return;
+      }
+
+      errorStrings.push(errorString);
+
+      if (baseOneLineNumber < 1) {
+        console.error(`addError called with bad line number: ${baseOneLineNumber} - remember it needs to be base 1!!`);
+        return;
+      }
+
+      const msg = document.createElement("div");
+      const lines = errorString.trim().split('\n');
+      for (let i in lines) {
+        const line = lines[i].replace(/ /g, '\u00A0');
+        msg.appendChild(document.createTextNode(line));
+        if (i < lines.length - 1) {
+          msg.appendChild(document.createElement("br"));
+        }
+      }
+      msg.className = "zone-error";
+      const container = document.createElement("div");
+      container.className = "zone-error-container";
+      container.appendChild(msg);
+      document.body.appendChild(container);
+
+      errorMessages.push({
+        startLineNumber: baseOneLineNumber,
+        startColumn: 1,
+        endLineNumber: baseOneLineNumber,
+        endColumn: 1000,
+        message: errorString,
+        severity: monaco.MarkerSeverity.Error
+      });
+
+      updateInlineErrorFeedback()
+    }
+
+    function clearErrors() {
+      if (!isReady()) {
+        return;
+      }
+
+      let errorContainers = document.getElementsByClassName('zone-error-container');
+
+      while (errorContainers[0]) {
+        errorContainers[0].parentNode.removeChild(errorContainers[0]);
+      }
+
+      errorStrings = [];
+      errorMessages = [];
+      updateInlineErrorFeedback();
+    }
+
+    function updateInlineErrorOnChangeContent(event) {
+      if (errorMessages.length == 0) return;
+
+      let columns = errorMessages.map(e => e.startLineNumber);
+
+      if (columns.includes(event.changes[0].range.startLineNumber)) {
+        const index = columns.indexOf(event.changes[0].range.startLineNumber);
+        errorMessages.splice(index, 1);
+        updateInlineErrorFeedback();
+      }
+    }
+
+    function updateInlineErrorFeedback() {
+      monaco.editor.setModelMarkers(editor.getModel(), 'voosErrors', errorMessages);
+    }
+
+    function onBodyLoad() {
+      require.config({ paths: { 'vs': '../monaco-editor-0.14.3/min/vs' } });
+      require(['vs/editor/editor.main'], function () {
+        // Remove built-in libraries (XML, Web stuff) from Intellisense.
+        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+          noLib: true,
+          allowNonTsExtensions: true,
+        });
+        // Since we set noLib:true above, we have to add back the ES5 stuff:
+        monaco.languages.typescript.javascriptDefaults.addExtraLib(ES5_D_TS_SOURCE, "es5.d.ts");
+        editor = monaco.editor.create(document.getElementById('container'), {
+          value: `const v = new THREE.Vector3();
+          `,
+          language: 'javascript',
+          minimap: {
+            enabled: false
+          },
+          automaticLayout: true,
+          theme: "vs-dark",
+          lineNumbersMinChars: 2,
+          scrollbar: {
+            vertical: 'hidden'
+          }
+        });
+
+        // window.editor.model.onDidChangeContent((event) => {
+        //   console.log(event);
+        // });
+        window.editor.model.onDidChangeContent(updateInlineErrorOnChangeContent);
+        editor.getModel().updateOptions({ tabSize: 2, insertSpaces: true });
+
+        if (initCode != null) {
+          setCode(initCode);
+        }
+
+        // Testing
+        if (false) {
+          setCode(`1
+2
+3
+4
+5
+6
+7
+        `)
+          addError(3, "line 3 has some error\nfdsfsdjkf\n    four spaces in front\nfdjsklfs\ntabs");
+          addError(5, "line 5 has some error\n\n");
+          // addError(5, "line 5 has some error\nfdsfsdjkf\nfdsjfkl\nfdjsklfs\n    tabs");
+          //clearErrors();
+        }
+      });
+    }
+
+    function addSystemSource(code, filename) {
+      // console.log(`adding extra lib file named '${filename}'`);
+      monaco.languages.typescript.javascriptDefaults.addExtraLib(code, filename);
+    }
+
+    function getCode() {
+      return editor.getValue({ lineEnding: '\n' });
+    }
+
+    function setCode(code) {
+      if (editor == null) {
+        initCode = code;
+      }
+      else {
+        if (code != getCode()) {
+          clearErrors();
+          editor.setScrollTop(0);
+          editor.setValue(code);
+        }
+      }
+    }
+
+    function getScrollTop() {
+      return editor.getScrollTop();
+    }
+
+    function setScrollTop(top) {
+      if (editor !== null) {
+        editor.setScrollTop(top);
+      }
+    }
+
+    function isReady() {
+      return editor != null;
+    }
+
+    function setReadOnly(readOnly) {
+      editor.updateOptions({ "readOnly": readOnly });
+    }
+
+  </script>
+
+</head>
+
+<body onload='onBodyLoad();'>
+  <div id="container"></div>
+</body>
+
+</html>

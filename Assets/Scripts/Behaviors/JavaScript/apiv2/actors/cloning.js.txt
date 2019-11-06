@@ -1,0 +1,107 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Returns the original actor that was cloned to create the actor.
+ *
+ * If the actor is a clone of another actor, returns the original actor.
+ * If the actor is not a clone, or if the original was destroyed, returns <tt>null</tt>.
+ * 
+ * <p>Note that a "clone" for our purposes is a clone created by a script, not
+ * a copy created by the copy-paste tool in the editor. For those editor-made copies,
+ * this will return <tt>null</tt>.
+ *
+ * @param {ActorRef=} actor The actor for which to get the original. If omitted, defaults
+ *     to the current actor.
+ * @return {ActorRef} The original, or <tt>null</tt> if the actor is not a clone.
+ */
+function getCloneParent(actor) {
+  const me = ApiV2Context.instance.getActor(actor);
+  if (!me.getWasClonedByScript()) {
+    // For scripting, we should only consider something a clone if it was cloned
+    // BY script (..for script!). As opposed to a clone created by the
+    // copy/paste tool, for example.
+    return null;
+  }
+  else {
+    return ApiV2Context.instance.getActor(actor).getCloneParent();
+  }
+}
+
+/**
+ * Determines if the given actor is a clone of another actor.
+ * 
+ * <p>Note that a "clone" for our purposes is a clone created by a script, not
+ * a copy created by the copy-paste tool in the editor. For those editor-made copies,
+ * this will return <tt>false</tt>.
+ *
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ * @return {boolean} Whether or not the actor is a clone of another actor. If true, it was
+ *     created by cloning another actor. You can get the original actor by calling
+ *     {@link getCloneParent}. If this returns false, it's is an original,
+ *     unique, irreplaceable and lovingly created actor.
+ */
+function isClone(actor) {
+  return !!getCloneParent(actor);
+}
+
+/**
+ * Clones (creates a copy of) the given actor.
+ * 
+ * <p>Note that this is a relatively expensive operation, so use clones with care,
+ * especialy in multiplayer games where every clone will have to be synchronized
+ * across the network.</p>
+ *
+ * <p>Also, be careful when your cloning logic can get triggered repeatedly.
+ * Use cooldowns and other sanity checks to ensure that you won't accidentally create
+ * 100,000 actors when you wanted to just create one. It's especially dangerous to
+ * clone an actor who itself will clone actors as that can lead to exponential cloning,
+ * which will likely crash the game, so don't try it. You're trying that right now aren't you.
+ * I shouldn't have documented this.</p>
+ * 
+ * <p><b>Offstage actors:</b> If you clone an offstage actor, the clone will be <b>onstage</b>.
+ * This is normally what you want (such as when using an offstage actor as a model
+ * to clone from).
+ * 
+ * @param {ActorRef} original The actor to clone.
+ * @param {Vector3=} pos The position of the clone. If omitted, will default to be the same as
+ *     the original. Note that they might bump into each other this way! :)
+ * @param {Quaternion=} rot The rotation of the clone. If omitted, defaults
+ *     to the rotation of the original.
+ * @return {ActorRef} The new actor.
+ *
+ * @example
+ * export PROPS = [
+ *   propActor(prefab),
+ *   propNumber(spawnPosX),
+ *   propNumber(spawnPosY),
+ *   propNumber(spawnPosZ),
+ * ]
+ *
+ * export function onCollision() {
+ *   const pos = vec3(props.spawnPosX, props.spawnPosY, props.spawnPosZ);
+ *   // Spawn the requested actor at the requested position.
+ *   clone(actor, pos);
+ *   // Don't do this again for 5 seconds.
+ *   cooldown(5);
+ * }
+ */
+function clone(original, pos, rot) {
+  assert(exists(original), "Can't clone. Original does not exist: " + original);
+  return ApiV2Context.instance.api.clone(original, pos || getPos(original), rot || getRot(original));
+}

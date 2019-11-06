@@ -1,0 +1,135 @@
+{
+    "label": "Laser Bolt",
+    "actorData": {
+        "version": 2,
+        "creatorName": "",
+        "name": "a66f7a7a26584baa933a586333d39c6e",
+        "brainName": "6869cbecf4c7442eaf0c22ba904a828d",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/LaserBolt",
+        "memoryJson": "{\"__bulm\":{\"21861e0981cd48599a2664f1e2306758\":{},\"0f2e590ca8ea473baf3f2bb6ca7a837e\":{},\"46dbf4d0e5b9488ea494a0f7e326d86a\":{},\"dbb3f3264b2e4020b87cd0f3b27e46af\":{},\"5d5f0c89cc10478b87aa264b4bf1be11\":{},\"8cdc22cdf2424634be501f50ef25e41f\":{}}}",
+        "displayName": "Laser Bolt",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 0.5,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 8.025934219360352,
+            "y": 0.0,
+            "z": -13.82585620880127
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 8.025934219360352,
+            "y": 0.0,
+            "z": -13.82585620880127
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "isPrefab": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "53783da5e77a4a88af2dcc939166f4ac",
+            "46dbf4d0e5b9488ea494a0f7e326d86a",
+            "dbb3f3264b2e4020b87cd0f3b27e46af",
+            "2e3ee024fa264b9abf1fe4cb188fb1ee"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "6869cbecf4c7442eaf0c22ba904a828d",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "6869cbecf4c7442eaf0c22ba904a828d",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[\"dbb3f3264b2e4020b87cd0f3b27e46af\"]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[\"2e3ee024fa264b9abf1fe4cb188fb1ee\"]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "6869cbecf4c7442eaf0c22ba904a828d",
+                "behaviorUri": "builtin:Collision Event Card",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "6869cbecf4c7442eaf0c22ba904a828d",
+                "behaviorUri": "builtin:Cause Damage To Target Card",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "Amount",
+                        "valueJson": "{\"value\":1}"
+                    }
+                ]
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    },
+    "category": "gameplay"
+}

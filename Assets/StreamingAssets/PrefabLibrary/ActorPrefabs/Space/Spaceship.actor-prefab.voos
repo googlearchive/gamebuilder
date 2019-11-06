@@ -1,0 +1,205 @@
+{
+    "version": 1,
+    "label": "Spaceship",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "a0ff0d4f24a045f9b048c536fdb9e5b2",
+        "brainName": "175afe7f0a1e44eba0fae6690565d429",
+        "tags": [
+            "player"
+        ],
+        "renderableUri": "builtin:BuiltinAssets/Space/Spaceship",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":9194.193359375,\"lastActionMessageTime\":9193.693359375}}}},\"7b76991e99fa4b9aaafbba7769fc9279\":{},\"182ececd223e4c649f02026d6d200477\":{\"speed\":0},\"bb193d1868b8483fa385cb07b7f713ac\":{},\"e294345e9e1046149b44166d2188198d\":{},\"92473a155ed84c8c8649be9e2209a576\":{},\"2cd5dfe2a9994f229e983568509b3f9f\":{}}}",
+        "displayName": "Spaceship",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 22.926633834838868,
+            "y": 0.2642958164215088,
+            "z": 26.357500076293947
+        },
+        "rotation": {
+            "x": -0.024262888357043268,
+            "y": -0.9575307369232178,
+            "z": -0.08461499214172363,
+            "w": 0.27456623315811159
+        },
+        "localScale": {
+            "x": 0.7119147777557373,
+            "y": 0.7119147777557373,
+            "z": 0.7119147777557373
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 22.9549560546875,
+            "y": 0.0,
+            "z": 26.354522705078126
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 7.567858339996292e-9,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": true,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": true,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "175afe7f0a1e44eba0fae6690565d429"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.424753874540329,\"viewPosition\":{\"x\":-316.1285400390625,\"y\":-67.58377075195313},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":2203.540283203125,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":495.0000305175781,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"7b76991e99fa4b9aaafbba7769fc9279\",\"182ececd223e4c649f02026d6d200477\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7b76991e99fa4b9aaafbba7769fc9279",
+                        "behaviorUri": "builtin:Player Camera Look",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Gradual",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "TiltUpDown",
+                                "valueJson": "{\"value\":true}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "182ececd223e4c649f02026d6d200477",
+                        "behaviorUri": "builtin:Player Speed Throttle",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "bb193d1868b8483fa385cb07b7f713ac",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1277.5001220703125,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"e294345e9e1046149b44166d2188198d\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"92473a155ed84c8c8649be9e2209a576\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e294345e9e1046149b44166d2188198d",
+                        "behaviorUri": "builtin:Player Button Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "92473a155ed84c8c8649be9e2209a576",
+                        "behaviorUri": "builtin:Fire Projectile Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "ShootDir",
+                                "valueJson": "{\"value\":\"FORWARD\"}"
+                            },
+                            {
+                                "propertyName": "Velocity",
+                                "valueJson": "{\"value\":40.0}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "2cd5dfe2a9994f229e983568509b3f9f",
+                        "behaviorUri": "builtin:Player Controls Panel v2",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1796.485107421875,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "PlayerNumber",
+                                "valueJson": "{\"value\":0}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "thumbnailJZB64": "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",
+    "category": "character"
+}

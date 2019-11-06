@@ -1,0 +1,156 @@
+{
+    "version": 1,
+    "label": "Knife",
+    "actorData": {
+        "version": 6,
+        "name": "2dfd98fb00de4f1591d2e4039912a0fe",
+        "brainName": "d404577c3ebb4421b3fff3d2ec05ce0e",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Cooking/Knife",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{\"actionDeckState\":{\"decksInfo\":{}}},\"42f5da8a5550479e8b7c5bff1ad42474\":{\"actionDeckState\":{\"decksInfo\":{}}},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"decksInfo\":{\"moveDeck\":{\"active\":true,\"endTime\":9487.3876953125,\"lastActionMessageTime\":9486.7705078125}}}},\"b06bb119a70643cd9c7bbb05125801d1\":{\"actionDeckState\":{\"decksInfo\":{}}}},\"__variables\":{\"grabbable\":true,\"owner\":null}}",
+        "displayName": "Knife",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -17.691892623901368,
+            "y": -0.001370839774608612,
+            "z": 19.089323043823243
+        },
+        "rotation": {
+            "x": 0.0000029062171051918996,
+            "y": -0.6194785833358765,
+            "z": -0.000004194492248643655,
+            "w": 0.7850135564804077
+        },
+        "localScale": {
+            "x": 1.0000001192092896,
+            "y": 1.0,
+            "z": 1.0000001192092896
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -19.371673583984376,
+            "y": 0.0,
+            "z": 22.59307861328125
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "d404577c3ebb4421b3fff3d2ec05ce0e"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.5301130414009094,\"viewPosition\":{\"x\":-73.75175476074219,\"y\":145.140869140625},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1505.2501220703125,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "42f5da8a5550479e8b7c5bff1ad42474",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":467.0700378417969,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b06bb119a70643cd9c7bbb05125801d1",
+                        "behaviorUri": "builtin:Grabbable Item Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":930.1800537109375,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "CustomRotation",
+                                "valueJson": "{\"value\":true}"
+                            },
+                            {
+                                "propertyName": "RotationY",
+                                "valueJson": "{\"value\":180.0}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": ""
+}

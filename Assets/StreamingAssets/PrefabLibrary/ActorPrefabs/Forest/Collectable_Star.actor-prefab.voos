@@ -1,0 +1,158 @@
+{
+    "label": "Star",
+    "category": "item",
+    "actorData": {
+        "version": 2,
+        "creatorName": "",
+        "name": "bfe2f4bb58ee436aba08588b3f83d729",
+        "brainName": "d7ae001db69b448bbd196133d1244bd9",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Collectable_Star",
+        "memoryJson": "{\"__bulm\":{\"cf7c4b8ced7349d995b592392fe4de62\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"3665b2e8ffb44f0d93723c4119077042\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"301d70c548054c8781216319517084f4\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"b1d3e3d5febb4d3597e1de393e66c683\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"d41e2a648de04a19b966d9c8e9154e36\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"d3fd92db4fda49c0b06ae8ffda0421ba\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"de1fd0a4125940f7ae488904e9cb230f\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"e34ed670edaa4b488fb902bd4b17d8b7\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"b64092b778df45a990b6e9dc12180db5\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+        "displayName": "Star",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 0.725,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 9.254389762878418,
+            "y": 0.0,
+            "z": -3.260012626647949
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 9.254389762878418,
+            "y": 0.0,
+            "z": -3.260012626647949
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "isPrefab": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "editorMetadata": ""
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "d3fd92db4fda49c0b06ae8ffda0421ba",
+            "de1fd0a4125940f7ae488904e9cb230f",
+            "abcdef0123456789deadbeefabcabcab",
+            "e34ed670edaa4b488fb902bd4b17d8b7",
+            "d41e2a648de04a19b966d9c8e9154e36",
+            "b64092b778df45a990b6e9dc12180db5"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "d7ae001db69b448bbd196133d1244bd9",
+                "behaviorUri": "builtin:Collision Event Card",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "withWhat",
+                        "valueJson": "{\"value\":\"@TAG:player\"}"
+                    }
+                ]
+            },
+            {
+                "brainId": "d7ae001db69b448bbd196133d1244bd9",
+                "behaviorUri": "builtin:Score Point Action",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "Points",
+                        "valueJson": "{\"value\":1}"
+                    }
+                ]
+            },
+            {
+                "brainId": "d7ae001db69b448bbd196133d1244bd9",
+                "behaviorUri": "builtin:Play Sound",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "Sound",
+                        "valueJson": "{\"value\":\"builtin:Collect\"}"
+                    }
+                ]
+            },
+            {
+                "brainId": "d7ae001db69b448bbd196133d1244bd9",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "d7ae001db69b448bbd196133d1244bd9",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[\"d3fd92db4fda49c0b06ae8ffda0421ba\"]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[\"de1fd0a4125940f7ae488904e9cb230f\",\"abcdef0123456789deadbeefabcabcab\",\"b64092b778df45a990b6e9dc12180db5\"]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "d7ae001db69b448bbd196133d1244bd9",
+                "behaviorUri": "builtin:Destroy Self Action Card",
+                "propertyAssignments": []
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    }
+}

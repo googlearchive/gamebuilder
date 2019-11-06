@@ -1,0 +1,20 @@
+name: "webgl-noise"
+description:
+    "GLSL procedural noise functions compatible with WebGL"
+
+third_party {
+  url {
+    type: HOMEPAGE
+    value: "https://github.com/stegu/webgl-noise"
+  }
+  url {
+    type: GIT
+    value: "https://github.com/stegu/webgl-noise"
+  }
+  version: "6f9521f39c2327b4601c67ea3355e8e9519c6f1b"
+  last_upgrade_date { year: 2017 month: 10 day: 30 }
+  license_type: NOTICE
+  local_modifications:
+    "Removed unneeded src/, demos/, benchmark/ directories."
+    "Created Shaders/Noise.cginc for use in Unity."
+}

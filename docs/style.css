@@ -1,0 +1,252 @@
+body {
+  font-family: 'Lato', 'Arial', sans-serif;
+  font-size: 12pt;
+}
+
+h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 26pt;
+}
+
+h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18pt;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 12pt;
+  line-height: 18pt;
+}
+
+li {
+  line-height: 18pt;
+}
+
+p.secondary {
+  color: #aaa;
+  font-size: 11pt;
+  line-height: 17pt;
+  font-style: italic;
+}
+
+div.img_display {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+div.img_display img {
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px 2px #ccc;
+}
+
+h4 {
+  font-family: 'Inconsolata';
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+h5 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+  font-size: 14pt;
+  margin: 32px 0px 16px 0px;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px;
+  margin: 8px auto 8px auto;
+}
+
+
+.sidebar {
+  margin-top: 32px;
+  margin-left: 16px;
+}
+
+.content {
+  margin-top: 32px;
+  width: 800px;
+  margin: 0px auto 0px auto;
+  flex-grow: 1;
+  margin-left: 64px;
+  margin-bottom: 64px;
+}
+
+.topic {
+  background: #f8f8f8;
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-top: 12px solid #2f8f46;
+  border-right: 1px solid #2f8f46;
+  border-bottom: 1px solid #2f8f46;
+  border-left: 1px solid #2f8f46;
+}
+
+.subtopics-container {
+  display: flex;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.topic-title {
+  font: 24pt 'Oswald';
+  color: #2f8f46;
+}
+
+.subtopic {
+  margin-right: 32px;
+  margin-top: 8px;
+  font: 12pt 'Inconsolata';
+  line-height: 16pt;
+  width: 250px;
+}
+
+.subtopic-title {
+  font: 16pt 'Oswald';
+  margin-bottom: 8px;
+}
+
+a {
+  color: #2f8f46;
+}
+
+a.api {
+  display: block;
+}
+
+.current-api {
+  font: 18pt 'Inconsolata';
+  margin-bottom: 16px;
+}
+
+.code {
+  font: 14pt 'Inconsolata';
+  background: #eee;
+  white-space: pre;
+  padding: 16px;
+}
+
+.param-list {
+  display: table;
+  margin-left: 32px;
+}
+
+.param {
+  display: table-row;
+}
+
+.param-name {
+  display: table-cell;
+  min-width: 64px;
+  font: bold 12pt 'Inconsolata';
+  color: #2d7a49;
+  margin-right: 16px;
+  padding-bottom: 8px;
+  padding-right: 16px;
+}
+
+.param-desc {
+  display: table-cell;
+}
+
+.divider {
+  margin-top: 32px;
+  border: 2px solid #eee;
+}
+
+th, td {
+  text-align: left;
+  padding-right: 16px;
+  padding-bottom: 8px;
+  vertical-align: top;
+}
+
+pre {
+  background: #eee;
+  border-radius: 8px;
+  padding: 32px;
+}
+
+.signature-attributes {
+  color: #fff;
+  font-size: 8pt;
+  padding: 4px;
+  background: #aaa;
+  border-radius: 2px;
+  margin: 4px;
+}
+
+.refbar {
+  margin-left: 32px;
+}
+
+.refbar-topic {
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+  font-size: 14pt;
+  color: #2f8f46;
+  width: 150px;
+  margin-top: 16px;
+}
+
+.refbar-subtopic {
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+  font-size: 12pt;
+  margin-top: 8px;
+}
+
+.refbar-link {
+  display: block;  
+  font-family: 'Inconsolata';
+  font-size: 11pt;
+}
+
+.sidebar-link {
+  display: block;  
+  font-family: 'Inconsolata';
+  font-size: 12pt;
+}
+
+.sidebar-title {
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+
+.feedback {
+  margin-bottom: 8px;
+}
+
+.sidebar-links {
+  margin-top: 16px;
+}
+
+li {
+  margin-bottom: 16px;
+}
+
+div.nav {
+  text-align: left;
+}
+
+div.legal {
+  border-top: 1px solid #aaa;
+  padding-top: 8px;
+  padding-right: 16px;
+  margin-bottom: 64px;
+  text-align: right;
+  color: #222;
+}
+
+div.legal>a {
+  color: #aaa;
+}
+

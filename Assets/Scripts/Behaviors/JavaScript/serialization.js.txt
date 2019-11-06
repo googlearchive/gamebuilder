@@ -1,0 +1,148 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+class VoosBinaryReaderWriter {
+  constructor(arrayBuffer) {
+    assertInstanceOf(arrayBuffer, ArrayBuffer, 'VoosBinaryReaderWriter ctor');
+    this.view = new DataView(arrayBuffer, 0);
+    this.offsetBytes = 0;
+  }
+
+  reset() {
+    this.offsetBytes = 0;
+  }
+
+  readBoolean() {
+    const rv = this.view.getUint8(this.offsetBytes);
+    this.offsetBytes += 1;
+    return rv == 1;
+  }
+
+  writeBoolean(boolVal) {
+    assertBoolean(boolVal, 'writeBoolean arg');
+    this.view.setUint8(this.offsetBytes, boolVal ? 1 : 0);
+    this.offsetBytes += 1;
+  }
+
+  readInt32() {
+    const rv = this.view.getInt32(this.offsetBytes, true);
+    this.offsetBytes += 4;
+    return rv;
+  }
+
+  readFloat32() {
+    const rv = this.view.getFloat32(this.offsetBytes, true);
+    this.offsetBytes += 4;
+    return rv;
+  }
+
+  writeInt32(x) {
+    assertNumber(x, 'writeInt32 arg');
+    this.view.setInt32(this.offsetBytes, x, true);
+    this.offsetBytes += 4;
+  }
+
+  writeFloat32(x) {
+    assertNumber(x, 'writeFloat32 arg');
+    this.view.setFloat32(this.offsetBytes, x, true);
+    this.offsetBytes += 4;
+  }
+
+  writeUint16(x) {
+    assertNumber(x, 'writeUint16 arg');
+    this.view.setUint16(this.offsetBytes, x, true);
+    this.offsetBytes += 2;
+  }
+
+  writeUint8(x) {
+    assertNumber(x, 'writeUint8 arg');
+    this.view.setUint8(this.offsetBytes, x, true);
+    this.offsetBytes += 1;
+  }
+
+  readUint8() {
+    const rv = this.view.getUint8(this.offsetBytes, true);
+    this.offsetBytes += 1;
+    return rv;
+  }
+
+  readUint16() {
+    const rv = this.view.getUint16(this.offsetBytes, true);
+    this.offsetBytes += 2;
+    return rv;
+  }
+
+  writeVector3(v) {
+    this.writeFloat32(v.x);
+    this.writeFloat32(v.y);
+    this.writeFloat32(v.z);
+  }
+
+  readVector3(v) {
+    assertInstanceOf(v, THREE.Vector3, 'readVector3 arg');
+    v.set(
+      this.readFloat32(), this.readFloat32(), this.readFloat32());
+  }
+
+  writeUtf16(s) {
+    if (s == null) {
+      this.writeUint16(0);
+      return;
+    }
+    assertString(s, 'writeUtf16 arg');
+    assert(s.length < 65536, "We don't support strings longer than 65k chars.");
+    this.writeUint16(s.length);
+    for (let i = 0; i < s.length; i++) {
+      this.writeUint16(s.charCodeAt(i));
+    }
+  }
+
+  readUtf16() {
+    let rv = '';
+    const length = this.readUint16();
+    for (let i = 0; i < length; i++) {
+      const charCode = this.readUint16();
+      rv += String.fromCharCode(charCode);
+    }
+    return rv;
+  }
+}
+
+runUnitTests('serialization', {
+  testBasic: function () {
+    const buf = new ArrayBuffer(1024);
+    const writer = new VoosBinaryReaderWriter(buf);
+    writer.writeBoolean(true);
+    writer.writeFloat32(0.123);
+    writer.writeBoolean(false);
+    writer.writeInt32(42);
+
+    const reader = new VoosBinaryReaderWriter(buf);
+    assert(reader.readBoolean() == true, '1');
+    assertApproxEq(0.123, reader.readFloat32());
+    assert(reader.readBoolean() == false, '3');
+    assert(reader.readInt32() == 42, '4');
+  },
+  testUtf8: function () {
+    const sample = 'japanese いろはに';
+    const buf = new ArrayBuffer(1024);
+    const writer = new VoosBinaryReaderWriter(buf);
+    writer.writeUtf16(sample);
+
+    const reader = new VoosBinaryReaderWriter(buf);
+    assert(reader.readUtf16() == sample);
+  }
+});

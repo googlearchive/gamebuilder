@@ -1,0 +1,215 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Determines if the given key is currently being pressed.
+ * 
+ * <p>This will only work if it's on a script attached to the player!</p>
+ * 
+ * @param {KeyCode} keyName The name of the key to check.
+ */
+function keyIsPressed(keyName) {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? inputState.keysHeld.includes(keyName) : false;
+}
+
+/**
+ * Determines if the given key was just pressed (on this frame).
+ * 
+ * <p>This will only work if it's on a script attached to the player!</p>
+ * 
+ * @param {KeyCode} keyName The name of the key to check.
+ */
+function keyJustPressed(keyName) {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? inputState.keysJustPressed.includes(keyName) : false;
+}
+
+/**
+ * Determines if the given key was just released (on this frame).
+ * 
+ * <p>This will only work if it's on a script attached to the player!</p>
+ * 
+ * @param {KeyCode} keyName The name of the key to check.
+ */
+function keyJustReleased(keyName) {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? inputState.keysJustReleased.includes(keyName) : false;
+}
+
+/**
+ * If you implement this function, it will be called when the player presses a key.
+ *
+ * <p>This will only work if it's on a script attached to the player!</p>
+ *
+ * @param {KeyMessage} msg The message. This contains the information about
+ *     what key was pressed.
+ */
+// DOC_ONLY: function onKeyDown(msg) {}
+
+/**
+ * If you implement this function, it will be called every frame while the player is holding a key.
+ *
+ * <p>This will only work if it's on a script attached to the player!</p>
+ *
+ * @param {KeyMessage} msg The message. This contains the information about
+ *     what key was pressed.
+ */
+// DOC_ONLY: function onKeyHeld(msg) {}
+
+/**
+ * If you implement this function, it will be called when the player releases a key.
+ *
+ * <p>This will only work if it's on a script attached to the player!</p>
+ *
+ * @param {KeyMessage} msg The message. This contains the information about
+ *     what key was released.
+ */
+// DOC_ONLY: function onKeyUp(msg) {}
+
+/**
+ * Message that represents that a key was pressed. Sent as part of the KeyDown message.
+ * See {@link onKeyDown}.
+ * @typedef {Object} KeyMessage
+ * @property {KeyCode} keyName The name of the key that was pressed. See {@link KeyCode} for a
+ *     list of keys.
+ */
+// DOC_ONLY: var KeyMessage = {};
+
+/**
+ * @typedef KeyCode
+ * @prop {string} A
+ * @prop {string} B
+ * @prop {string} C
+ * @prop {string} D
+ * @prop {string} E
+ * @prop {string} F
+ * @prop {string} G
+ * @prop {string} H
+ * @prop {string} I
+ * @prop {string} J
+ * @prop {string} K
+ * @prop {string} L
+ * @prop {string} M
+ * @prop {string} N
+ * @prop {string} O
+ * @prop {string} P
+ * @prop {string} Q
+ * @prop {string} R
+ * @prop {string} S
+ * @prop {string} T
+ * @prop {string} U
+ * @prop {string} V
+ * @prop {string} W
+ * @prop {string} X
+ * @prop {string} Y
+ * @prop {string} Z
+ * @prop {string} NUMBER_0
+ * @prop {string} NUMBER_1
+ * @prop {string} NUMBER_2
+ * @prop {string} NUMBER_3
+ * @prop {string} NUMBER_4
+ * @prop {string} NUMBER_5
+ * @prop {string} NUMBER_6
+ * @prop {string} NUMBER_7
+ * @prop {string} NUMBER_8
+ * @prop {string} NUMBER_9
+ * @prop {string} LEFT
+ * @prop {string} RIGHT
+ * @prop {string} UP
+ * @prop {string} DOWN
+ * @prop {string} KEYPAD_0
+ * @prop {string} KEYPAD_1
+ * @prop {string} KEYPAD_2
+ * @prop {string} KEYPAD_3
+ * @prop {string} KEYPAD_4
+ * @prop {string} KEYPAD_5
+ * @prop {string} KEYPAD_6
+ * @prop {string} KEYPAD_7
+ * @prop {string} KEYPAD_8
+ * @prop {string} KEYPAD_9
+ * @prop {string} ENTER
+ * @prop {string} SPACE
+ * @prop {string} MOUSE
+ * @prop {string} JUMP
+ * @prop {string} ACTION1
+ * @prop {string} ACTION2
+ */
+
+/**
+ * Key codes
+ * @enum {KeyCode}
+ */
+var KeyCode = {
+  A: "a",
+  B: "b",
+  C: "c",
+  D: "d",
+  E: "e",
+  F: "f",
+  G: "g",
+  H: "h",
+  I: "i",
+  J: "j",
+  K: "k",
+  L: "l",
+  M: "m",
+  N: "n",
+  O: "o",
+  P: "p",
+  Q: "q",
+  R: "r",
+  S: "s",
+  T: "t",
+  U: "u",
+  V: "v",
+  W: "w",
+  X: "x",
+  Y: "y",
+  Z: "z",
+  NUMBER_0: "0",
+  NUMBER_1: "1",
+  NUMBER_2: "2",
+  NUMBER_3: "3",
+  NUMBER_4: "4",
+  NUMBER_5: "5",
+  NUMBER_6: "6",
+  NUMBER_7: "7",
+  NUMBER_8: "8",
+  NUMBER_9: "9",
+  LEFT: "left",
+  RIGHT: "right",
+  UP: "up",
+  DOWN: "down",
+  KEYPAD_0: "[0]",
+  KEYPAD_1: "[1]",
+  KEYPAD_2: "[2]",
+  KEYPAD_3: "[3]",
+  KEYPAD_4: "[4]",
+  KEYPAD_5: "[5]",
+  KEYPAD_6: "[6]",
+  KEYPAD_7: "[7]",
+  KEYPAD_8: "[8]",
+  KEYPAD_9: "[9]",
+  ENTER: "enter",
+  SPACE: "space",
+  MOUSE: "mouse 0",
+  JUMP: "@jump",
+  PRIMARY_ACTION: "@pri",
+  SECONDARY_ACTION: "@sec",
+};

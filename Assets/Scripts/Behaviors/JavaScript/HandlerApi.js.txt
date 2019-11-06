@@ -1,0 +1,638 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// KEEP SYNC'D WITH Services.cs
+const MAX_PHYSICS_QUERY_RESULTS = 500;
+
+/**
+ * Main API entry point for message handlers. Exposes all the things
+ * user-written handlers are allowed to do. 'getActor' is the main way to modify
+ * the handling actor.
+ */
+class HandlerApi {
+  constructor(actor, use, deliveredMessage) {
+    assert(actor instanceof Actor);
+    assert(use instanceof ModuleBehaviorUse);
+    assert(typeof deliveredMessage.name == 'string', "deliveredMessage.name");
+    assert(typeof deliveredMessage.gameTime == 'number', 'deliveredMessage.gameTime');
+
+    this.actor_ = actor;
+    this.handlingActor_ = new HandlingActor(actor);
+    this.use_ = use;
+    this.deliveredMessage_ = deliveredMessage;
+    this.move = new ActorMovementApi(this);
+    // If this is true, this handler declared that the memory is unchanged.
+    this.declaredMemoryUnchanged_ = false;
+  }
+
+  // Internal
+  getUseId() {
+    return this.use_.getId();
+  }
+
+  /**
+   * Adds a velocity change (like force but ignores mass) to yourself.
+   * Only meaningful if physics is enabled.
+   * @param {!THREE.Vector3} velocityChange 
+   */
+  addVelocityChange(velocityChange) {
+    assertVector3(velocityChange, 'velocityChange');
+
+    if (!this.getActor().getEnablePhysics()) {
+      return;
+    }
+
+    // See VoosEngine.VelocityChange
+    response.velocityChanges.push({
+      entityName: this.getActor().getName(),
+      delta: velocityChange
+    });
+  }
+
+  /**
+   * Adds a torque. Only meaningful if physics is enabled.
+   * @param {!THREE.Vector3} torque
+   */
+  addTorque(torque) {
+    assertVector3(torque, 'torque');
+
+    if (!this.getActor().getEnablePhysics()) {
+      return;
+    }
+
+    // See VoosEngine.TorqueRequest
+    response.torqueRequests.push({
+      actorId: this.getActor().getName(),
+      torque: torque
+    });
+  }
+
+  /**
+   * Performs a good ol' raycast. Note that this will return all hits along the
+   * ray, not just the first one. So it "goes through" actors. So keep
+   * 'maxDistance' reasonable.
+   * @param {!THREE.Vector3} origin 
+   * @param {!THREE.Vector3} direction 
+   * @param {!number} maxDistance 
+   * @param {boolean} sortByDistance
+   * @returns {!Array.<string>} Array of actor names that the ray hit.
+   */
+  raycast(origin, direction, maxDistance, sortByDistance = false) {
+    // REPLACE BY APIv2, kept for backward compatibility:
+    const hits = castAdvanced(origin, dir, maxDist, 0,
+      sortByDistance ? CastMode.ALL_SORTED : CastMode.ALL_UNSORTED);
+    return hits ? hits.map(hit => hit.actor) : [];
+  }
+
+  /**
+   * Find all actors inside a sphere.
+   * @param {!THREE.Vector3} center 
+   * @param {number} radius 
+   * @param {string?} tag
+   * @returns {!Array.<string>} Array of actor names that touch the given sphere.
+   */
+  overlapSphere(center, radius, tag) {
+    var actors = callVoosService('OverlapSphere', { center: center, radius: radius, tag: tag });
+    if (actors.length == MAX_PHYSICS_QUERY_RESULTS) {
+      throw new Error(`Too many results for overlapSphere. Please reduce your radius. Maximum allowed is ${MAX_PHYSICS_QUERY_RESULTS}`);
+    }
+    // Dedupe here, since a single actor could have several colliders.
+    return [...new Set(actors)];
+  }
+
+  /**
+   * Use this to check for physical clearance, ie. is it safe to put a box here?
+   * @param {!THREE.Vector3} center 
+   * @param {!THREE.Vector3} dimensions 
+   * @param {!THREE.Quaternion} rotation 
+   * @returns {boolean} True if the given box collides with *anything* solid. This includes other actors, the handling actor, terrain, blocks, etc.
+   */
+  checkBox(center, dimensions, rotation) {
+    return callVoosService('CheckBox', { box: { center: center, dimensions: dimensions, rotation: serializeQuaternion(rotation) } });
+  }
+
+  /**
+   * This is the main way to access the current actor's properties, such as its
+   * position. Because this is the current handling actor, you can modify its
+   * properties as well.
+   * @returns {HandlingActor} The current actor that your handler is running
+   * for.
+   */
+  getActor() {
+    return this.handlingActor_;
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getName() instead.
+   * @deprecated
+   * @ignore
+   */
+  get name() {
+    return this.actor_.name;
+  }
+
+  /**
+   * DEPRECATED - Please use getActor() instead.
+   * @deprecated
+   * @ignore
+   */
+  get actor() {
+    return this.actor_;
+  }
+
+  /**
+   * Get the data associated with the message you're handling. The contents of
+   * this completely depends on the message.
+   * @returns {object}
+   */
+  get message() {
+    return this.deliveredMessage_.data;
+  }
+
+  /**
+   * Access your declared properties. For example, if you declared "property
+   * Number health", you would access it like: api.properties.health
+   * @returns {object}
+   */
+  get properties() {
+    return this.use_.properties;
+  }
+
+  /**
+   * Shortcut for 'properties'.
+   * @returns {object}
+   */
+  get props() {
+    return this.use_.properties;
+  }
+
+  /**
+   * Access (read and write) the handling actor's memories.
+   * @returns {object}
+   */
+  get memory() {
+    return this.actor_.memory;
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getPosition() instead.
+   * @deprecated
+   * @ignore
+   */
+  get position() {
+    return this.getActor().getPosition();
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().setPosition() instead.
+   * @deprecated
+   * @ignore
+   */
+  set position(newPos) {
+    this.getActor().setPosition(newPos);
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getRotation() instead.
+   * @deprecated
+   * @ignore
+   */
+  get rotation() {
+    return this.actor_.getRotation();
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().setRotation() instead.
+   * @deprecated
+   * @ignore
+   */
+  set rotation(quat) {
+    return this.actor_.setRotation(quat);
+  }
+
+  /**
+   * 
+   * @param {string} targetActorName 
+   * @param {string} messageName 
+   * @param {object} messageData 
+   */
+  sendMessage(targetActorName, messageName, messageData = {}) {
+    assertString(targetActorName, 'targetActorName');
+    assertString(messageName, 'messageName');
+    this.actor_.behaviorSystem.sendMessage(targetActorName, messageName, messageData, this.getActor().getName());
+  }
+
+  getTimeSinceReset() {
+    const timeSinceReset = this.time - this.actor_.behaviorSystem.lastResetTime_;
+    assertNumber(timeSinceReset, 'timeSinceReset');
+    return Math.max(0, timeSinceReset);
+  }
+
+  /**
+   * 
+   * @param {string} messageName 
+   * @param {object} messageData
+   * @param {SendMessageOptions?} sendMessageOptions
+   */
+  sendMessageToAll(messageName, messageData = {}, sendMessageOptions) {
+    assertString(messageName, 'messageName');
+    // Hmm not happy with this special casing..
+    if (messageName == 'ResetGame') {
+      queueMessageToUnity(null, "ResetTriggeredByHandler");
+    }
+    this.actor_.behaviorSystem.sendMessageToAll(messageName, messageData, this.getActor().getName(), sendMessageOptions);
+  }
+
+  /**
+   * 
+   * @param {string} messageName 
+   * @param {object} messageData 
+   */
+  sendSelfMessage(messageName, messageData = {}) {
+    this.sendMessage(this.actor_.name, messageName, messageData);
+  }
+
+  /**
+   * 
+   * @param {number} seconds 
+   */
+  async sleep(seconds) {
+    return this.actor_.behaviorSystem.sleepManager.for(this.actor_.name, seconds);
+  }
+
+  /**
+   * The time, in seconds, since the last Tick. NOTE: Only valid for 'OnTick'!
+   * @returns {number}
+   */
+  get dt() {
+    return this.deliveredMessage_.data.dt;
+  }
+
+  /**
+   * Convenience function, only valid if the actor has "Takes damage".
+   * @returns {boolean}
+   */
+  isDead() {
+    const health = this.memory.health;
+    // If undefined, this is not a damageable thing, so it's not knocked out.
+    return health !== undefined && health <= 0;
+  }
+
+  isAttached() {
+    return this.isValidActor(this.getActor().getTransformParent()) ? true : false;
+  }
+
+  /**
+   * Use this to read properties of another actor. Remember, you can *only* read
+   * other actors, you can not modify them. The main way to interact with other
+   * actors is by sending them messages (see sendMessage(...))
+   * @param {string} name The name of the actor you'd like to inspect.
+   * @returns {OtherActor} A read-only interface for the actor, with functions like getPosition()
+   */
+  getOtherActor(name) {
+    const actor = this.getOtherActor_(name);
+    if (actor) {
+      return new OtherActor(actor);
+    }
+    else {
+      return null;
+    }
+  }
+
+  /**
+   * DEPRECATED - Please use getOtherActor(name) instead.
+   * @deprecated
+   * @ignore
+   */
+  getOtherActor_(name) {
+    return this.actor_.behaviorSystem.getActor(name);
+  }
+
+  /**
+   * DEPRECATED - Please use getOtherActor(name).getPosition() instead.
+   * @deprecated
+   * @ignore
+   */
+  getOtherPosition(name) {
+    return this.getOtherActor(name).getPosition();
+  }
+
+  /**
+   * DEPRECATED - Please use getOtherActor(name).getRotation() instead.
+   * @deprecated
+   * @ignore
+   */
+  getOtherRotation(name) {
+    return this.getOtherActor_(name).getRotation();
+  }
+
+  // TODO deprecate this. "Trampoline" uses it..
+  getOtherVelocity(name) {
+    return this.getOtherActor(name).getVelocity();
+  }
+
+  // Read-only access to another actor's memories.
+  getOtherMemory(name, key) {
+    assertString(name);
+    assertString(key);
+    const memValue = this.getOtherActor_(name).memory[key];
+    if (memValue === undefined) {
+      return undefined;
+    }
+    if (memValue === null) {
+      return null;
+    }
+    // My cheap way of creating a copy...
+    const json = JSON.stringify(memValue);
+    return JSON.parse(json);
+  }
+
+  getOtherCloneParent(name) {
+    return this.getOtherActor(name).getCloneParent();
+  }
+
+  /**
+   * DEPRECATED - Please use getOtherActor(name).getDisplayName() instead.
+   * @deprecated
+   * @ignore
+   */
+  getOtherDisplayName(name) {
+    return this.getOtherActor_(name).displayName;
+  }
+
+  /**
+   * DEPRECATED - Please use getOtherActor(name).getIsPlayerControllable() instead.
+   * @deprecated
+   * @ignore
+   */
+  getOtherIsPlayerControllable(name) {
+    return this.getOtherActor_(name).isPlayerControllable;
+  }
+
+  /**
+   * Create a new actor based on a source actor.
+   * @param {string} sourceName The name of the actor that is being cloned
+   * @param {THREE.Vector3} initialPosition 
+   * @param {THREE.Quaternion} initialRotation 
+   * @returns {string} The name of the new actor (the clone)
+   */
+  clone(sourceName, initialPosition, initialRotation) {
+    return this.actor_.behaviorSystem.cloneActor(sourceName, this.name, initialPosition, initialRotation);
+  }
+
+  /**
+   * Destroys the handling actor.
+   * Destruction is not immediate.
+   * This only requests that the actor get destroyed at the end of the frame.
+   */
+  destroySelf() {
+    if (this.actor_.isLocalActor) {
+      this.actor_.requestDestroy();
+    }
+  }
+
+  /**
+   * Like doesActorExist, but also returns 'false' if name is undefined or empty.
+   * @param name The name of the actor to check.
+   * @returns {boolean}
+   */
+  isValidActor(name) {
+    return name && this.doesActorExist(name);
+  }
+
+  /**
+   * 
+   * @param name The name of the actor to check.
+   * @returns {boolean}
+   */
+  doesActorExist(name) {
+    return this.actor_.behaviorSystem.doesActorExist(name);
+  }
+
+  /**
+   * @param {string} first The first actor
+   * @param {string} second The second actor
+   * @returns {number} The distance, in meters, from the first to the second actor.
+   */
+  distanceBetween(first, second) {
+    return this.getOtherPosition(first).distanceTo(this.getOtherPosition(second));
+  }
+
+  addPlayerToolTip(playerName, keyCode, text) {
+    response.playerToolTips.push({ playerName: playerName, keyCode: keyCode, text: text });
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getAimDirection() instead.
+   * @deprecated
+   * @ignore
+   */
+  get aimDirection() {
+    return this.actor_.aimDirection.clone();
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getAimOrigin() instead.
+   * @deprecated
+   * @ignore
+   */
+  get aimOrigin() {
+    return this.actor_.aimOrigin.clone();
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getInputThrottle() instead.
+   * @deprecated
+   * @ignore
+   */
+  get inputThrottle() {
+    return this.actor_.inputThrottle.clone();
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getWorldSpaceThrottle() instead.
+   * @deprecated
+   * @ignore
+   */
+  get worldSpaceThrottle() {
+    return this.actor_.worldSpaceThrottle.clone();
+  }
+
+  /**
+   * DEPRECATED - Please use getActor().getSpawnPosition() instead.
+   * @deprecated
+   * @ignore
+   */
+  get spawnPosition() {
+    return this.actor_.spawnPosition.clone();
+  }
+
+  /**
+   * Set the tint. R, G, B should all be from 0 to 1.
+   * @param {number} r 
+   * @param {number} g 
+   * @param {number} b 
+   */
+  setTintRGB(r, g, b) {
+    const me = this.getActor();
+    const newRGBA = new THREE.Color(r, g, b);
+    // Hack, cuz THREE.Color doesn't by default hold an alpha.
+    const oldRGBA = me.getTint();
+    newRGBA.a = oldRGBA.a;
+    me.setTint(newRGBA);
+  }
+
+  /**
+   * Call this to prevent your handler from being called again for a certain
+   * number of seconds. Useful for things like grace periods, cooldowns for
+   * abilities, etc.
+   * @param {number} deltaSeconds 
+   */
+  setCooldown(deltaSeconds) {
+    this.actor_.setCooldown(this.use_.id, this.deliveredMessage_.name, this.deliveredMessage_.gameTime + deltaSeconds);
+  }
+
+  // Hum. Not really sure if I want this interface..
+  sendMessageToUnity(message) {
+    assert(typeof message == 'string');
+    this.actor_.behaviorSystem.sendMessageToUnity(this.name, message);
+  }
+
+  /**
+   * Get the absolute game time, in seconds.
+   * @returns {number} Absolute game time in seconds.
+   */
+  get time() {
+    return this.deliveredMessage_.gameTime;
+  }
+
+  get messageName() {
+    return this.deliveredMessage_.name;
+  }
+
+  get messageSender() {
+    return this.deliveredMessage_.senderActorName;
+  }
+
+  /**
+   * Build a wall in the terrain system.
+   * @param {number} x Integer from -100 to 100
+   * @param {number} y Integer from 0 to 40
+   * @param {number} z Integer from -100 to 100
+   * @param {number} side 0 for West, 1 for South. For East, the the West wall of the next block over. Similarly for North.
+   * @param {boolean} isWall Pass true to place a wall, pass false to clear the wall.
+   * @param {number=} blockStyle 0-15 for solid colors, 16 for stone, 17 for scifi, 18 for grass, 19 for snowy rock.
+   */
+  setWall(x, y, z, side, isWall, blockStyle = 16) {
+    // Deprecated.
+  }
+
+  /**
+   * Build a cell/block in the terrain system.
+   * @param {number} x Integer from -90 to 90
+   * @param {number} y Integer from 0 to 40
+   * @param {number} z Integer from -90 to 90
+   * @param {number} blockShape 0 for empty, 1 for box, 2 for triangle, 3 for ramp, 4 for corner ramp.
+   * @param {number} blockDirection 0 to 3 for the cardinal directions, for blocks that are directional.
+   * @param {number=} blockStyle 0-15 for solid colors, 16 for stone, 17 for scifi, 18 for grass, 19 for snowy rock.
+   */
+  setCell(x, y, z, blockShape, blockDirection, blockStyle = 16) {
+    callVoosService('SetTerrainCell', {
+      cell: {
+        x: Math.floor(x),
+        y: Math.floor(y),
+        z: Math.floor(z)
+      },
+      value: {
+        blockType: clamp(Math.floor(blockShape), 0, 4),
+        direction: clamp(Math.floor(blockDirection), 0, 3),
+        // Keep this updated with enum BlockStyle.
+        style: clamp(Math.floor(blockStyle), 0, 40)
+      }
+    });
+  }
+
+  getCell(x, y, z) {
+    return callVoosService('GetTerrainCell', { x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) });
+  }
+
+  /**
+   * Returns whether or not the game is in multiplayer mode.
+   * Note that this doesn't mean there are other players currently present.
+   * It only means the game was started as a multiplayer game, so people can potentially join.
+   * @return {boolean} Whether or not the game is in multiplayer mode.
+   */
+  isInMultiplayerMode() {
+    return callVoosService('IsMultiplayer', {});
+  }
+
+  /** Gets a list of all the actor names. */
+  getActorNames() {
+    return this.actor_.behaviorSystem.getActorNames();
+  }
+
+  /** Gets all actors that have the given tag. */
+  getActorNamesWithTag(tag) {
+    const result = [];
+    this.getActorNames().forEach(actorName => {
+      const other = this.getOtherActor(actorName);
+      if (other && other.hasTag(tag)) {
+        result.push(actorName);
+      }
+    });
+    return result;
+  }
+
+  // Returns memory that's "local" to a specific behavior use.
+  getBehaviorUseLocalMemory() {
+    assert(this.use_.id, "No behavior use ID in HandlerApi!");
+    this.actor_.memory.__bulm = this.actor_.memory.__bulm || {};
+    this.actor_.memory.__bulm[this.use_.id] = this.actor_.memory.__bulm[this.use_.id] || {};
+    return this.actor_.memory.__bulm[this.use_.id];
+  }
+
+  // Returns the temporary message object for this specific behavior use.
+  getTempMemoryForUse() {
+    return this.actor_.getTempMemoryForUse(this.use_.id);
+  }
+
+  logBehaviorMessage(message) {
+    const cs = getCallStack();
+    const behUri = this.use_.getBehaviorUri();
+    const lineNum = parseInt(cs.match(new RegExp(`${behUri}:(\\\d+)`))[1]);
+    callVoosService("LogBehaviorMessage", {
+      actorId: this.actor_.name,
+      message: message === undefined ? "" : message,
+      senderId: this.deliveredMessage_.senderActorName,
+      useId: this.use_.id,
+      messageName: this.deliveredMessage_.name,
+      lineNum: lineNum
+    });
+  }
+
+  // Declares that this handler did not change memory.
+  declareMemoryUnchanged() {
+    this.declaredMemoryUnchanged_ = true;
+  }
+
+  get declaredMemoryUnchanged() {
+    return this.declaredMemoryUnchanged_;
+  }
+
+  getInternalActor() {
+    return this.actor_;
+  }
+}

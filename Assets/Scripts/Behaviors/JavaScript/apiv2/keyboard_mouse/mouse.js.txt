@@ -1,0 +1,195 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Determines if the current actor has player input, that is, if it is currently
+ * being driven by a player.
+ * 
+ * <p>Only player-controlled actors have input. Other actors don't get input at
+ * all, so this will always return false for those. However, even if an actor
+ * is player controlled, it might be inputless at the moment because there is
+ * no actual player controlling it.</p>
+ * 
+ * <p>You should call this before calling any of the input polling functions like
+ * {@link getMouseX}, {@link getMouseY}, {@link mousePressed}, etc to know if
+ * there's a user controlling this input or not.</p>
+ * 
+ * <p>Situations where an actor 
+ * 
+ * @return {boolean} True if there is user input, false if not.
+ */
+function hasPlayerInput() {
+  return !!ApiV2Context.instance.getInputState();
+}
+
+/**
+ * Returns the X coordinate of the mouse cursor.
+ * @return {number} The X coordinate of the mouse cursor in UI space. It's between 0 and 1600.
+ */
+function getMouseX() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? inputState.mouseX : 0;
+}
+
+/**
+ * Returns the Y coordinate of the mouse cursor.
+ * @return {number} The Y coordinate of the mouse cursor in UI space. It's between 0 and 900.
+ */
+function getMouseY() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? inputState.mouseY : 0;
+}
+
+/**
+ * Determines if the mouse button is currently being held.
+ * @return {boolean} True if currently held, false if not.
+ */
+function mouseIsPressed() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return !!(inputState && inputState.mouseButtonIsPressed);
+}
+
+// Deprecated (renamed for clarity):
+var mousePressed = mouseIsPressed;
+
+/**
+ * Determines if the mouse button was JUST pressed (on this frame).
+ * @return {boolean} True if just pressed, false if not. This will
+ *     be true for just 1 frame when it's pressed.
+ */
+function mouseJustPressed() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return !!(inputState && inputState.mouseButtonJustPressed);
+}
+
+/**
+ * Determines if the mouse button was JUST released (on this frame).
+ * @return {boolean} True if just released, false if not. This will
+ *     be true for just 1 frame when it's released.
+ */
+function mouseJustReleased() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return !!(inputState && inputState.mouseButtonJustReleased);
+}
+
+/**
+ * Returns the world-space origin of the mouse ray, that is, a ray going from
+ * the camera through the mouse position. This ray lets you figure out
+ * what actors in the world are "under" the mouse.
+ * @return {THREE.Vector3} The world-space origin of the mouse ray, or null
+ *    if there is no mouse input.
+ */
+function getMouseRayOrigin() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? vec3(inputState.mouseRayOrigin) : null;
+}
+
+/**
+ * Returns the world-space direction of the mouse ray, that is, a ray going from
+ * the camera through the mouse position. This ray lets you figure out
+ * what actors in the world are "under" the mouse.
+ * @return {THREE.Vector3} The world-space direction of the mouse ray, or null
+ *     if there is no mouse input.
+ */
+function getMouseRayDir() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? vec3(inputState.mouseRayDirection) : null;
+}
+
+/**
+ * Returns the change in the mouse wheel that happened this frame.
+ * This is a delta, that is, it's how much the mouse wheel moved
+ * on this frame.
+ * 
+ * <p>A positive number means the user is scrolling up, a negative
+ * number means down. For an idea of the magnitude of this number:
+ * using a typical PC mouse with a discrete-step mousewheel, turning
+ * the wheel by one step will give a reading of 0.1 on the frame
+ * when the movement happens.
+ * 
+ * <p>On Mac OS with a touchpad, the "mousewheel" corresponds to sliding
+ * up/down with two fingers on the touchpad and happens continuously
+ * (not by discrete steps), so you will read different values every
+ * frame while the movement is happening.
+ *
+ * @return {number} The movement delta in the mouse wheel that
+ *     happened this frame. If the mouse wheel hasn't moved this frame,
+ *     this returns 0.
+ */
+function getMouseWheel() {
+  const inputState = ApiV2Context.instance.getInputState();
+  return inputState ? inputState.mouseWheel : 0;
+}
+
+/**
+ * Gets the actor under the mouse cursor, if any.
+ * @return {ActorRef?} If there is an actor under the mouse cursor, the actor.
+ *     If there is none, then null. If there are two or more actors under
+ *     the mouse cursor, returns the one that's closest to the camera.
+ */
+function getActorUnderMouse() {
+  return ApiV2Context.instance.getActorsUnderMouse()[0] || null;
+}
+
+/**
+ * Returns the actor(s) under the mouse cursor.
+ * @return {ActorRef[]} The array of actors under the mouse cursor. If none, this will
+ *     be an empty array. This will never be null. The actors will be SORTED by
+ *     distance from the camera, closest to farthest.
+ */
+function getActorsUnderMouse() {
+  return ApiV2Context.instance.getActorsUnderMouse().slice();
+}
+
+/**
+ * Returns the coordinates of the point on the terrain (ground, construction blocks)
+ * that's directly under the mouse cursor.
+ * @return {THREE.Vector3?} The point on the terrain that is under the mouse cursor,
+ *     or null if none.
+ */
+function getTerrainPointUnderMouse() {
+  return ApiV2Context.instance.getMouseTerrainRaycastHit();
+}
+
+/**
+ * If you implement this function, it will be called when the user presses the mouse.
+ *
+ * <p>NOTE: This function will only be called on player-controllable actors!
+ */
+// DOC_ONLY: function onMouseDown() {}
+
+/**
+ * If you implement this function, it will be called when the user releases the mouse.
+ *
+ * <p>NOTE: This function will only be called on player-controllable actors!
+ */
+// DOC_ONLY: function onMouseUp() {}
+
+/**
+ * If you implement this function, it will be called every frame while the user is holding the mouse.
+ *
+ * <p>NOTE: This function will only be called on player-controllable actors!
+ */
+// DOC_ONLY: function onMouseHeld() {}
+
+/**
+ * If you implement this function, it will be called when the actor is clicked.
+ *
+ * This function works on any actor.
+ */
+// DOC_ONLY: function onActorClicked() {}

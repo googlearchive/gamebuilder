@@ -1,0 +1,167 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets the given actor's display name.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return The display name. This is the name of the actor as entered
+ *     in the editor. It is not guaranteed to be unique.
+ *     Note: as a convenience(?), if you pass null or an actor that doesn't exist,
+ *     this function will return the string '???'.
+ */
+function getDisplayName(actor) {
+  if (actor === undefined) {
+    // Argument omitted. Return own display name.
+    return ApiV2Context.instance.getActor().getDisplayName();
+  } else if (!exists(actor)) {
+    // Passed in null or an actor that doesn't exist.
+    // Return "???" as documented.
+    return "???";
+  } else {
+    // Valid actor.
+    return ApiV2Context.instance.getActor(actor).getDisplayName();
+  }
+}
+
+/**
+ * Sets the display name of the current actor.
+ * @param {string} name The new display name.
+ */
+function setDisplayName(name) {
+  assertString(name);
+  return ApiV2Context.instance.getActor().setDisplayName(name);
+}
+
+/**
+ * Returns the comment text for the actor. This is the text that is
+ * displayed on a text panel actor (the ones you create with the
+ * text tool). This has no meaning for other kinds of actor.
+ * @param {ActorRef=} actor The actor. If omitted, defaults to the current actor.
+ * @return {string} The comment text.
+ */
+function getCommentText(actor) {
+  return ApiV2Context.instance.getActor(actor).getCommentText();
+}
+
+/**
+ * Sets the comment text for the actor. This is the text that is displayed
+ * on a text panel actor. This has no meaning for other kinds of actor.
+ * @param {string} newText The new comment text.
+ */
+function setCommentText(newText) {
+  assertString(newText);
+  return ApiV2Context.instance.getActor().setCommentText(newText);
+}
+
+/**
+ * Sets a custom variable on the current actor.
+ * 
+ * <p>This is just a key/value pair that gets attached to the actor and can
+ * be read by other actors with {@link getVar}.
+ * 
+ * <p>All variables get deleted on game reset.
+ *
+ * @param {string} name The name of the variable to set.
+ * @param value The value of the variable to set.
+ * @example
+ * // Indicate that this actor has 5 hitpoints left. Other actors can
+ * // query this with getVar.
+ * setVar("hp", 5);
+ */
+function setVar(name, value) {
+  assertString(name);
+  mem.__variables = mem.__variables || {};
+  if (value === undefined) {
+    delete mem.__variables[name];
+  } else {
+    mem.__variables[name] = value;
+  }
+}
+
+/**
+ * Deletes (unsets) a custom variable on the current actor.
+ *
+ * @param {string} name The name of the variable to delete.
+ */
+function deleteVar(name) {
+  assertString(name);
+  if (mem.__variables) delete mem.__variables[name];
+}
+
+// Old name, DEPRECATED:
+const setAttrib = setVar;
+
+/**
+ * Gets a custom variable of the given actor.
+ *
+ * <p>This will return the value that has been set on the actor with
+ * {@link setVar}.
+ * 
+ * @param {string} name The name of the variable to get.
+ * @param {Actor=} actor The actor whose variable to get. If omitted, defaults
+ *     to the current actor.
+ * @return The value of the variable, or <tt>undefined</tt>
+ * @example
+ * export const PROPS = [
+ *   propActor("player")
+ * ]
+ *
+ * // Imagine this is a script that's part of an NPC whose job it is
+ * // to heal the player when their hitpoints go below 3.
+ * export function onTick() {
+ *   const playerHp = getVar(props.player, "hp") || 0;
+ *   if (playerHp < 3) {
+ *     log("Oh no, the player is low on hitpoints");
+ *     // ...some logic here to heal the player, for example:
+ *     send(props.player, "Heal", 10);
+ *     // Only do this at most once every 5 seconds.
+ *     cooldown(5);
+ *   }
+ * }
+ */
+function getVar(name, actor) {
+  actor = actor || myself();
+  const variables = ApiV2Context.instance.api.getOtherMemory(actor, "__variables");
+  return variables ? variables[name] : undefined;
+}
+
+/**
+ * Gets all the variables of the given actor.
+ * 
+ * <p>This will return all variables that the actor has set with {@link setVar}.
+ *
+ * @param {Actor=} actor The actor whose variables to get. If omitted, defaults
+ *     to the current actor.
+ * @return {Object.<string,*>} A dictionary of all the actor's variables. If the given
+ *     actor does not exist, returns undefined.
+ * @example
+ * let allVars = getAllVars(someActor);
+ * for (let varName in allVars) {
+ *   log("The value of " + varName + " is " + allVars[varName]);
+ * }
+ */
+function getAllVars(actor) {
+  actor = actor || myself();
+  const variables = ApiV2Context.instance.api.getOtherMemory(actor, "__variables");
+  if (!variables) return undefined;
+  return Object.assign({}, variables);
+}
+
+// Old name, DEPRECATED:
+const getAttrib = getVar;
+

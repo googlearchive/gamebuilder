@@ -1,0 +1,504 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+// Keep all these constants in sync with GameUiMain.cs:
+const UI_TEXT_CHAR_WIDTH = 13;
+const UI_TEXT_LINE_HEIGHT = 20;
+const UI_DEFAULT_TEXT_SIZE = 29.5;
+
+const _UI_CMD_TEXT = 1;
+const _UI_CMD_RECT = 2;
+const _UI_CMD_BUTTON = 3;
+const _UI_CMD_IMAGE = 4;
+const _UI_CMD_CIRCLE = 5;
+const _UI_CMD_TRIANGLE = 6;
+const _UI_CMD_LINE = 7;
+const _UI_CMD_IMAGE_SLICE = 8;
+
+/**
+ * Shows UI text with the given content and color.
+ * 
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * @param {number} x The UI-space X coordinate of the text to show (0-1600).
+ * @param {number} y The UI-space Y coordinate of the text to show (0-900).
+ * @param {string} text The text to show.
+ * @param {THREE.Color|number} color The color to use. Defaults to white. This can
+ *     be a THREE.Color or a raw hex int like <tt>0xff0000</tt>.
+ * @param {UiTextOptions?} options Additional options, if any.
+ * @example
+ * export function onLocalTick() {
+ *   uiText(100, 100, "Hello world!");
+ *   uiText(100, 130, "Some yellow text", UiColor.YELLOW);
+ * }
+ */
+function uiText(x, y, text, color, options = {}) {
+  assertObjectNotNull(options, 'options');
+  color = ApiV2Context.instance.normalizeColor(color, new THREE.Color(1, 1, 1));
+  assertNumber(x, "x parameter");
+  assertNumber(y, "y parameter");
+
+  // The center option is processed here rather than in Unity.
+  if (options && options.center) {
+    x -= uiGetTextWidth(text) / 2;
+    y -= uiGetTextHeight(text) / 2;
+  }
+
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_TEXT,
+    text: "" + text,
+    rect: { x: x, y: y, w: 1, h: 1 },  // labels are auto-sized so w/h are ignored
+    textColor: ApiV2Context.instance.colorToInt(color)
+  }));
+}
+
+/**
+ * Shows a UI rectangle with the given coordinates and color.
+ *
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * @param {number} x The UI-space X coordinate of the left of the rectangle.
+ * @param {number} y The UI-space Y coordinate of the top of the rectangle.
+ * @param {number} w The UI-space width of the rectangle.
+ * @param {number} h The UI-space height of the rectangle.
+ * @param {THREE.Color|number=} color The color to use. Defaults to white. This can
+ *     be a THREE.Color or a raw hex int like <tt>0xff0000</tt>.
+ * @param {UiShapeOptions?} options Additional options, if any.
+ * @example
+ * export function onLocalTick() {
+ *   uiRect(100, 100, 50, 75);
+ *   uiRect(800, 100, 50, 75, UiColor.NAVY);
+ *   uiRect(800, 100, 50, 75, UiColor.WHITE, false);
+ * }
+ */
+function uiRect(x, y, w, h, color, options = {}) {
+  assertObjectNotNull(options, 'options');
+  color = ApiV2Context.instance.normalizeColor(color, new THREE.Color(1, 1, 1));
+  assertNumber(x, "x parameter");
+  assertNumber(y, "y parameter");
+  assertNumber(w, "w parameter");
+  assertNumber(h, "h parameter");
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_RECT,
+    rect: { x: x, y: y, w: w, h: h },
+    backgroundColor: ApiV2Context.instance.colorToInt(color)
+  }));
+}
+
+/**
+ * Draws a UI circle.
+ *
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * @param {number} centerX The UI-space X coordinate of the center of the circle.
+ * @param {number} centerY The UI-space Y coordinate of the center of the circle.
+ * @param {number} radius The radius of the circle.
+ * @param {THREE.Color|number=} color The color to use. Defaults to white. This can
+ *     be a THREE.Color or a raw hex int like <tt>0xff0000</tt>.
+ * @param {UiShapeOptions?} options Additional options, if any.
+ */
+function uiCircle(centerX, centerY, radius, color, options = {}) {
+  assertObjectNotNull(options, 'options');
+  color = ApiV2Context.instance.normalizeColor(color, new THREE.Color(1, 1, 1));
+  assertNumber(centerX, "centerX parameter");
+  assertNumber(centerY, "centerY parameter");
+  assertNumber(radius, "radius parameter");
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_CIRCLE,
+    points: [{ x: centerX, y: centerY }],
+    radius: radius,
+    backgroundColor: ApiV2Context.instance.colorToInt(color)
+  }));
+}
+
+/**
+ * Draws a UI triangle.
+ * 
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * @param {number} x1 The UI-space X coordinate of the first point.
+ * @param {number} y1 The UI-space Y coordinate of the first point.
+ * @param {number} x2 The UI-space X coordinate of the second point.
+ * @param {number} y2 The UI-space Y coordinate of the second point.
+ * @param {number} x3 The UI-space X coordinate of the third point.
+ * @param {number} y3 The UI-space Y coordinate of the third point.
+ * @param {THREE.Color|number=} color The color to use. Defaults to white. This can
+ *     be a THREE.Color or a raw hex int like <tt>0xff0000</tt>.
+ * @param {UiShapeOptions?} options Additional options, if any.
+ */
+function uiTriangle(x1, y1, x2, y2, x3, y3, color, options = {}) {
+  assertObjectNotNull(options, 'options');
+  color = ApiV2Context.instance.normalizeColor(color, new THREE.Color(1, 1, 1));
+  assertNumber(x1, "x1 parameter");
+  assertNumber(y1, "y1 parameter");
+  assertNumber(x2, "x2 parameter");
+  assertNumber(y2, "y2 parameter");
+  assertNumber(x3, "x3 parameter");
+  assertNumber(y3, "y3 parameter");
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_TRIANGLE,
+    points: [
+      { x: x1, y: y1 },
+      { x: x2, y: y2 },
+      { x: x3, y: y3 },
+    ],
+    backgroundColor: ApiV2Context.instance.colorToInt(color)
+  }));
+}
+
+/**
+ * Draws a UI line between two points.
+ *
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ * 
+ * @param {number} x1 The UI-space X coordinate of the first point.
+ * @param {number} y1 The UI-space Y coordinate of the first point.
+ * @param {number} x2 The UI-space X coordinate of the second point.
+ * @param {number} y2 The UI-space Y coordinate of the second point.
+ * @param {THREE.Color|number=} color The color to use. Defaults to white. This can
+ *     be a THREE.Color or a raw hex int like <tt>0xff0000</tt>.
+ * @param {UiShapeOptions?} options Additional options, if any.
+ */
+function uiLine(x1, y1, x2, y2, color, options = {}) {
+  assertObjectNotNull(options, 'options');
+  color = ApiV2Context.instance.normalizeColor(color, new THREE.Color(1, 1, 1));
+  assertNumber(x1, "x1 parameter");
+  assertNumber(y1, "y1 parameter");
+  assertNumber(x2, "x2 parameter");
+  assertNumber(y2, "y2 parameter");
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_LINE,
+    points: [
+      { x: x1, y: y1 },
+      { x: x2, y: y2 },
+    ],
+    backgroundColor: ApiV2Context.instance.colorToInt(color)
+  }));
+}
+
+/**
+ * Shows a button.
+ *
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * @param {number} x The UI-space X coordinate of the left of the rectangle.
+ * @param {number} y The UI-space Y coordinate of the top of the rectangle.
+ * @param {number} w The UI-space width of the rectangle.
+ * @param {number} h The UI-space height of the rectangle.
+ * @param {string} text The text to show on the button.
+ * @param {string} clickMessageName Name of the message to send when the button is clicked.
+ *     This message is sent to the requesting actor (the actor that called <tt>uiButton</tt>).
+ * @param {UiButtonOptions} options Additional options, if any.
+ * @example
+ * export function onLocalTick() {
+ *   uiButton(50, 50, 200, 30, "Launch!", "LaunchClicked");
+ * }
+ *
+ * export function onLaunchClicked() {
+ *   log("Launching!");
+ *   push(myself(), vec3(0, 100, 0));
+ * }
+ *
+ * @example
+ * export function onLocalTick() {
+ *   // Example with extra options:
+ *   uiButton(50, 50, 200, 30, "Launch!", "LaunchClicked", {
+ *     textColor: UiColor.LIME,
+ *     backgroundColor: UiColor.NAVY,
+ *     clickMessageArg: { foo: "bar" },
+ *     opacity: 0.5
+ *   });
+ * }
+ *
+ * export function onLaunchClicked(msg) {
+ *   log("Launching! Arg was " + msg.foo);  // prints 'Arg was bar'
+ *   push(myself(), vec3(0, 100, 0));
+ * }
+ */
+function uiButton(x, y, w, h, text, clickMessageName = "ButtonClicked", options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertNumber(x, "x parameter");
+  assertNumber(y, "y parameter");
+  assertNumber(w, "w parameter");
+  assertNumber(h, "h parameter");
+  assertString(text, "text parameter");
+  assertValidMessageName(clickMessageName, "clickMessageName");
+  assertTypeOf(options, "object", "options, if provided, must be an object.")
+
+  const backgroundColor = ApiV2Context.instance.normalizeColor(options.backgroundColor, new THREE.Color(0x303030));
+  const textColor = ApiV2Context.instance.normalizeColor(options.textColor, new THREE.Color(0xffffff));
+
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_BUTTON,
+    text: "" + text,
+    rect: { x: x, y: y, w: w, h: h },
+    clickMessageName: clickMessageName,
+    textColor: ApiV2Context.instance.colorToInt(textColor),
+    backgroundColor: ApiV2Context.instance.colorToInt(backgroundColor),
+    clickMessageArgJson: JSON.stringify(options.clickMessageArg || {})
+  }));
+}
+
+// DEPRECATED:
+var uiSprite = function (x, y, w, h, imageId) {
+  uiImage(x, y, imageId, w, h);
+}
+
+/**
+ * Shows an image.
+ *
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * @param {number} x The UI-space X coordinate of the top-left corner of the image.
+ * @param {number} y The UI-space Y coordinate of the top-left corner of the image.
+ * @param {string} imageId The ID of the image to show. Must come from the value
+ *     of a {@link propImage} field.
+ * @param {number=} width The desired width of the image, in game UI coordinates.
+ *     If omitted (or set to a negative number), this will default to the actual size
+ *     of the image.
+ * @param {number=} height The desired height of the image, in game UI coordinates.
+ *     If omitted (or set to a negative number), this will default to whatever it
+ *     needs to be to preserve the aspect ratio of the image, which is normally
+ *     what you want.
+ * @param {UiImageOptions=} options Additional image options.
+ */
+function uiImage(x, y, imageId, width = -1, height = -1, options = {}) {
+  assertNumber(x, "x parameter");
+  assertNumber(y, "y parameter");
+  assertString(imageId, "imageId parameter");
+  assertObjectNotNull(options, 'options');
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_IMAGE,
+    rect: { x: x, y: y, w: width, h: height },
+    imageId: imageId
+  }));
+}
+
+/**
+ * (Advanced) Renders a slice of an image.
+ * 
+ * <p>Notes: UI works in "immediate mode", so it must be requested on every
+ * frame on {@link onLocalTick}.</p>
+ *
+ * <p>This takes a rectangular slice of an image and renders it to the given rectangular
+ * portion of the screen. This is useful for sprite sheets, bitmap fonts, etc. If you
+ * just want to draw a full image, it's easier to use {@link uiImage}.
+ *
+ * @param {number} x The UI-space X coordinate of the top-left corner of the screen rectangle.
+ * @param {number} y The UI-space Y coordinate of the top-left corner of the screen rectangle.
+ * @param {number} w The UI-space width of the screen rectangle.
+ * @param {number} h The UI-space height of the screen rectangle.
+ *
+ * @param {number} srcX The X coordinate of the top-left corner of the source rectangle (image).
+ * @param {number} srcY The Y coordinate of the top-left corner of the source rectangle (image).
+ * @param {number} srcW The width of the source rectangle (image) in pixels.
+ * @param {number} srcH The height of the source rectangle (image) in pixels.
+ *
+ * @param {string} imageId The ID of the image to show. Must come from the value
+ *     of a {@link propImage} field.
+ *
+ * @param {UiImageOptions=} options Additional image options.
+ */
+function uiImageSlice(x, y, w, h, srcX, srcY, srcW, srcH, imageId, options = {}) {
+  assertNumber(x, "x parameter");
+  assertNumber(y, "y parameter");
+  assertNumber(w, "x parameter");
+  assertNumber(h, "y parameter");
+  assertNumber(srcX, "srcX parameter");
+  assertNumber(srcY, "srcY parameter");
+  assertNumber(srcW, "srcW parameter");
+  assertNumber(srcH, "srcH parameter");
+  assertString(imageId, "imageId parameter");
+  assertObjectNotNull(options, 'options');
+  ApiV2Context.instance.addUiCommand(Object.assign(options, {
+    cmd: _UI_CMD_IMAGE_SLICE,
+    rect: { x: x, y: y, w: w, h: h },
+    srcRect: { x: srcX, y: srcY, w: srcW, h: srcH },
+    imageId: imageId
+  }));
+}
+
+/**
+ * Returns the width of the given text, in pixels.
+ * @param {string} s The text to measure. It may contain \n's.
+ * @param {number=} textSize The size of the text, if different from default.
+ * @return {number} The width of the given text in pixels.
+ */
+function uiGetTextWidth(s, textSize = UI_DEFAULT_TEXT_SIZE) {
+  let longestLineLength = 0;
+  for (const line of ("" + s).split('\n')) {
+    longestLineLength = Math.max(longestLineLength, line.length);
+  }
+  return UI_TEXT_CHAR_WIDTH * longestLineLength * textSize / UI_DEFAULT_TEXT_SIZE;
+}
+
+/**
+ * Returns the height of the given text, in pixels.
+ * @param {string} s The text to measure. It may contain \n's.
+ * @param {number=} textSize The size of the text, if different from default.
+ * @return {number} The height of the given text in pixels.
+ */
+function uiGetTextHeight(s, textSize = UI_DEFAULT_TEXT_SIZE) {
+  return UI_TEXT_LINE_HEIGHT * Math.max(1, ("" + s).split('\n').length) *
+    textSize / UI_DEFAULT_TEXT_SIZE;
+}
+
+/**
+ * Returns the screen's width in the UI coordinate system.
+ *
+ * <p>Spoiler alert: it's 1600. Because that's how it's defined.
+ * We have this function because it's a neat counterpart to
+ * {@link uiGetScreenHeight} and it would feel weird not to have it,
+ * but it will always just return 1600.
+ *
+ * @return {number} The screen's width in the UI coordinate system,
+ * also known as the constant number 1600.
+ */
+function uiGetScreenWidth() {
+  return 1600;
+}
+
+/**
+ * Returns the screen's height in the UI coordinate system.
+ *
+ * <p>Unlike screen width (which is always 1600), this varies a bit because
+ * different monitors have different aspect ratios. So in a 16:10 monitor
+ * this will be 1000, in a 16:9 monitor this will be 900, etc.
+ *
+ * @return {number} The screen's height in the UI coordinate system.
+ */
+function uiGetScreenHeight() {
+  return uiGetScreenInfo().height;
+}
+
+/**
+ * (Advanced) Returns information about the screen.
+ * @return {UiScreenInfo} The information about the screen.
+ */
+function uiGetScreenInfo() {
+  const screenInfo = ApiV2Context.instance.getScreenInfo();
+  assertObjectNotNull(screenInfo, "screenInfo should have been non-null object");
+  return screenInfo;
+}
+
+/**
+ * UI colors constants for convenience. These are all THREE.Color objects.
+ * @enum {THREE.Color}
+ */
+var UiColor = {
+  AQUA: new THREE.Color(0x00FFFF),
+  BLACK: new THREE.Color(0x000000),
+  BLUE: new THREE.Color(0x0000FF),
+  BROWN: new THREE.Color(0xA52A2A),
+  CYAN: new THREE.Color(0x00FFFF),
+  DARKBLUE: new THREE.Color(0x0000A0),
+  FUCHSIA: new THREE.Color(0xFF00FF),
+  GREEN: new THREE.Color(0x008000),
+  GREY: new THREE.Color(0x808080),
+  LIGHTBLUE: new THREE.Color(0xADD8E6),
+  LIME: new THREE.Color(0x00FF00),
+  MAGENTA: new THREE.Color(0xFF00FF),
+  MAROON: new THREE.Color(0x800000),
+  NAVY: new THREE.Color(0x000080),
+  OLIVE: new THREE.Color(0x808000),
+  ORANGE: new THREE.Color(0xFFA500),
+  PURPLE: new THREE.Color(0x800080),
+  RED: new THREE.Color(0xFF0000),
+  SILVER: new THREE.Color(0xC0C0C0),
+  TEAL: new THREE.Color(0x008080),
+  WHITE: new THREE.Color(0xFFFFFF),
+  YELLOW: new THREE.Color(0xFFFF00),
+}
+
+/**
+ * @typedef ShapeStyle
+ * @prop {string} FILLED
+ * @prop {string} BORDER
+ * @prop {string} DASHED
+ */
+
+/**
+ * Shape styles.
+ * @enum {ShapeStyle}
+ */
+var ShapeStyle = {
+  FILLED: "FILLED",
+  BORDER: "BORDER",
+  DASHED: "DASHED",
+  // TODO: in the future we can have patterns, etc
+  // to allow building more refined UI.
+}
+
+// Legacy:
+var RectStyle = ShapeStyle;
+
+/**
+ * @typedef {Object} UiShapeOptions
+ * @prop {ShapeStyle?} style The style of the shape.
+ * @prop {number?} opacity The opacity (0 to 1).
+ */
+// DOC_ONLY: var UiShapeOptions;
+
+/**
+ * @typedef {Object} UiImageOptions
+ * @prop {boolean} noFilter If true, image will not be filtered (smoothed).
+ *     The default is false, which means the image is filtered (smoothed).
+ */
+// DOC_ONLY: var UiImageOptions;
+
+/**
+ * @typedef {Object} UiButtonOptions
+ * @prop {(THREE.Color|number)?} textColor The text color of the button.
+ * @prop {(THREE.Color|number)?} backgroundColor The background color of the button.
+ * @prop {*} clickMessageArg The argument to send to the click message.
+ * @prop {number?} opacity The opacity (0 to 1).
+ */
+// DOC_ONLY: var UiButtonOptions;
+
+/**
+ * @typedef {Object} UiTextOptions
+ * @prop {(THREE.Color|number)?} textColor The color of the text.
+ * @prop {boolean?} center If true, the text will be centered around the position.
+ *     Otherwise the position is the top-left of the text.
+ * @prop {number?} textSize The size of the text, in game UI units. For reference,
+ *     the default text size is 29.5, so if you use 60 you will get something
+ *     about twice the size of the normal text.
+ * @prop {number?} opacity The opacity (0 to 1).
+ */
+// DOC_ONLY: var UiTextOptions;
+
+/**
+ * @typedef {Object} UiScreenInfo
+ * @prop {number} width The width of the screen in the UI coordinate system.
+ *     This is always 1600.
+ * @prop {number} height The height of the screen in the UI coordinate system.
+ *     This varies with the screen's aspect ratio. For example, if the screen has
+ *     a 16:9 aspect ratio, this will be 900.
+ * @prop {number} pixelWidth The width of the screen in actual, physical pixels
+ *     (not the virtual UI coordinate system.)
+ * @prop {number} pixelHeight The height of the screen in actual, physical pixels
+ *     (not the virtual UI coordinate system.)
+ */
+// DOC_ONLY: var UiScreenInfo;

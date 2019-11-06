@@ -1,0 +1,192 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * @typedef {Object} CameraSettings
+ * @property {boolean} cursorActive If true, mouse cursor will be visible (good for RTS-style cameras where the user
+ *     will use the mouse to interact with the game). If false, mouse cursor will be invisible (good for FPS-style
+ *     cameras where the user will use the mouse to pan/tilt but not to click stuff).
+ * @property {number} fov The field-of-view angle.
+ * @property {THREE.Vector3} aimOrigin The origin point (in world coordinates) of the player's "aiming ray".
+ *     This normally originates on the player character in RTS-style cameras. Or, for an FPS or third-person
+ *     camera, you might want this to originate on the camera itself.
+ * @property {THREE.Vector3} aimDir The direction of the "aiming ray". In RTS-style cameras, you'll normally
+ *     want this to point from the player's position towards where the mouse is. For an FPS-style camera,
+ *     it's normally the player's or camera's "forward" direction.
+ * @property {ActorRef[]} dontRenderActors If not null, this is a list of actors that will not be rendered
+ *     by this camera. This is useful, for example, to inhibit first-person cameras from rendering the
+ *     player.
+ */
+var CameraSettings;
+
+/**
+ * Sets the camera settings. This only works if this actor is a camera.
+ * 
+ * <p>In particular, it DOES NOT work on the player actor itself! It has to be
+ * called on the camera actor that's associated to the player actor.
+ * 
+ * @param {CameraSettings} settings The camera settings, or null to restore defaults.
+ */
+function setCameraSettings(settings) {
+  if (settings === null) {
+    ApiV2Context.instance.getActor().setCameraSettingsJson(null);
+    return;
+  }
+  for (let key in settings) {
+    const value = settings[key];
+    // null is ok for any value (it's the same as omitting it).
+    if (value === null) continue;
+    switch (key) {
+      case 'fov':
+        assertNumber(value, key);
+        break;
+      case 'cursorActive':
+        assertBoolean(value, key);
+        break;
+      case 'aimOrigin':
+        assertVector3(value, key);
+        break;
+      case 'aimDir':
+        assertVector3(value, key);
+        break;
+      case 'dontRenderActors':
+        assertArrayOf(value, 'string', key);
+        break;
+      default:
+        throw new Error("Invalid camera setting passed to setCameraSettings: " + key);
+    }
+  }
+  ApiV2Context.instance.getActor().setCameraSettingsJson(JSON.stringify(settings));
+}
+
+/**
+ * Sets up the current actor to be a source of light (point light) with the indicated
+ * color and range. To stop emitting light, call {@link clearLight}.
+ * 
+ * <p>Lights are expensive in terms of performance. If you have more than a few actors
+ * emitting lights in your project, you may notice slowdowns. Ok, maybe not on your
+ * incredibly fast nitrogen-cooled powerhouse of a computer, but think about the
+ * users that will play your game on slower machines :-)
+ *
+ * @param {number=} range The range of the light.
+ * @param {THREE.Color?} color The color of the light. If null or not provided, uses
+ *     the actor's tint color.
+ * @param {THREE.Vector3?} offset The light's offset, in the actor's coordinate frame.
+ */
+function setLight(range = 20, color = null, offset = null) {
+  offset = offset || vec3zero();
+  assertNumber(range, "range");
+  assertVector3(offset, "offset");
+  const settings = { range: range, offset: offset };
+  if (color) {
+    assertColor(color, "color");
+    settings.color = { r: color.r, g: color.g, b: color.b, a: 1 };
+  }
+  ApiV2Context.instance.getActor().setLightSettingsJson(JSON.stringify(settings));
+}
+
+/**
+ * Stops emitting light, countering the effect of {@link setLight}.
+ */
+function clearLight() {
+  ApiV2Context.instance.getActor().setLightSettingsJson(null);
+}
+
+/**
+ * Requests a temporary camera offset (for 1 frame).
+ * Can be used to implement simple camera shake effects.
+ * @param {THREE.Vector3} offset The offset. This is local to the camera's transform,
+ *     So if the offset is (0.1, 0, 0) it means 0.1 to the right of the camera,
+ *     regardless of where it's pointing.
+ * @param {ActorRef?} actor The player actor on which to apply the effect.
+ *     If omitted, defaults to the current actor.
+ */
+function requestCameraOffset(offset, actor) {
+  assertVector3(offset, "offset");
+  actor = actor || myself();
+  if (!exists(actor)) {
+    throw new Error("Can't request camera offset: actor does not exist: " + actor);
+  }
+  if (!isPlayerControllable(actor)) {
+    throw new Error("Can't request camera offset on a non player-controllable actor: " + getDisplayName(actor));
+  }
+  callVoosService("RequestTempCameraOffset", { actor: actor, offset: offset });
+}
+
+/**
+ * Gets the location of the local camera.
+ * 
+ * <p>In single-player games you can call this from anywhere and it will return
+ * the camera position, as there's no ambiguity.
+ * 
+ * <p>In a multi-player game, this should normally only be called from
+ * {@link onLocalTick}, as in that context it's clear that the camera is the camera
+ * that is rendering for the current (local) player.
+ * 
+ * <p>This may fail, for instance when there is no camera in the current context
+ * or when the camera is still initializing, in which case this will return <tt>null</tt>.
+ * 
+ * @return {THREE.Vector3|null} If successful, returns the position of the camera
+ *     in world space. If failed, returns null.
+ */
+function getLocalCameraPos() {
+  const info = ApiV2Context.instance.getCameraInfo();
+  return info && info.pos ? vec3(info.pos) : null;
+}
+
+/**
+ * Gets the rotation of the local camera.
+ * 
+ * <p>In single-player games you can call this from anywhere and it will return
+ * the camera position, as there's no ambiguity.
+ * 
+ * <p>In a multi-player game, this should normally only be called from
+ * {@link onLocalTick}, as in that context it's clear that the camera is the camera
+ * that is rendering for the current (local) player.
+ * 
+ * <p>This may fail, for instance when there is no camera in the current context
+ * or when the camera is still initializing, in which case this will return <tt>null</tt>.
+ * 
+ * @return {THREE.Vector3|null} If successful, returns the position of the camera
+ *     in world space. If failed, returns null.
+ */
+function getLocalCameraRot() {
+  const info = ApiV2Context.instance.getCameraInfo();
+  return info && info.rot ? new THREE.Quaternion(info.rot.x, info.rot.y, info.rot.z, info.rot.w) : null;
+}
+
+/**
+ * Gets the forward vector of the local camera.
+ * 
+ * <p>In single-player games you can call this from anywhere and it will return
+ * the camera position, as there's no ambiguity.
+ * 
+ * <p>In a multi-player game, this should normally only be called from
+ * {@link onLocalTick}, as in that context it's clear that the camera is the camera
+ * that is rendering for the current (local) player.
+ * 
+ * <p>This may fail, for instance when there is no camera in the current context
+ * or when the camera is still initializing, in which case this will return <tt>null</tt>.
+ * 
+ * @return {THREE.Vector3|null} If successful, returns the position of the camera
+ *     in world space. If failed, returns null.
+ */
+function getLocalCameraForward() {
+  const rot = getLocalCameraRot();
+  return rot ? quatApply(rot, vec3z(1)) : null;
+}

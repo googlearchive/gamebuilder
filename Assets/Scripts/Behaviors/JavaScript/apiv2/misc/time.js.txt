@@ -1,0 +1,105 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets how much time has elapsed since the last tick, in seconds.
+ * @return The time elapsed since last tick, in seconds.
+ *     If the game is running smoothly, this will usually be small,
+ *     normally between 0.01 and 0.03.
+ * @example
+ * export function onTick() {
+ *   let speed = 5;  // units per second
+ *   // Moves the actor to the right at the given speed:
+ *   moveRight(speed * deltaTime());
+ * }
+ */
+function deltaTime() {
+  return ApiV2Context.instance.getDeltaTime();
+}
+
+/**
+ * Gets how much time has elapsed since an arbitrary instant
+ * in the past.
+ *
+ * @return The time elapsed in seconds.
+ * @example
+ * export function onTick() {
+ *   // Moves the actor back and forth along the X axis.
+ *   setX(Math.sin(getTime()));
+ * }
+ */
+function getTime() {
+  return ApiV2Context.instance.api.time;
+}
+
+/**
+ * Gets how much time has elapsed since the game has last been reset.
+ */
+function getTimeSinceReset() {
+  return ApiV2Context.instance.api.getTimeSinceReset();
+}
+
+/**
+ * This function is called on every tick for every
+ * actor that's onstage (for offstage actors,
+ * see {@link onOffstageTick})
+ *
+ * <p>In this function, you can implement any logic that
+ * applies continuous updates, such as movement, etc.
+ *
+ * <p>Remember that <tt>onTick</tt> is called on every script
+ * of every actor of the entire game 60 times a second, so
+ * your code must not perform any expensive operations during
+ * <tt>onTick</tt>, or the game will slow down.
+ *
+ * @example
+ * export function onTick() {
+ *   // Move forward at 2 unit/second
+ *   moveForward(2 * deltaTime());
+ * }
+ */
+// DOC_ONLY: function onTick() {}
+
+/**
+ * (Advanced) This function is called on every tick for every
+ * actor that's onstage, even for actors that are currently
+ * owned by remote players.
+ *
+ * <p>In this function, you can implement any logic that
+ * should execute on every player's machine independently
+ * of which player's machine currently owns the actor.</p>
+ *
+ * <p>This is typically used to draw UI for everyone
+ * in a game.</p>
+ *
+ * @example
+ * export function onLocalTick() {
+ *   // Shows "Hello" on everybody's screen.
+ *   uiText(300, 300, "Hello", UiColor.WHITE);
+ * }
+ */
+// DOC_ONLY: function onLocalTick() {}
+
+
+/**
+ * This function is called on every tick for offstage actors.
+ *
+ * <p>This is similar to {@link onTick} but it is called for
+ * offstage actors.
+ */
+// DOC_ONLY: function onOffstageTick() {}

@@ -1,0 +1,777 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Properties object for the current behavior.
+ * This object contains the behavior's declared properties, which can be
+ * set on the UI.
+ *
+ * <p>This object holds the <b>values</b> for the properties. The declaration
+ * of the properties should go in the {@link PROPS} (uppercase) object.
+ *
+ * @example
+ * export const PROPS = [
+ *   // Reference to another actor:
+ *   propActor("target"),
+ *   // Numeric property:
+ *   propNumber("height"),
+ *   // String property:
+ *   propString("nickname"),
+ *   // Boolean (checkbox) property:
+ *   propBoolean("isHappy"),
+ *   // Property with explicit default value:
+ *   propNumber("width", 42)
+ * ];
+ *
+ * export function onTick() {
+ *   log("My target is " + props.target);
+ *   log("My width is " + props.width);
+ *   log("My height is " + props.height);
+ *   log("I am " + (props.isHappy ? "happy" : "sad"));
+ *   log("My spawn point is " + props.spawnPoint);
+ * }
+ */
+var props = {};
+
+/**
+ * Declares a number property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {number=} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   // Numeric property without explicit default value (default value is 0):
+ *   propNumber("width"),
+ *   // Numeric property with explicit default value:
+ *   propNumber("speed", 2),
+ *   // Numeric property with a custom UI label:
+ *   propNumber("jumpTime", 5, {
+ *     label: "Jump time (seconds)"
+ *   }),
+ * ];
+ *
+ * export function onTick() {
+ *   log("My width is " + props.width);
+ *   log("My speed is " + props.speed);
+ *   log("My jump time is " + props.jumpTime);
+ * }
+ */
+function propNumber(name, defaultValue = 0, options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertNumber(defaultValue, 'default value for propNumber');
+  return Object.assign(options, {
+    type: "Number",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares a decimal number property. It's like propNumber, except it will
+ * accept decimal values, like 1.23. Use this in the PROPS object of your script
+ * file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {number=} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   // Numeric property without explicit default value (default value is 0):
+  *   propDecimal("width"),
+  *   // Numeric property with explicit default value:
+  *   propDecimal("speed", 2),
+  *   // Numeric property with a custom UI label:
+  *   propDecimal("jumpTime", 5, {
+  *     label: "Jump time (seconds)"
+  *   }),
+  * ];
+  *
+  * export function onTick() {
+  *   log("My width is " + props.width);
+  *   log("My speed is " + props.speed);
+  *   log("My jump time is " + props.jumpTime);
+  * }
+  */
+function propDecimal(name, defaultValue = 0, options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertNumber(defaultValue, 'default value for propDecimal');
+  return Object.assign(options, {
+    type: "Decimal",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares a boolean property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {boolean} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   // Boolean property without explicit default value (default value is false):
+  *   propBoolean("canFly"),
+  *   // Boolean property with explicit default value:
+  *   propBoolean("isHappy", true),
+  *   // Boolean property with custom UI label:
+  *   propBoolean("afraidOfHeights", true, {
+  *     label: "Afraid of heights?"
+  *   }),
+  * ];
+  *
+  * export function onTick() {
+  *   log("I am " + (props.isHappy ? "happy" : "sad"));
+  *   log("I " + (props.canFly ? "can" : "can't") + " fly");
+  *   log("I'm " + (props.afraidOfHeights ? "really" : "not") + " afraid of heights.");
+  * }
+  */
+function propBoolean(name, defaultValue = false, options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertBoolean(defaultValue, 'default value for propBoolean');
+  return Object.assign(options, {
+    type: "Boolean",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares a string property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {string} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   // String property without explicit default value (default value is ""):
+  *   propNumber("name"),
+  *   // String property with explicit default value:
+  *   propString("planet", "Earth"),
+  *   // String property with custom UI label:
+  *   propString("author", "Shakespeare", {
+  *     label: "Favorite author"
+  *   });
+  * ];
+  *
+  * export function onTick() {
+  *   log("My name is " + props.name);
+  *   log("I am from " + props.planet);
+  *   log("I always read " + props.author);
+  * }
+  */
+function propString(name, defaultValue = '', options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(defaultValue, 'default value for propString');
+  return Object.assign(options, {
+    type: "String",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares a Actor property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {ActorRef?} defaultValue (Optional) The default value of the property.
+ *     You should either use the empty string, or a built-in actor ID such as
+ *     "builtin:LaserBolt".
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   // Actor property:
+ *   propActor("target"),
+ *   // With default value:
+ *   propActor("bullet", "builtin:LaserBolt"),
+ *   // With some custom options:
+ *   propActor("actorToNotify", "", {
+ *     label: "Actor To Notify",
+ *     pickerPrompt: "Who should I notify when I reach the target?",
+ *     // Let user pick from offstage actors too:
+ *     allowOffstageActors: true,
+ *   });
+ * ];
+ *
+ * export function onTick() {
+ *   if (exists(props.target)) {
+ *     log("My target is " + getDisplayName(props.target));
+ *   } else {
+ *     log("I have no target! Did you forget to set it?");
+ *   }
+ * }
+ */
+function propActor(name, defaultValue = "", options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(defaultValue, 'default value for propActor');
+  return Object.assign(options, {
+    type: "Actor",
+    variableName: name,
+    defaultValueString: defaultValue.toString(),
+  });
+}
+
+/**
+ * Declares an actor group property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {string} defaultValue The optional default value for the property.
+ *     If omitted, defaults to "no actors" (empty string).
+ *     To default to "all actors", use "@ANY". To default to actors
+ *     with the "enemy" tag, use "@TAG:enemy". To default to
+ *     player actors, use "@TAG:player".
+ * @param {PropOptions=} options Extra options.
+ */
+function propActorGroup(name, defaultValue = "", options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(defaultValue, 'default value for propActorGroup');
+  return Object.assign(options, {
+    type: "ActorGroup",
+    variableName: name,
+    defaultValueString: defaultValue.toString(),
+  });
+}
+
+/**
+ * Declares an image property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {PropOptions=} options Extra property options.
+ */
+function propImage(name, options = {}) {
+  assertObjectNotNull(options, 'options');
+  return Object.assign(options, {
+    type: "Image",
+    variableName: name,
+    defaultValueString: "",
+  });
+}
+
+/**
+ * Declares a sound property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {string} defaultValue The default value of the property. For example,
+ *     you can use <tt>Sounds.EXPLOSION</tt>.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   propSound("soundToPlay", Sounds.EXPLOSION),
+ * ];
+ *
+ * export function onCollision() {
+ *   playSound(props.soundToPlay);
+ * }
+ */
+function propSound(name, defaultValue = Sounds.EXPLOSION, options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(defaultValue, 'default value for propSound');
+  return Object.assign(options, {
+    type: "Sound",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares a particle effect property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   propParticleEffect("ParticleEffect", Particles.EXPLOSION),
+  * ];
+  *
+  * export function onCollision() {
+  *   spawnParticleEffect(props.ParticleEffect);
+  * }
+  */
+function propParticleEffect(name, defaultValue = Particles.EXPLOSION, options = {}) {
+  assertObjectNotNull(options, 'options');
+  return Object.assign(options, {
+    type: "ParticleEffect",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares a card deck property. This is meant for use in
+ * panels that allow the user to place cards on them.
+ * @param {string} name The name of the property.
+ * @param {string} cardCategory The category of card that goes in this deck.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   propDeck("moveCardsOdd"),
+ *   propDeck("moveCardsEven")
+ * ]
+ * 
+ * // Imagine this is a panel that accepts two deck of motion cards. One of them
+ * // should be executed on odd seconds of game time, and the other is supposed
+ * // to be executed on even seconds of game time (a somewhat contrived example,
+ * // but it's simple to demonstrate!)
+ * export function onTick() {
+ *   const even = Math.floor(getTime()) % 2 == 0;
+ *   callActionDeck(even ? props.moveCardsEven : props.moveCardsOdd, "Move");
+ * }
+ */
+function propDeck(name, cardCategory, options = {}) {
+  assertObjectNotNull(options, 'options');
+  return Object.assign(options, {
+    type: "CardDeck",
+    variableName: name,
+    // NOTE: I don't know why for decks we use comment rather than label,
+    // so to keep the external API consistent (only label), assign
+    // label to comment here:
+    comment: options.label,
+    deckOptions: Object.assign(options.deckOptions || {}, {
+      cardCategory: cardCategory
+    })
+  });
+}
+
+/**
+ * Declares a color property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {string} defaultValue The default value of the property. This is a hex string like "#ff0000".
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   propColor("favoriteColor", "#ff0000"),
+ * ];
+ *
+ * export function onTick() {
+ *   setTintColor(props.favoriteColor);
+ * }
+ */
+function propColor(name, defaultValue = "#ffffff", options = {}) {
+  assertObjectNotNull(options, 'options');
+  return Object.assign(options, {
+    type: "Color",
+    variableName: name,
+    defaultValueString: defaultValue.toString()
+  });
+}
+
+/**
+ * Declares an enum property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ *
+ * <p>An enum property is a string property that can only be
+ * set to one of a (limited) list of values.
+ * 
+ * @param {string} name The name of the property.
+ * @param {string} defaultValue The default value of the property. This must be one
+ *     of the values specified in the <tt>allowedValues</tt> parameter.
+ * @param {string[]} allowedValues The list of allowed values for this property. This can
+ *     be an array of strings with the allowed values, or you can use an array of objects with
+ *     "value" and "label" keys in case you want the UI label to be different than the value.
+ *     See the examples for more info.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   propEnum("weekday", "Monday", [
+ *     "Sunday",
+ *     "Monday",
+ *     "Tuesday",
+ *     "Wednesday",
+ *     "Thursday",
+ *     "Friday",
+ *     "Saturday"
+ *   ])
+ * ];
+ * 
+ * export function onTick() {
+ *   log("Favorite weekday: " + props.weekday);  // prints Monday
+ * }
+ * 
+ * @example
+ * export const PROPS = [
+ *   propEnum("strategy", "RANDOM", [
+ *     // Note: value is the property's actual string value,
+ *     // while label is what appears to the user in the UI.
+ *     { value: "RANDOM", label: "Pick randomly" },
+ *     { value: "CLOSEST", label: "Closest first" },
+ *     { value: "STRONGEST", label: "Strongest first" },
+ *   ])
+ * ];
+ * 
+ * export function onTick() {
+ *   switch (props.strategy) {
+ *     case "RANDOM":
+ *       log("Picking random opponent.");
+ *       break;
+ *     case "CLOSEST":
+ *       log("Picking closest opponent.");
+ *       break;
+ *     case "STRONGEST":
+ *       log("Picking strongest opponent.");
+ *       break;
+ *     default:
+ *       log("*** Invalid strategy: " + props.strategy);
+ *       break;
+ *   }
+ * } 
+ */
+function propEnum(name, defaultValue, allowedValues, options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(name, 'name');
+  assertString(defaultValue, 'defaultValue');
+  assert(Array.isArray(allowedValues), 'propEnum: allowedValues should be an array.');
+  assert(allowedValues.length > 0, 'propEnum requires at least 1 allowed value.');
+
+  // Each element of allowedValues can be either a plain string or an object
+  // with "value" and "label". But C# expects all of them to be in the object format.
+  // So convert now.
+  let sawDefault = false;
+  for (let i = 0; i < allowedValues.length; i++) {
+    if (typeof allowedValues[i] === "string") {
+      allowedValues[i] = {
+        value: allowedValues[i],
+        label: allowedValues[i]
+      }
+    } else if (typeof allowedValues[i] === "object") {
+      assertString(allowedValues[i].value, "propEnum allowed value must have a 'value' key.");
+      assertString(allowedValues[i].label, "propEnum allowed value must have a 'label' key.");
+    } else {
+      throw new Error("Invalid type for propEnum; allowedValues element: " + typeof (allowedValues[i]));
+    }
+    sawDefault = sawDefault || (allowedValues[i].value === defaultValue);
+  }
+
+  assert(sawDefault, 'propEnum default value needs to be among list of allowed values.');
+  return Object.assign(options, {
+    type: "Enum",
+    variableName: name,
+    defaultValueString: defaultValue.toString(),
+    allowedValues: allowedValues
+  });
+}
+
+/**
+ * Declares a "target actor" property that the user can use to specify what
+ * actor the card should act on.
+ * 
+ * <p>This shows up to the user as a dropdown that lets them pick if the
+ * target actor should be "myself", "event causer", "aim target", etc.
+ * 
+ * <p>Use this property any time your card can have a target actor on which
+ * it acts (for example, if your card causes damage, sends a message, etc).
+ * 
+ * <p>Use {@link getCardTargetActor} to get the actor that this property
+ * evaluates to.</p>
+ * 
+ * @param {string} name Name of the property.
+ * @param {PropOptions=} options Extra property options.
+ */
+function propCardTargetActor(name, options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(name, "name");
+  const enumProp = propEnum(name, "SELF", [
+    { value: "SELF", label: "Myself" },
+    { value: "EVENT_CAUSER", label: "Event causer" },
+    { value: "AIM_TARGET", label: "My aim target" },
+    { value: "OWNER", label: "My owner (if held)" },
+    { value: "OTHER", label: "Other (below)" },
+  ], options);
+  const actorProp = propActor(name + "Other", "", {
+    label: "  Which other actor?",
+    requires: [requireEqual(name, "OTHER")]
+  })
+  return [enumProp, actorProp];
+}
+
+/**
+ * Declares a number array property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {number[]=} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   // Number array property without explicit default value (default value is 0):
+  *   propNumberArray("sizes"),
+  *   // Number array property with explicit default value:
+  *   propNumber("speeds", [10, 12]),
+  *   // Number array property with a custom UI label:
+  *   propNumber("durations", [5, 7], {
+  *     label: "Durations (seconds)"
+  *   }),
+  * ];
+  *
+  * export function onTick() {
+  *   log("Sizes of blasts: " + props.sizes.join());
+  *   log("Speeds of blasts are: " + props.speeds.join());
+  *   log("Durations of blasts: " + props.durations.join());
+  * }
+  */
+function propNumberArray(name, defaultValue = [], options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertArrayOf(defaultValue, "number", 'default value for propNumberArray');
+  return Object.assign(options, {
+    type: "NumberArray",
+    variableName: name,
+    defaultValueString: JSON.stringify(defaultValue)
+  });
+}
+
+/**
+ * Declares a string array property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {string[]=} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   // String array property without explicit default value (default value is ""):
+  *   propStringArray("names"),
+  *   // String array property with explicit default value:
+  *   propStringArray("descriptions", "N/A"),
+  *   // String property with a custom UI label:
+  *   propStringArray("dialogue", "Hello!", {
+  *     label: "Dialogue"
+  *   }),
+  * ];
+  *
+  * export function onTick() {
+  *   log("Names: " + props.sizes.join());
+  *   log("Descriptions: " + props.descriptions.join());
+  *   log("Dialogue: " + props.dialogue.join());
+  * }
+  */
+function propStringArray(name, defaultValue = [], options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertArrayOf(defaultValue, "string", 'default value for propStringArray');
+  return Object.assign(options, {
+    type: "StringArray",
+    variableName: name,
+    defaultValueString: JSON.stringify(defaultValue)
+  });
+}
+
+/**
+ * Declares an enum array property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {string[]} allowedValues The list of allowed values for this property. This can
+ *     be an array of strings with the allowed values, or you can use an array of objects with
+ *     "value" and "label" keys in case you want the UI label to be different than the value.
+ *     See the examples for more info.
+ * @param {string[]=} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+ *   propEnumArray("strategies", [
+ *     // Note: value is the property's actual string value,
+ *     // while label is what appears to the user in the UI.
+ *     { value: "RANDOM", label: "Pick randomly" },
+ *     { value: "CLOSEST", label: "Closest first" },
+ *     { value: "STRONGEST", label: "Strongest first" },
+ *   ], ["RANDOM", "CLOSEST"])
+ * ];
+ *
+ * export function onTick() {
+ *   log("Strategies: " + props.strategies.join());
+ * }
+ */
+function propEnumArray(name, allowedValues, defaultValue = [], options = {}) {
+  assertObjectNotNull(options, 'options');
+  assertString(name, 'name');
+  assertArrayOf(defaultValue, "string", 'default value for propEnumArray');
+  assert(Array.isArray(allowedValues), 'propEnum: allowedValues should be an array.');
+  assert(allowedValues.length > 0, 'propEnum requires at least 1 allowed value.');
+
+  // Each element of allowedValues can be either a plain string or an object
+  // with "value" and "label". But C# expects all of them to be in the object format.
+  // So convert now.
+  let sawDefault = false;
+  for (let i = 0; i < allowedValues.length; i++) {
+    if (typeof allowedValues[i] === "string") {
+      allowedValues[i] = {
+        value: allowedValues[i],
+        label: allowedValues[i]
+      }
+    } else if (typeof allowedValues[i] === "object") {
+      assertString(allowedValues[i].value, "propEnumArray allowed value must have a 'value' key.");
+      assertString(allowedValues[i].label, "propEnumArray allowed value must have a 'label' key.");
+    } else {
+      throw new Error("Invalid type for propEnumArray; allowedValues element: " + typeof (allowedValues[i]));
+    }
+    sawDefault = sawDefault || (allowedValues[i].value === defaultValue);
+  }
+
+  return Object.assign(options, {
+    type: "EnumArray",
+    variableName: name,
+    defaultValueString: JSON.stringify(defaultValue),
+    allowedValues: allowedValues
+  });
+}
+
+/**
+ * Declares a Actor array property. Use this in the PROPS object
+ * of your script file (see {@link props} for more info).
+ * @param {string} name The name of the property.
+ * @param {ActorRef[]=} defaultValue The default value of the property.
+ * @param {PropOptions=} options Extra property options.
+ * @example
+ * export const PROPS = [
+  *   // Actor array property:
+  *   propActorArray("players"),
+  *   // With default value:
+  *   propActorArray("enemies", ["builtin:Slime"]),
+  *   // With some custom options:
+  *   propActor("actorsToNotify", [], {
+  *     label: "Actors To Notify",
+  *     pickerPrompt: "Which actors should I notify?",
+  *     // Let user pick from offstage actors too:
+  *     allowOffstageActors: true,
+  *   });
+  * ];
+  *
+  * export function onTick() {
+  *   log("Players: " + props.players.join());
+  * }
+  */
+function propActorArray(name, defaultValue = [], options = {}) {
+  assertString(name, 'name');
+  assertArrayOf(defaultValue, "string", 'default value for propActorArray');
+  assertObjectNotNull(options, 'options');
+  return Object.assign(options, {
+    type: "ActorArray",
+    variableName: name,
+    defaultValueString: JSON.stringify(defaultValue),
+  });
+}
+
+/**
+ * Used in the <tt>requires</tt> option of a property to indicate that
+ * it requires another property to be true in order to be relevant.
+ * 
+ * @param {string} fieldName The name of the other property.
+ * @example
+ * export const PROPS = [
+ *   propBoolean("WantsIceCream", true),
+ *   // The WhatFlavor property only appears if WantsIceCream == true:
+ *   propString("WhatFlavor", "Chocolate", {
+ *     requires: [
+ *       requireTrue("WantsIceCream")
+ *     ]
+ *   })
+ * ];
+ */
+function requireTrue(fieldName) {
+  return requireEqual(fieldName, "true");
+}
+
+/**
+ * Used in the <tt>requires</tt> option of a property to indicate that
+ * it requires another property to be false in order to be relevant.
+ * 
+ * @param {string} fieldName The name of the other property.
+ * @example
+ * export const PROPS = [
+ *   propBoolean("UseDefaultSpeed", true),
+ *   // The Speed property only appears if UseDefaultSpeed == false
+ *   propDecimal("Speed", 5.0, {
+ *     requires: [
+ *       requireFalse("UseDefaultSpeed")
+ *     ]
+ *   })
+ * ];
+ */
+function requireFalse(fieldName) {
+  return requireEqual(fieldName, "false");
+}
+
+/**
+ * Used in the <tt>requires</tt> option of a property to indicate that
+ * it requires another property to have a specific value in order to
+ * be relevant.
+ * 
+ * @param {string} fieldName The name of the other property.
+ * @param {*} fieldValue The required value of the other property.
+ * @example
+ * export const PROPS = [
+ *   propEnum("Behavior", "CHASE", ["CHASE","STAY_STILL"]),
+ *   // The ChaseSpeed property only appears if Behavior == CHASE
+ *   propDecimal("ChaseSpeed", 5.0, {
+ *     requires: [
+ *       requireEqual("Behavior", "CHASE")
+ *     ]
+ *   })
+ * ];
+ */
+function requireEqual(fieldName, fieldValue) {
+  assertString(fieldName, "fieldName");
+  assert(fieldName, "fieldName can't be empty.");
+  return {
+    key: fieldName,
+    value: "" + fieldValue,
+    op: "="
+  }
+}
+
+/** Opposite of {@link requireEqual}. */
+function requireNotEqual(fieldName, fieldValue) {
+  assertString(fieldName, "fieldName");
+  assert(fieldName, "fieldName can't be empty.");
+  return {
+    key: fieldName,
+    value: "" + fieldValue,
+    op: "!="
+  }
+}
+
+/**
+ * Extra options for properties.
+ * @typedef {Object} PropOptions
+ * @property {string} label The label shown in the UI for this property.
+ * @property {string} pickerPrompt (For actor properties only). This is what
+ *     will be displayed as the prompt for the user to pick this
+ *     actor. For example, "Who should I follow?", "What should I look at?", etc.
+ * @param {boolean} allowOffstageActors (For actor properties only). If true,
+ *     allows the user to pick an off-stage actor for this field. If false
+ *     (default), only on-stage actors can be picked.
+ * @param {PropDeckOptions} deckOptions Options for propDeck properties.
+ * @param {PropDefRequirement[]} requires Array of requirements for this field to
+ *     show in the UI. See {@link PropDefRequirement} for how to format each element.
+ */
+// DOC_ONLY: var PropOptions = {};
+
+/**
+ * Deck options (for propDeck).
+ * @typedef {Object} PropDeckOptions
+ * @property {string} cardCategory Required card category for this slot.
+ * @property {string} iconResPath Resource path for the icon.
+ * @property {string[]} defaultCardURIs URIs for default cards in this deck.
+ * @property {boolean} oneCardOnly If true, deck only accepts one card,
+ *     not multiple cards.
+ */
+// DOC_ONLY: var PropDeckOptions = {};
+
+
+/**
+ * A requirement for a property field to show in the UI.
+ * Don't create these objects directly. Use functions like {@link requireEquals} instead.
+ * @typedef {Object} PropDefRequirement
+ */
+// DOC_ONLY: var PropDefRequirement = {};

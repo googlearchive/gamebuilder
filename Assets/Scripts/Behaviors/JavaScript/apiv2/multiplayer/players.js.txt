@@ -1,0 +1,149 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Returns whether or not the game is in multiplayer mode.
+ * Note that this doesn't mean there are other players currently present.
+ * It only means the game was started as a multiplayer game, so people can potentially join.
+ * @return {boolean} Whether or not the game is in multiplayer mode.
+ */
+function isInMultiplayerMode() {
+  return ApiV2Context.instance.api.isInMultiplayerMode();
+}
+
+/**
+ * Returns a list of the IDs of all players in the game.
+ * 
+ * <p>These are just numeric IDs for this particular session. These do
+ * NOT identify the player across sessions -- the sample player might be ID xyz
+ * on this session, and then log out and log back in and get a different ID.</p>
+ * 
+ * <p>These IDs are NOT ordered in any particular way.</p>
+ * 
+ * @return {string[]} The list of player IDs in the game, including the local player.
+ */
+function getAllPlayers() {
+  return ApiV2Context.instance.getPlayersInfo().allPlayers.map(info => info.id);
+}
+
+/**
+ * Returns the Player ID of the local player.
+ * @return {number} The ID of the local player.
+ */
+function getLocalPlayer() {
+  return ApiV2Context.instance.getPlayersInfo().localPlayerId;
+}
+
+/**
+ * Returns the player ID of the player with the given slot number.
+ * 
+ * <p>For example, use 1 to get the ID of "Player 1", 2 to get the ID of "Player 2", etc.</p>
+ *
+ * @param {number} playerNumber The number of the player to get.
+ * @return {string} The ID of the given player number, or null if not found.
+ */
+function getPlayerByNumber(playerNumber) {
+  assertNumber(playerNumber, "playerNumber");
+  assert(playerNumber > 0, "Player number must be > 0. It is: " + playerNumber);
+  const player = ApiV2Context.instance.getPlayerBySlotNumber(playerNumber);
+  return player ? player.id : null;
+}
+
+/**
+ * Returns the nickname of a player given the ID.
+ * @param {string=} playerId The ID of the player. If omitted, defaults to the current player.
+ * @return {string} The nickname of the player, if available. Might be empty if unset. 
+ *     Might be null if we can't get it. This is not guaranteed to be unique among players.
+ */
+function getPlayerNickName(playerId) {
+  playerId = playerId === undefined ? getLocalPlayer() : playerId;
+  assertString(playerId, "playerId");
+  const playerInfo = ApiV2Context.instance.getPlayerById(playerId || getLocalPlayer());
+  return playerInfo ? playerInfo.nickName : null;
+}
+
+/**
+ * Returns the player's number.
+ * 
+ * <p>This is the player's slot number such as 1 for "Player 1", 2 for "Player 2", etc.</p>
+ * 
+ * <p>Note that slot numbers get reused. So if player 2 leaves and another player joins,
+ * they will assume the role of player 2.</p>
+ *
+ * @param {string=} playerId The ID of the player. If omitted, defaults to the current player.
+ * @return {number} The slot number of the player, if available. If successful, this is
+ *     always a positive integer (starts at 1). This is 0 if not available.
+ */
+function getPlayerNumber(playerId) {
+  playerId = playerId === undefined ? getLocalPlayer() : playerId;
+  assertString(playerId, "playerId");
+  const playerInfo = ApiV2Context.instance.getPlayerById(playerId || getLocalPlayer());
+  return playerInfo ? (playerInfo.slotNumber || 0) : 0;
+}
+
+/**
+ * Determines if the given player ID exists in the game.
+ * @return {boolean} True if the given player ID exists, false otherwise.
+ */
+function playerExists(playerId) {
+  return playerId && getAllPlayers().includes(playerId);
+}
+
+/**
+ * Returns whether or not the local player in a multiplayer game is the "master player",
+ * also known as "host".
+ * 
+ * <p>Note that multiplayer is mostly symmetric and uses a shared authority model,
+ * so being the "host" of a game does not mean that the client has any additional
+ * authority over the game state than other clients do. The host of a multiplayer
+ * game is mostly responsible for minor bookkeeping tasks.</p>
+ * 
+ * <p>You can use this function to determine if the local client is the master
+ * player, so that you can, for example, implement multiplayer logic that should
+ * only be executed by one of the players in the room.</p>
+ * 
+ * <p>An example of this might be assigning players to teams, when players join.</p>
+ * 
+ * <p>WARNING: The master player may change during a session. In particular, if the
+ * master client disconnects, another player will automatically inherit the
+ * role, so be careful that you don't assume that the master player is always
+ * a particular player.
+ * 
+ * @return {boolean} <tt>true</tt> if you are the master client, <tt>false</tt> if not.
+ */
+function isMasterPlayer() {
+  return callVoosService("IsMasterClient");
+}
+
+/** DEPRECATED */
+function isClaimed(actor) {
+  return false;
+}
+
+/**
+ * Returns the actor that the current player is controlling.
+ *
+ * <p>WARNING: If this is a multiplayer game, this returns the actor that represents
+ * the actor the LOCAL player (the one playing on this machine) is controlling,
+ * so the return value will naturally be different for different players in a game.
+ *
+ * @return {ActorRef} The actor the player is controlling.
+ */
+function getPlayerControlledActor() {
+  return ApiV2Context.instance.getPlayerControlledActor();
+}

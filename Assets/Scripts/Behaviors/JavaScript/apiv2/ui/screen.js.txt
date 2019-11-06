@@ -1,0 +1,85 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Gets the screen space position that corresponds to a given world space position.
+ * This is also known as "projecting the point".
+ * 
+ * @param {ActorRef|THREE.Vector3} actorOrPoint The actor whose position is to be
+ *     converted. This can also be a point in world space. If omitted, defaults
+ *     to the current actor's position.
+ * @return {{x: number, y: number}} The position on the screen, or <tt>null</tt> if there
+ *     is no correspondance (the point would be behind the camera, for instance).
+ * @example
+ * const screenPos = getScreenPoint();
+ * log("My screen pos is " + screenPos.x + ", " + screenPos.y);
+ */
+function getScreenPoint(actorOrPoint) {
+  const point = ApiV2Context.instance.getActorPosOrPoint(actorOrPoint || myself());
+  assertVector3(point);
+  const result = callVoosService("ProjectPoint", point);
+  if (result === null) return null;
+  assertNumber(result.x, "API bug: result.x is not number");
+  assertNumber(result.y, "API bug: result.y is not number");
+  return result;
+}
+
+/**
+ * Calculates what would be the position and size on the screen of a sphere in the given
+ * world-space position and radius.
+ * 
+ * <p>Useful for sizing UI that varies its size according to the rendered
+ * size of 3D objects.
+ *
+ * @param {THREE.Vector3?} worldCenter The center of the sphere in world coordinates.
+ *     If omitted, defaults to the bounds center of the current actor.
+ * @param {number?} worldRadius The radius of the sphere in world coordinates.
+ *     If omitted, defaults to the average bounds radius of the current actor.
+ * 
+ * @return {{center: {x:number, y:number}, radius: number}} The center and radius
+ *     of the sphere when rendered on the screen, or <tt>null</tt> if the sphere
+ *     would be offscreen (behind the camera, for instance).
+ */
+function getScreenSphere(worldCenter, worldRadius) {
+  worldCenter = worldCenter === undefined ? getBoundsCenter() : worldCenter;
+  worldRadius = worldRadius === undefined ? getBoundsRadiusAverage() : worldRadius;
+  assertVector3(worldCenter, 'worldCenter');
+  assertNumber(worldRadius, 'worldRadius');
+  return callVoosService("ProjectSphere", {
+    center: worldCenter, radius: worldRadius
+  });
+}
+
+/**
+ * Gets the screen rectangle for the actor.
+ *
+ * @param {ActorRef} actor The actor for which to get the screen rect. If omitted,
+ *     defaults to the current actor.
+ * @return {{x: number, y: number, w: number, h: number}} The rectangle, in screen coordinates.
+ */
+function getScreenRect(actor) {
+  actor = actor || myself();
+  assert(exists(actor), "Actor passed to getActorScreenRect does not exist: " + actor);
+  const rect = callVoosService("GetActorScreenRect", { actor: actor });
+  if (rect === null) return null;
+  assertNumber(rect.x, "API bug: screen rect x is not number");
+  assertNumber(rect.y, "API bug: screen rect y is not number");
+  assertNumber(rect.w, "API bug: screen rect w is not number");
+  assertNumber(rect.h, "API bug: screen rect h is not number");
+  return rect;
+}

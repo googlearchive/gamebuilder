@@ -1,0 +1,88 @@
+diff -ruN -x '*.meta' "Assets/Photon Unity Networking/Editor/PhotonNetwork/Views/PhotonAnimatorViewEditor.cs" "../proto-master/Assets/Photon Unity Networking/Editor/PhotonNetwork/Views/PhotonAnimatorViewEditor.cs"
+--- "Assets/Photon Unity Networking/Editor/PhotonNetwork/Views/PhotonAnimatorViewEditor.cs"	2018-10-26 06:11:02.000000000 -0400
++++ "../proto-master/Assets/Photon Unity Networking/Editor/PhotonNetwork/Views/PhotonAnimatorViewEditor.cs"	2019-10-23 14:52:26.444238100 -0400
+@@ -101,7 +101,10 @@
+     private void OnEnable()
+     {
+         this.m_Target = (PhotonAnimatorView) target;
+-        this.m_Animator = this.m_Target.GetComponent<Animator>();
++
++        // GAME BUILDER MOD:
++        this.m_Animator = this.m_Target.GetComponentInChildren<Animator>();
++        // OLD: this.m_Animator = this.m_Target.GetComponent<Animator>();
+ 
+ #if UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
+         this.m_Controller = AnimatorController.GetEffectiveAnimatorController(this.m_Animator);
+diff -ruN -x '*.meta' "Assets/Photon Unity Networking/Plugins/PhotonNetwork/CustomTypes.cs" "../proto-master/Assets/Photon Unity Networking/Plugins/PhotonNetwork/CustomTypes.cs"
+--- "Assets/Photon Unity Networking/Plugins/PhotonNetwork/CustomTypes.cs"	2018-10-26 06:11:09.000000000 -0400
++++ "../proto-master/Assets/Photon Unity Networking/Plugins/PhotonNetwork/CustomTypes.cs"	2019-10-23 14:52:26.502738500 -0400
+@@ -27,8 +27,10 @@
+     /// <summary>Register</summary>
+     internal static void Register()
+     {
++        VoosNetworkTypes.Register(PhotonPeer.RegisterType); // GAME BUILDER MOD
+         PhotonPeer.RegisterType(typeof(Vector2), (byte)'W', SerializeVector2, DeserializeVector2);
+-        PhotonPeer.RegisterType(typeof(Vector3), (byte)'V', SerializeVector3, DeserializeVector3);
++        // GAME BUILDER MOD REMOVE: PhotonPeer.RegisterType(typeof(Vector3), (byte)'V', SerializeVector3, DeserializeVector3);
++        // NOTE: We used to override this, but that was causing very noticeable approximation errors.
+         PhotonPeer.RegisterType(typeof(Quaternion), (byte)'Q', SerializeQuaternion, DeserializeQuaternion);
+         PhotonPeer.RegisterType(typeof(PhotonPlayer), (byte)'P', SerializePhotonPlayer, DeserializePhotonPlayer);
+     }
+diff -ruN -x '*.meta' "Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonNetwork.cs" "../proto-master/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonNetwork.cs"
+--- "Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonNetwork.cs"	2018-10-26 06:10:44.000000000 -0400
++++ "../proto-master/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonNetwork.cs"	2019-10-23 14:52:26.542239000 -0400
+@@ -48,7 +48,7 @@
+     /// <summary>
+     /// The maximum number of assigned PhotonViews <i>per player</i> (or scene). See the [General Documentation](@ref general) topic "Limitations" on how to raise this limitation.
+     /// </summary>
+-    public static readonly int MAX_VIEW_IDS = 1000; // VIEW & PLAYER LIMIT CAN BE EASILY CHANGED, SEE DOCS
++    public static readonly int MAX_VIEW_IDS = 2200; // VIEW & PLAYER LIMIT CAN BE EASILY CHANGED, SEE DOCS
+ 
+ 
+     /// <summary>Name of the PhotonServerSettings file (used to load and by PhotonEditor to save new files).</summary>
+@@ -3511,4 +3511,21 @@
+     }
+ #endif
+ 
++    // GAME BUILDER MOD
++    // Not sure if we *really* needs this - it's only used by VoosActor.OnDestroy. Need to re-think..
++    public static void ReleaseIdOfView(PhotonView view) {
++      networkingPeer.LocalCleanPhotonView(view);
++    }
++    public static TrafficStats TrafficStatsOutgoing { get { return networkingPeer.TrafficStatsOutgoing; } }
++    public static TrafficStats TrafficStatsIncoming { get { return networkingPeer.TrafficStatsIncoming; } }
++    public static int RoundTripTimeVariance { get { return networkingPeer.RoundTripTimeVariance; } }
++    public static int RoundTripTime { get { return networkingPeer.RoundTripTime; } }
++    public static TrafficStatsGameLevel TrafficStatsGameLevel { get { return networkingPeer.TrafficStatsGameLevel; } }
++    public static long TrafficStatsElapsedMs { get { return networkingPeer.TrafficStatsElapsedMs; } }
++    public static bool TrafficStatsEnabled {
++      get { return networkingPeer.TrafficStatsEnabled; }
++      set { networkingPeer.TrafficStatsEnabled = value; }
++    }
++    public static void TrafficStatsReset() { networkingPeer.TrafficStatsReset(); }
++
+ }
+diff -ruN -x '*.meta' "Assets/Photon Unity Networking/Plugins/PhotonNetwork/Views/PhotonAnimatorView.cs" "../proto-master/Assets/Photon Unity Networking/Plugins/PhotonNetwork/Views/PhotonAnimatorView.cs"
+--- "Assets/Photon Unity Networking/Plugins/PhotonNetwork/Views/PhotonAnimatorView.cs"	2018-10-26 06:10:57.000000000 -0400
++++ "../proto-master/Assets/Photon Unity Networking/Plugins/PhotonNetwork/Views/PhotonAnimatorView.cs"	2019-10-23 14:52:26.586239200 -0400
+@@ -20,7 +20,7 @@
+ /// When Using Trigger Parameters, make sure the component that sets the trigger is higher in the stack of Components on the GameObject than 'PhotonAnimatorView'
+ /// Triggers are raised true during one frame only.
+ /// </remarks>
+-[RequireComponent(typeof(Animator))]
++// GAME BUILDER MOD: Deleted [RequireComponent(typeof(Animator))]
+ [RequireComponent(typeof(PhotonView))]
+ [AddComponentMenu("Photon Networking/Photon Animator View")]
+ public class PhotonAnimatorView : MonoBehaviour, IPunObservable
+@@ -113,7 +113,10 @@
+         this.m_PhotonView = GetComponent<PhotonView>();
+         this.m_StreamQueue = new PhotonStreamQueue(120);
+ 
+-        this.m_Animator = GetComponent<Animator>();
++        // GAME BUILDER MOD:
++        this.m_Animator = GetComponentInChildren<Animator>();
++        Debug.Assert(this.m_Animator != null, $"No animator found in object tree rooted at {this.name}", this);
++        // OLD: this.m_Animator = GetComponent<Animator>();
+     }
+ 
+     private void Update()

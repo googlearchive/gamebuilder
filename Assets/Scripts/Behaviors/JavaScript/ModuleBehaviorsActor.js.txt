@@ -1,0 +1,1104 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+let MEM_CHECK_MODE = 'useOnly';
+
+const FORCE_MEMORY_DIRTY = false;
+
+// State needed when running a handler for a particular actor...for a particular
+// message. Needed to make sure we don't trigger multiple instances of a single
+// coroutine and store any other context needed (such as perhaps deferred
+// messages or errored states).
+class MessageHandlingContext {
+  constructor(handler, actor, isLegacy) {
+    // Note: isLegacy is true if this is the old-style OnFooBar handler (APIv1)
+    // isLegacy is false if this is the new-style onFooBar handler (APIv2)
+    // They differ in how the arguments are passed.
+
+    assert(typeof handler == 'function');
+    assert(actor instanceof Actor);
+
+    this.handler_ = handler;
+    this.actor_ = actor;
+    this.isRunning_ = false;
+    this.hasThrownException_ = false;
+    this.isLegacy_ = isLegacy;
+  }
+
+  canHandleNewMessage() {
+    return !this.isRunning_ && !this.hasThrownException_;
+  }
+
+  handleMessage(deliveredMessage, use) {
+    assert(use instanceof ModuleBehaviorUse);
+    assertString(deliveredMessage.name);
+
+    if (!this.canHandleNewMessage()) {
+      throw new Error("Should check canHandleNewMessage before calling handleMessage!");
+    }
+
+    let returnValue = undefined;
+
+    // Run the behavior function, and note that we're running it.
+    // Once it resolves, note that we're done. If the function isn't even async,
+    // it should resolve at the end of this frame, and next frame we'll just run it again.
+    // If it is async, it will resolve whenever the async operation is done, and
+    // in the mean time we will not run it again.
+
+    const api = new HandlerApi(this.actor_, use, deliveredMessage);
+    // Set up APIv2 for message-specific stuff.
+    ApiV2Context.instance.startHandlingMessage(api);
+    try {
+      if (this.isLegacy_) {
+        // Legacy style handler.
+        this.invokeLegacyHandler_(api, deliveredMessage, use);
+      } else {
+        // New style handler.
+        returnValue = this.invokeHandler_(deliveredMessage);
+      }
+      // If the handler promised that it didn't change memory, we believe it.
+      if (FORCE_MEMORY_DIRTY || !api.declaredMemoryUnchanged) {
+        this.actor_.memoryDirty_ = true;
+        // Catch memory errors early, and within the context of this handler.
+        // This costs ~0.5ms
+        this.actor_.cleanMemories(use.id);
+      }
+    }
+    catch (exception) {
+      this.onException_(exception, deliveredMessage, use);
+    }
+    // Tear down APIv2 message-specific stuff.
+    ApiV2Context.instance.endHandlingMessage();
+
+    return returnValue;
+  }
+
+  invokeHandler_(deliveredMessage) {
+    // New style handler. Signature is
+    //   onSomething(arg)
+    // arg is the argument of the message.
+    this.isRunning_ = true;
+    let arg = deliveredMessage.data;
+    // If arg is encoded as a "bare arg" (not an Object), unbox it:
+    arg = (arg && arg.__bare_arg !== undefined) ? arg.__bare_arg : arg;
+    // NOTE: Don't just give delieveredMessage directly..cuz it has a ref to the behavior database!
+    const messageCommon = { name: deliveredMessage.name };
+    const returnValue = this.handler_(arg, messageCommon);
+    this.isRunning_ = false;
+    return returnValue;
+  }
+
+  invokeLegacyHandler_(api, deliveredMessage, use) {
+    // Legacy handler. Signature is
+    //   OnSomething(api: HandlerApi)
+    // It can return a promise.
+    this.isRunning_ = true;
+    let rv = this.handler_(api);
+    if (rv instanceof Promise) {
+      rv.then(() => {
+        this.isRunning_ = false;
+      }).catch(exception => {
+        this.onException_(exception, deliveredMessage, use);
+      });
+    }
+    else {
+      // Did not return a promise - ie. probably returned nothing.
+      // Immediately mark as not running.
+      this.isRunning_ = false;
+    }
+  }
+
+  onException_(exception, deliveredMessage, use) {
+    assert(use !== undefined);
+    assert(use instanceof ModuleBehaviorUse);
+
+    // Mark this as BAD
+    this.hasThrownException_ = true;
+    this.isRunning_ = false;
+
+    // Report to engine.
+
+    // Strip lines down to last behavior line.
+    const stackLines = exception.stack.split('\n');
+    const behUri = use.getBehaviorUri();
+    let lastUserLine = -1;
+    for (let i = 0; i < stackLines.length; i++) {
+      if (stackLines[i].includes(behUri)) {
+        lastUserLine = i;
+      }
+    }
+
+    let msg = `${exception}\nStack trace:\n`;
+    for (let i = 0; i <= lastUserLine; i++) {
+      let line = stackLines[i];
+      // Replace URI with more readable..
+      line = line.replace(behUri + ':', 'line ');
+      msg += line + '\n';
+    }
+
+    const matches = exception.stack.match(new RegExp(`${behUri}:(\\\d+)`));
+    const lineNum = matches != null ? parseInt(matches[1]) : -1;
+    callVoosService("ReportBehaviorException", {
+      actorId: this.actor_.name,
+      message: msg,
+      senderId: deliveredMessage.senderActorName,
+      useId: use.id,
+      messageName: deliveredMessage.name,
+      lineNum: lineNum
+    });
+  }
+}
+
+class Actor {
+  /**
+   * 
+   * @param {string} name 
+   * @param {ModuleBehaviorSystem} behaviorSystem 
+   */
+  constructor(name, behaviorSystem) {
+    assert(behaviorSystem instanceof ModuleBehaviorSystem);
+    // Persistent memory of this actor. This gets persisted and synced across the network.
+    this.memory = {};
+    // Local temporary memory. Not persisted or network synced.
+    this.tempMemory_ = {};
+    this.memoryDirty_ = false;
+    this.behaviorSystem_ = behaviorSystem;
+    this.name = name;
+    this.tempId_ = 0;
+
+    this.handlerCooldownMap_ = new Map();
+
+    // This will be a map of maps, for use -> messageName -> context.
+    // We can have many instances of a behavior/handler on a single actor, thus the two levels.
+    // This is NOT serialized, and it only helps to keep track of coroutine state, which we can't serialize.
+    this.contextMapsByUse_ = new Map();
+
+    // BEGIN_GAME_BUILDER_CODE_GEN ACTOR_FIELDS_CONSTRUCTOR_JAVASCRIPT
+    this.worldSpaceThrottle = new THREE.Vector3();    // GENERATED
+    this.inputThrottle = new THREE.Vector3();    // GENERATED
+    this.aimDirection = new THREE.Vector3();    // GENERATED
+    this.aimOrigin = new THREE.Vector3();    // GENERATED
+    this.lastAimHitPoint = new THREE.Vector3();    // GENERATED
+    this.lookAxes = new THREE.Vector3();    // GENERATED
+    // END_GAME_BUILDER_CODE_GEN
+
+    // We could perhaps put the runtime stuff elsewhere, that we can clear to
+    // unclutter the return JSON.
+
+    // This is computed in C# and filled in by deserialize().
+    this.isOffstageEffective = false;
+
+    // If true, this actor requested to be destroyed (which will happen at the end of the frame).
+    this.requestedDestroy_ = false;
+
+    // If set, this is the input state of the controller that controls this actor.
+    this.inputState = null;
+  }
+
+  get behaviorDatabase() {
+    return this.behaviorSystem_.database;
+  }
+
+  setupClone(brainName, tempId, memoryJson) {
+    this.tempId_ = tempId;
+    this.brainName = brainName;
+    this.memory = unpackObj(JSON.parse(memoryJson));
+    this.memoryDirty_ = true;
+    this.wasClonedByScript = true;
+    this.isLocalActor = true;
+    this.isOffstage = false;
+    this.isOffstageEffective = false;
+  }
+
+  deserialize(reader) {
+    this.brainName = reader.readUtf16();
+    this.isLocalActor = reader.readBoolean();
+    this.isOffstageEffective = reader.readBoolean();
+    const acceptMemoryJson = reader.readBoolean();
+    if (acceptMemoryJson) {
+      const memoryJson = reader.readUtf16();
+      // Take the given JSON as source of truth.
+      this.memory = unpackObj(parseJsonOrEmpty(memoryJson));
+    }
+    // If the actor is not local, blow up the temporary memory.
+    if (!this.isLocalActor) {
+      this.tempMemory_ = {};
+    }
+  }
+
+  // TODO add a small random chance to actually run 'all' so we at least catch
+  // errors sometimes without the time cost. Maybe run it once per update?
+  cleanMemories(useId) {
+    // Run memory through a pack/unpack cycle to remove errors.
+    const errorList = [];
+    if (MEM_CHECK_MODE == 'all' || Math.random() < 0.05) {
+      this.memory = unpackObj(packObj(this.memory, "mem", errorList));
+    }
+    else if (MEM_CHECK_MODE == 'useOnly') {
+      if (this.memory.__bulm !== undefined && useId in this.memory.__bulm) {
+        // Run the pack
+        packObj(this.memory.__bulm[useId], "card", errorList);
+      }
+    }
+    this.cleanBehaviorUseLocalMemories();
+    if (errorList.length > 0) {
+      if (errorList.length > 5) {
+        errorList.splice(5);
+        errorList.push("...");
+      }
+      throw new Error("Memory contains invalid values:\n" + errorList.join("\n"));
+    }
+  }
+
+  isBulmEmpty(bulm) {
+    return Object.keys(bulm).length == 0;
+  }
+
+  getMemoryJson() {
+    const packed = packObj(this.memory);
+    // Remove all empty BULMs. Wasteful, especially for networking.
+    if ('__bulm' in packed) {
+      for (let bulm in packed.__bulm) {
+        if (this.isBulmEmpty(packed.__bulm[bulm])) {
+          delete packed.__bulm[bulm];
+        }
+      }
+    }
+    return JSON.stringify(packed);
+  }
+
+  getRotation() {
+    return this.rotation;
+  }
+
+  // Use these instead of accessing rotation directly.
+  setRotation(quat) {
+    this.rotation = quat;
+  }
+
+  getCooldownKey_(useId, messageName) {
+    // TODO can we do better?
+    return `${useId}/${messageName}`;
+  }
+
+  setCooldown(useId, messageName, expireTimeSeconds) {
+    const key = this.getCooldownKey_(useId, messageName);
+    this.handlerCooldownMap_.set(key, expireTimeSeconds);
+  }
+
+  hasHandlersFor(messageName) {
+    const brainName = this.brainName;
+    const validBrainName = brainName !== undefined && brainName !== null && brainName.length > 0;
+    if (!validBrainName) {
+      return false;
+    }
+
+    const brain = this.behaviorDatabase.getBrain(this.brainName);
+    if (!brain) {
+      return false;
+    }
+    return brain.hasHandlersFor(messageName);
+  }
+
+  // Here we enforce handler-cooldowns.
+  isMessageBlockedByCooldown(useId, deliveredMessage) {
+    const key = this.getCooldownKey_(useId, deliveredMessage.name);
+    const cooldownEndTime = this.handlerCooldownMap_.get(key);
+    if (cooldownEndTime !== undefined) {
+      if (cooldownEndTime <= deliveredMessage.gameTime) {
+        this.handlerCooldownMap_.delete(key);
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
+  getHandlingContext(use, handler, isLegacy, messageName) {
+    assert(use instanceof ModuleBehaviorUse);
+    assert(typeof handler == 'function');
+    assertString(messageName, "getHandlingContext messageName arg");
+    const contextsByMessage = mapGetOrCreate(this.contextMapsByUse_, use, () => new Map());
+    return mapGetOrCreate(contextsByMessage, messageName,
+      () => new MessageHandlingContext(handler, this, isLegacy));
+  }
+
+  mergeJsonObject(runtimeSrc) {
+    // BEGIN_GAME_BUILDER_CODE_GEN ACTOR_RUNTIME_FIELDS_MERGE_JSON_JAVASCRIPT
+    this.isSprinting = runtimeSrc.isSprinting;    // GENERATED
+    this.worldSpaceThrottle.copy(runtimeSrc.worldSpaceThrottle);    // GENERATED
+    this.inputThrottle.copy(runtimeSrc.inputThrottle);    // GENERATED
+    this.aimDirection.copy(runtimeSrc.aimDirection);    // GENERATED
+    this.aimOrigin.copy(runtimeSrc.aimOrigin);    // GENERATED
+    this.lastAimHitPoint.copy(runtimeSrc.lastAimHitPoint);    // GENERATED
+    this.aimingAtName = runtimeSrc.aimingAtName;    // GENERATED
+    this.lookAxes.copy(runtimeSrc.lookAxes);    // GENERATED
+    // END_GAME_BUILDER_CODE_GEN
+    this.inputState = runtimeSrc.hasInputState ? runtimeSrc.inputState : null;
+  }
+
+  handleMessage(deliveredMessage) {
+    if (!this.brainName) {
+      return;
+    }
+
+    const delayUntil = deliveredMessage.data.__delayUntil;
+    if (delayUntil && delayUntil > deliveredMessage.gameTime) {
+      this.scheduleDelayedMessage_(deliveredMessage, delayUntil);
+      return;
+    } else {
+      this.handleMessageImmediate_(deliveredMessage, this.behaviorDatabase);
+    }
+  }
+
+  // Handles an immediate (that is, not delayed) message.
+  handleMessageImmediate_(deliveredMessage) {
+    const brain = this.behaviorDatabase.getBrain(this.brainName);
+
+    if (!brain) {
+      // Don't consider this strictly an error/warning worth logging for now.
+      // sysLog(`WARNING: actor ${this.displayName} (${this.name}) has a brain id, but we could not find it: ${this.brainName}.`);
+      return;
+    }
+
+    brain.forUsesHandling(deliveredMessage.name, use => {
+      this.handleMessageForUse(deliveredMessage, use);
+    });
+  }
+
+  handleMessageForUse(deliveredMessage, use) {
+    assert(use instanceof ModuleBehaviorUse);
+    assertString(deliveredMessage.name);
+
+    if (use.canHandleMessage(deliveredMessage.name)
+      && !this.isMessageBlockedByCooldown(use.id, deliveredMessage)
+    ) {
+      const handlerInfo = use.getHandlerInfo(deliveredMessage.name);
+      const handler = handlerInfo[0];
+      const isLegacy = handlerInfo[1];
+      assert(handler, `Behavior ${use.behavior.getModuleKey()} claimed it could handle ${deliveredMessage.name}, but returned no handler.`);
+      const context = this.getHandlingContext(use, handler, isLegacy, deliveredMessage.name);
+      if (context.canHandleNewMessage()) {
+        return context.handleMessage(deliveredMessage, use);
+      }
+    }
+  }
+
+  update(deltaSeconds, gameTimeSeconds) {
+    this.deliverDelayedMessages_(gameTimeSeconds);
+  }
+
+  onResetGame() {
+    // Reset all variables.
+    delete this.memory.__variables;
+
+    // Reset temp memory.
+    this.tempMemory_ = {};
+
+    // Cancel any pending delayed messages.
+    delete this.memory.__delayedm;
+
+    // Reset all contexts. Effectively, this means that blocked handlers
+    // (hasThrownException_ is set) will be allowed to run again. This lets
+    // developers repro their errors easily, rather than having to edit the code
+    // to do so. It's also just intuitive that when you reset the game, you also
+    // reset any error states.
+    this.contextMapsByUse_.clear();
+
+    // Also reset cooldowns... TODO is this serialized anywhere? For save/load
+    // and multiplayer ownership xfer?
+    this.handlerCooldownMap_.clear();
+
+    // Note that we do this even for remote actors! Doesn't hurt. In theory,
+    // everyone should have the same parameters here.
+    this.position = this.spawnPosition;
+    this.rotation = this.spawnRotation;
+    this.velocity = new Vector3(0, 0, 0);
+    this.angularVelocity = new Vector3(0, 0, 0);
+    this.transformParent = this.spawnTransformParent;
+  }
+
+  scheduleDelayedMessage_(delayedMessage) {
+    const delayedQueue = (this.memory.__delayedm = this.memory.__delayedm || []);
+    for (let i = 0; i < delayedQueue.length; i++) {
+      if (delayedMessage.data.__delayUntil < delayedQueue[i].data.__delayUntil) {
+        // Insert message at position i.
+        delayedQueue.splice(i, 0, delayedMessage);
+        return;
+      }
+    }
+    // If we got here, this message goes at the end of the queue.
+    delayedQueue.push(delayedMessage);
+  }
+
+  deliverDelayedMessages_(gameTimeSeconds) {
+    const queue = this.memory.__delayedm;
+    if (!queue) return;
+    // Queue is in chronological order of delivery time (guaranteed on insertion).
+    while (queue.length > 0 && gameTimeSeconds >= queue[0].data.__delayUntil) {
+      const messageToDeliver = queue.shift();
+      // The message time should be adjusted to be the current time (not the original send time).
+      messageToDeliver.gameTime = gameTimeSeconds;
+      this.handleMessageImmediate_(messageToDeliver);
+    }
+    // If the queue is empty, delete it (to reduce actor memory size).
+    if (this.memory.__delayedm.length == 0) {
+      delete this.memory.__delayedm;
+    }
+  }
+
+  get behaviorSystem() {
+    return this.behaviorSystem_;
+  }
+
+  requestDestroy() {
+    if (this.isLocalActor) {
+      this.requestedDestroy_ = true;
+    }
+  }
+
+  get requestedDestroy() {
+    return this.requestedDestroy_;
+  }
+
+  hasBehaviorUseLocalMemory(useId) {
+    assert(useId, "No behavior use ID!");
+    return this.memory.__bulm !== undefined && undefined !== this.memory.__bulm[useId];
+  }
+
+  getBehaviorUseLocalMemory(useId) {
+    assert(useId, "No behavior use ID!");
+    const result = this.memory.__bulm[useId];
+    assert(result, "No behavior use local memory for use: " + useId);
+  }
+
+  createBehaviorUseLocalMemory(useId) {
+    assert(useId, "No behavior use ID!");
+    if (!this.memory.__bulm) {
+      this.memory.__bulm = {};
+      this.memoryDirty_ = true;
+    }
+    if (!this.memory.__bulm[useId]) {
+      this.memory.__bulm[useId] = {};
+      this.memoryDirty_ = true;
+    }
+    return this.memory.__bulm[useId];
+  }
+
+  deleteBehaviorUseLocalMemory(useId) {
+    assert(useId, "No behavior use ID!");
+    if (this.memory.__bulm[useId]) {
+      this.memoryDirty_ = true;
+      delete this.memory.__bulm[useId];
+    }
+  }
+
+  cleanBehaviorUseLocalMemories() {
+    // Remove empty behavior use local memories.
+    if (!this.memory.__bulm) {
+      return;
+    }
+    const brain = this.behaviorDatabase.getBrain(this.brainName);
+    for (const useId in this.memory.__bulm) {
+      // If the behavior use no longer exists, delete it.
+      if (!brain.hasUse(useId)) {
+        this.deleteBehaviorUseLocalMemory(useId);
+      }
+    }
+    if (0 === Object.keys(this.memory.__bulm)) {
+      delete this.memory.__bulm;
+      this.memoryDirty_ = true;
+    }
+  }
+
+  getTempMemoryForUse(useId) {
+    assert(useId, "No behavior use ID!");
+    this.tempMemory_.forUse = this.tempMemory_.forUse || {};
+    return (this.tempMemory_.forUse[useId] = this.tempMemory_.forUse[useId] || {});
+  }
+
+  // BEGIN_GAME_BUILDER_CODE_GEN LEGACY_ACTOR_ACCESSORS
+  set preferOffstage(newPreferOffstage) {    // GENERATED
+    assertBoolean(newPreferOffstage, 'setPreferOffstage argument');    // GENERATED
+    setActorBoolean(this.tempId_, 0, newPreferOffstage);    // GENERATED
+  }
+  set isSolid(newIsSolid) {    // GENERATED
+    assertBoolean(newIsSolid, 'setIsSolid argument');    // GENERATED
+    setActorBoolean(this.tempId_, 1, newIsSolid);    // GENERATED
+  }
+  set enablePhysics(newEnablePhysics) {    // GENERATED
+    assertBoolean(newEnablePhysics, 'setEnablePhysics argument');    // GENERATED
+    setActorBoolean(this.tempId_, 2, newEnablePhysics);    // GENERATED
+  }
+  set enableGravity(newEnableGravity) {    // GENERATED
+    assertBoolean(newEnableGravity, 'setEnableGravity argument');    // GENERATED
+    setActorBoolean(this.tempId_, 3, newEnableGravity);    // GENERATED
+  }
+  set freezeRotations(newFreezeRotations) {    // GENERATED
+    assertBoolean(newFreezeRotations, 'setFreezeRotations argument');    // GENERATED
+    setActorBoolean(this.tempId_, 4, newFreezeRotations);    // GENERATED
+  }
+  set freezeX(newFreezeX) {    // GENERATED
+    assertBoolean(newFreezeX, 'setFreezeX argument');    // GENERATED
+    setActorBoolean(this.tempId_, 5, newFreezeX);    // GENERATED
+  }
+  set freezeY(newFreezeY) {    // GENERATED
+    assertBoolean(newFreezeY, 'setFreezeY argument');    // GENERATED
+    setActorBoolean(this.tempId_, 6, newFreezeY);    // GENERATED
+  }
+  set freezeZ(newFreezeZ) {    // GENERATED
+    assertBoolean(newFreezeZ, 'setFreezeZ argument');    // GENERATED
+    setActorBoolean(this.tempId_, 7, newFreezeZ);    // GENERATED
+  }
+  set enableAiming(newEnableAiming) {    // GENERATED
+    assertBoolean(newEnableAiming, 'setEnableAiming argument');    // GENERATED
+    setActorBoolean(this.tempId_, 8, newEnableAiming);    // GENERATED
+  }
+  set hideInPlayMode(newHideInPlayMode) {    // GENERATED
+    assertBoolean(newHideInPlayMode, 'setHideInPlayMode argument');    // GENERATED
+    setActorBoolean(this.tempId_, 9, newHideInPlayMode);    // GENERATED
+  }
+  set keepUpright(newKeepUpright) {    // GENERATED
+    assertBoolean(newKeepUpright, 'setKeepUpright argument');    // GENERATED
+    setActorBoolean(this.tempId_, 10, newKeepUpright);    // GENERATED
+  }
+  set useDesiredVelocity(newUseDesiredVelocity) {    // GENERATED
+    assertBoolean(newUseDesiredVelocity, 'setUseDesiredVelocity argument');    // GENERATED
+    setActorBoolean(this.tempId_, 11, newUseDesiredVelocity);    // GENERATED
+  }
+  set ignoreVerticalDesiredVelocity(newIgnoreVerticalDesiredVelocity) {    // GENERATED
+    assertBoolean(newIgnoreVerticalDesiredVelocity, 'setIgnoreVerticalDesiredVelocity argument');    // GENERATED
+    setActorBoolean(this.tempId_, 12, newIgnoreVerticalDesiredVelocity);    // GENERATED
+  }
+  set isPlayerControllable(newIsPlayerControllable) {    // GENERATED
+    assertBoolean(newIsPlayerControllable, 'setIsPlayerControllable argument');    // GENERATED
+    setActorBoolean(this.tempId_, 13, newIsPlayerControllable);    // GENERATED
+  }
+  set wasClonedByScript(newWasClonedByScript) {    // GENERATED
+    assertBoolean(newWasClonedByScript, 'setWasClonedByScript argument');    // GENERATED
+    setActorBoolean(this.tempId_, 14, newWasClonedByScript);    // GENERATED
+  }
+  set useConcaveCollider(newUseConcaveCollider) {    // GENERATED
+    assertBoolean(newUseConcaveCollider, 'setUseConcaveCollider argument');    // GENERATED
+    setActorBoolean(this.tempId_, 15, newUseConcaveCollider);    // GENERATED
+  }
+  set speculativeColDet(newSpeculativeColDet) {    // GENERATED
+    assertBoolean(newSpeculativeColDet, 'setSpeculativeColDet argument');    // GENERATED
+    setActorBoolean(this.tempId_, 16, newSpeculativeColDet);    // GENERATED
+  }
+  set useStickyDesiredVelocity(newUseStickyDesiredVelocity) {    // GENERATED
+    assertBoolean(newUseStickyDesiredVelocity, 'setUseStickyDesiredVelocity argument');    // GENERATED
+    setActorBoolean(this.tempId_, 17, newUseStickyDesiredVelocity);    // GENERATED
+  }
+  set bounciness(newBounciness) {    // GENERATED
+    assertNumber(newBounciness, 'setBounciness argument');    // GENERATED
+    setActorFloat(this.tempId_, 0, newBounciness);    // GENERATED
+  }
+  set drag(newDrag) {    // GENERATED
+    assertNumber(newDrag, 'setDrag argument');    // GENERATED
+    setActorFloat(this.tempId_, 1, newDrag);    // GENERATED
+  }
+  set angularDrag(newAngularDrag) {    // GENERATED
+    assertNumber(newAngularDrag, 'setAngularDrag argument');    // GENERATED
+    setActorFloat(this.tempId_, 2, newAngularDrag);    // GENERATED
+  }
+  set mass(newMass) {    // GENERATED
+    assertNumber(newMass, 'setMass argument');    // GENERATED
+    setActorFloat(this.tempId_, 3, newMass);    // GENERATED
+  }
+  set position(newPosition) {    // GENERATED
+    assertVector3(newPosition, 'setPosition argument');    // GENERATED
+    const v = newPosition;    // GENERATED
+    setActorVector3(this.tempId_, 0, v.x, v.y, v.z);    // GENERATED
+  }
+  set localPosition(newLocalPosition) {    // GENERATED
+    assertVector3(newLocalPosition, 'setLocalPosition argument');    // GENERATED
+    const v = newLocalPosition;    // GENERATED
+    setActorVector3(this.tempId_, 1, v.x, v.y, v.z);    // GENERATED
+  }
+  set localScale(newLocalScale) {    // GENERATED
+    assertVector3(newLocalScale, 'setLocalScale argument');    // GENERATED
+    const v = newLocalScale;    // GENERATED
+    setActorVector3(this.tempId_, 2, v.x, v.y, v.z);    // GENERATED
+  }
+  set renderableOffset(newRenderableOffset) {    // GENERATED
+    assertVector3(newRenderableOffset, 'setRenderableOffset argument');    // GENERATED
+    const v = newRenderableOffset;    // GENERATED
+    setActorVector3(this.tempId_, 3, v.x, v.y, v.z);    // GENERATED
+  }
+  set spawnPosition(newSpawnPosition) {    // GENERATED
+    assertVector3(newSpawnPosition, 'setSpawnPosition argument');    // GENERATED
+    const v = newSpawnPosition;    // GENERATED
+    setActorVector3(this.tempId_, 4, v.x, v.y, v.z);    // GENERATED
+  }
+  set desiredVelocity(newDesiredVelocity) {    // GENERATED
+    assertVector3(newDesiredVelocity, 'setDesiredVelocity argument');    // GENERATED
+    const v = newDesiredVelocity;    // GENERATED
+    setActorVector3(this.tempId_, 5, v.x, v.y, v.z);    // GENERATED
+  }
+  set velocity(newVelocity) {    // GENERATED
+    assertVector3(newVelocity, 'setVelocity argument');    // GENERATED
+    const v = newVelocity;    // GENERATED
+    setActorVector3(this.tempId_, 6, v.x, v.y, v.z);    // GENERATED
+  }
+  set angularVelocity(newAngularVelocity) {    // GENERATED
+    assertVector3(newAngularVelocity, 'setAngularVelocity argument');    // GENERATED
+    const v = newAngularVelocity;    // GENERATED
+    setActorVector3(this.tempId_, 7, v.x, v.y, v.z);    // GENERATED
+  }
+  set stickyDesiredVelocity(newStickyDesiredVelocity) {    // GENERATED
+    assertVector3(newStickyDesiredVelocity, 'setStickyDesiredVelocity argument');    // GENERATED
+    const v = newStickyDesiredVelocity;    // GENERATED
+    setActorVector3(this.tempId_, 8, v.x, v.y, v.z);    // GENERATED
+  }
+  set stickyForce(newStickyForce) {    // GENERATED
+    assertVector3(newStickyForce, 'setStickyForce argument');    // GENERATED
+    const v = newStickyForce;    // GENERATED
+    setActorVector3(this.tempId_, 9, v.x, v.y, v.z);    // GENERATED
+  }
+  set rotation(newRotation) {    // GENERATED
+    assertQuaternion(newRotation, 'setRotation argument');    // GENERATED
+    const q = newRotation;    // GENERATED
+    setActorQuaternion(this.tempId_, 0, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  set localRotation(newLocalRotation) {    // GENERATED
+    assertQuaternion(newLocalRotation, 'setLocalRotation argument');    // GENERATED
+    const q = newLocalRotation;    // GENERATED
+    setActorQuaternion(this.tempId_, 1, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  set renderableRotation(newRenderableRotation) {    // GENERATED
+    assertQuaternion(newRenderableRotation, 'setRenderableRotation argument');    // GENERATED
+    const q = newRenderableRotation;    // GENERATED
+    setActorQuaternion(this.tempId_, 2, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  set spawnRotation(newSpawnRotation) {    // GENERATED
+    assertQuaternion(newSpawnRotation, 'setSpawnRotation argument');    // GENERATED
+    const q = newSpawnRotation;    // GENERATED
+    setActorQuaternion(this.tempId_, 3, q.x, q.y, q.z, q.w);    // GENERATED
+  }
+  set displayName(newDisplayName) {    // GENERATED
+    assertStringOrNull(newDisplayName, 'setDisplayName argument');    // GENERATED
+    setActorString(this.tempId_, 0, newDisplayName);    // GENERATED
+  }
+  set description(newDescription) {    // GENERATED
+    assertStringOrNull(newDescription, 'setDescription argument');    // GENERATED
+    setActorString(this.tempId_, 1, newDescription);    // GENERATED
+  }
+  set transformParent(newTransformParent) {    // GENERATED
+    assertStringOrNull(newTransformParent, 'setTransformParent argument');    // GENERATED
+    setActorString(this.tempId_, 2, newTransformParent);    // GENERATED
+  }
+  set commentText(newCommentText) {    // GENERATED
+    assertStringOrNull(newCommentText, 'setCommentText argument');    // GENERATED
+    setActorString(this.tempId_, 3, newCommentText);    // GENERATED
+  }
+  set debugString(newDebugString) {    // GENERATED
+    assertStringOrNull(newDebugString, 'setDebugString argument');    // GENERATED
+    setActorString(this.tempId_, 4, newDebugString);    // GENERATED
+  }
+  set joinedTags(newJoinedTags) {    // GENERATED
+    assertStringOrNull(newJoinedTags, 'setJoinedTags argument');    // GENERATED
+    setActorString(this.tempId_, 5, newJoinedTags);    // GENERATED
+  }
+  set cameraActor(newCameraActor) {    // GENERATED
+    assertStringOrNull(newCameraActor, 'setCameraActor argument');    // GENERATED
+    setActorString(this.tempId_, 6, newCameraActor);    // GENERATED
+  }
+  set spawnTransformParent(newSpawnTransformParent) {    // GENERATED
+    assertStringOrNull(newSpawnTransformParent, 'setSpawnTransformParent argument');    // GENERATED
+    setActorString(this.tempId_, 7, newSpawnTransformParent);    // GENERATED
+  }
+  set loopingAnimation(newLoopingAnimation) {    // GENERATED
+    assertStringOrNull(newLoopingAnimation, 'setLoopingAnimation argument');    // GENERATED
+    setActorString(this.tempId_, 8, newLoopingAnimation);    // GENERATED
+  }
+  set controllingVirtualPlayerId(newControllingVirtualPlayerId) {    // GENERATED
+    assertStringOrNull(newControllingVirtualPlayerId, 'setControllingVirtualPlayerId argument');    // GENERATED
+    setActorString(this.tempId_, 9, newControllingVirtualPlayerId);    // GENERATED
+  }
+  set cameraSettingsJson(newCameraSettingsJson) {    // GENERATED
+    assertStringOrNull(newCameraSettingsJson, 'setCameraSettingsJson argument');    // GENERATED
+    setActorString(this.tempId_, 10, newCameraSettingsJson);    // GENERATED
+  }
+  set lightSettingsJson(newLightSettingsJson) {    // GENERATED
+    assertStringOrNull(newLightSettingsJson, 'setLightSettingsJson argument');    // GENERATED
+    setActorString(this.tempId_, 11, newLightSettingsJson);    // GENERATED
+  }
+  set pfxId(newPfxId) {    // GENERATED
+    assertStringOrNull(newPfxId, 'setPfxId argument');    // GENERATED
+    setActorString(this.tempId_, 12, newPfxId);    // GENERATED
+  }
+  set sfxId(newSfxId) {    // GENERATED
+    assertStringOrNull(newSfxId, 'setSfxId argument');    // GENERATED
+    setActorString(this.tempId_, 13, newSfxId);    // GENERATED
+  }
+  get preferOffstage() {    // GENERATED
+    return getActorBoolean(this.tempId_, 0);    // GENERATED
+  }
+  get isSolid() {    // GENERATED
+    return getActorBoolean(this.tempId_, 1);    // GENERATED
+  }
+  get enablePhysics() {    // GENERATED
+    return getActorBoolean(this.tempId_, 2);    // GENERATED
+  }
+  get enableGravity() {    // GENERATED
+    return getActorBoolean(this.tempId_, 3);    // GENERATED
+  }
+  get freezeRotations() {    // GENERATED
+    return getActorBoolean(this.tempId_, 4);    // GENERATED
+  }
+  get freezeX() {    // GENERATED
+    return getActorBoolean(this.tempId_, 5);    // GENERATED
+  }
+  get freezeY() {    // GENERATED
+    return getActorBoolean(this.tempId_, 6);    // GENERATED
+  }
+  get freezeZ() {    // GENERATED
+    return getActorBoolean(this.tempId_, 7);    // GENERATED
+  }
+  get enableAiming() {    // GENERATED
+    return getActorBoolean(this.tempId_, 8);    // GENERATED
+  }
+  get hideInPlayMode() {    // GENERATED
+    return getActorBoolean(this.tempId_, 9);    // GENERATED
+  }
+  get keepUpright() {    // GENERATED
+    return getActorBoolean(this.tempId_, 10);    // GENERATED
+  }
+  get useDesiredVelocity() {    // GENERATED
+    return getActorBoolean(this.tempId_, 11);    // GENERATED
+  }
+  get ignoreVerticalDesiredVelocity() {    // GENERATED
+    return getActorBoolean(this.tempId_, 12);    // GENERATED
+  }
+  get isPlayerControllable() {    // GENERATED
+    return getActorBoolean(this.tempId_, 13);    // GENERATED
+  }
+  get wasClonedByScript() {    // GENERATED
+    return getActorBoolean(this.tempId_, 14);    // GENERATED
+  }
+  get useConcaveCollider() {    // GENERATED
+    return getActorBoolean(this.tempId_, 15);    // GENERATED
+  }
+  get isGrounded() {    // GENERATED
+    return getActorBoolean(this.tempId_, 16);    // GENERATED
+  }
+  get speculativeColDet() {    // GENERATED
+    return getActorBoolean(this.tempId_, 17);    // GENERATED
+  }
+  get useStickyDesiredVelocity() {    // GENERATED
+    return getActorBoolean(this.tempId_, 18);    // GENERATED
+  }
+  get bounciness() {    // GENERATED
+    return getActorFloat(this.tempId_, 0);    // GENERATED
+  }
+  get drag() {    // GENERATED
+    return getActorFloat(this.tempId_, 1);    // GENERATED
+  }
+  get angularDrag() {    // GENERATED
+    return getActorFloat(this.tempId_, 2);    // GENERATED
+  }
+  get mass() {    // GENERATED
+    return getActorFloat(this.tempId_, 3);    // GENERATED
+  }
+  get position() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 0, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.position = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.position = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get localPosition() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 1, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.localPosition = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.localPosition = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get localScale() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 2, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.localScale = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.localScale = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get renderableOffset() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 3, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.renderableOffset = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.renderableOffset = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get spawnPosition() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 4, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.spawnPosition = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.spawnPosition = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get desiredVelocity() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 5, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.desiredVelocity = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.desiredVelocity = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get worldRenderBoundsSize() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 6, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.worldRenderBoundsSize = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.worldRenderBoundsSize = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get worldRenderBoundsCenter() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 7, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.worldRenderBoundsCenter = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.worldRenderBoundsCenter = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get velocity() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 8, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.velocity = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.velocity = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get angularVelocity() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 9, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.angularVelocity = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.angularVelocity = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get stickyDesiredVelocity() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 10, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.stickyDesiredVelocity = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.stickyDesiredVelocity = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get stickyForce() {    // GENERATED
+    const existing = new THREE.Vector3();    // GENERATED
+    getActorVector3(this.tempId_, 11, existing);    // GENERATED
+    // Legacy hack..    // GENERATED
+    existing.copy = (v) => {    // GENERATED
+      existing.x = v.x;    // GENERATED
+      existing.y = v.y;    // GENERATED
+      existing.z = v.z;    // GENERATED
+      this.stickyForce = existing;    // GENERATED
+    };
+    existing.set = (x, y, z) => {    // GENERATED
+      existing.x = x;    // GENERATED
+      existing.y = y;    // GENERATED
+      existing.z = z;    // GENERATED
+      this.stickyForce = existing;    // GENERATED
+    };
+    return existing;    // GENERATED
+  }
+  get rotation() {    // GENERATED
+    const existing = new THREE.Quaternion();    // GENERATED
+    getActorQuaternion(this.tempId_, 0, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  get localRotation() {    // GENERATED
+    const existing = new THREE.Quaternion();    // GENERATED
+    getActorQuaternion(this.tempId_, 1, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  get renderableRotation() {    // GENERATED
+    const existing = new THREE.Quaternion();    // GENERATED
+    getActorQuaternion(this.tempId_, 2, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  get spawnRotation() {    // GENERATED
+    const existing = new THREE.Quaternion();    // GENERATED
+    getActorQuaternion(this.tempId_, 3, existing);    // GENERATED
+    return existing;    // GENERATED
+  }
+  get displayName() {    // GENERATED
+    return getActorString(this.tempId_, 0);    // GENERATED
+  }
+  get description() {    // GENERATED
+    return getActorString(this.tempId_, 1);    // GENERATED
+  }
+  get transformParent() {    // GENERATED
+    return getActorString(this.tempId_, 2);    // GENERATED
+  }
+  get commentText() {    // GENERATED
+    return getActorString(this.tempId_, 3);    // GENERATED
+  }
+  get debugString() {    // GENERATED
+    return getActorString(this.tempId_, 4);    // GENERATED
+  }
+  get cloneParent() {    // GENERATED
+    return getActorString(this.tempId_, 5);    // GENERATED
+  }
+  get joinedTags() {    // GENERATED
+    return getActorString(this.tempId_, 6);    // GENERATED
+  }
+  get cameraActor() {    // GENERATED
+    return getActorString(this.tempId_, 7);    // GENERATED
+  }
+  get spawnTransformParent() {    // GENERATED
+    return getActorString(this.tempId_, 8);    // GENERATED
+  }
+  get loopingAnimation() {    // GENERATED
+    return getActorString(this.tempId_, 9);    // GENERATED
+  }
+  get controllingVirtualPlayerId() {    // GENERATED
+    return getActorString(this.tempId_, 10);    // GENERATED
+  }
+  get cameraSettingsJson() {    // GENERATED
+    return getActorString(this.tempId_, 11);    // GENERATED
+  }
+  get lightSettingsJson() {    // GENERATED
+    return getActorString(this.tempId_, 12);    // GENERATED
+  }
+  get pfxId() {    // GENERATED
+    return getActorString(this.tempId_, 13);    // GENERATED
+  }
+  get sfxId() {    // GENERATED
+    return getActorString(this.tempId_, 14);    // GENERATED
+  }
+  // END_GAME_BUILDER_CODE_GEN
+}

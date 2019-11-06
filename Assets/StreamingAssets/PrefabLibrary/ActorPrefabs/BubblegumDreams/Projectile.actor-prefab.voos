@@ -1,0 +1,293 @@
+{
+    "version": 2,
+    "label": "Projectile",
+    "actors": [
+        {
+            "version": 8,
+            "name": "467ca499727d4649bba39fc02124c4c6",
+            "brainName": "c3c7d9474ffe46bfab427130f06cd433",
+            "tags": [],
+            "renderableUri": "builtin:BuiltinAssets/BubblegumDreams/Projectile",
+            "memoryJson": "{\"__bulm\":{\"ed0ab3baf8e94e6a95ce46b9ec1d79ae\":{\"actionDeckState\":{}},\"9250f9adba2142adb9ae490195d4dcbb\":{\"actionDeckState\":{\"decksInfo\":{}}},\"e469218d0ad74263b3c2dbccd23b61cf\":{\"actionDeckState\":{\"decksInfo\":{}}},\"36359688427a449092cac3c0fdbca854\":{\"actionDeckState\":{\"decksInfo\":{}}},\"5ccabb7c00684af7a9a8b58b62cdfa62\":{\"actionDeckState\":{}},\"e691480987224274a9239b06bbc0957c\":{\"actionDeckState\":{\"decksInfo\":{}}}}}",
+            "displayName": "Projectile",
+            "description": "",
+            "tint": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 0.0
+            },
+            "transformParent": "",
+            "position": {
+                "x": -17.867156982421876,
+                "y": 0.0,
+                "z": 15.30157470703125
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "renderableOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "renderableRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "commentText": "",
+            "spawnPosition": {
+                "x": -17.867156982421876,
+                "y": 0.0,
+                "z": 15.30157470703125
+            },
+            "spawnRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "preferOffstage": false,
+            "isSolid": true,
+            "enablePhysics": false,
+            "enableGravity": false,
+            "bounciness": 0.0,
+            "drag": 0.0,
+            "angularDrag": 0.05000000074505806,
+            "mass": 1.0,
+            "freezeRotations": false,
+            "freezeX": false,
+            "freezeY": false,
+            "freezeZ": false,
+            "enableAiming": false,
+            "hideInPlayMode": false,
+            "keepUpright": false,
+            "isPlayerControllable": false,
+            "debugString": "",
+            "cloneParent": "",
+            "velocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "angularVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "cameraActor": "",
+            "spawnTransformParent": "",
+            "wasClonedByScript": false,
+            "loopingAnimation": "",
+            "cameraSettingsJson": "",
+            "lightSettingsJson": "",
+            "pfxId": "",
+            "sfxId": "",
+            "useConcaveCollider": true,
+            "speculativeColDet": false,
+            "useStickyDesiredVelocity": false,
+            "stickyDesiredVelocity": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ],
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "c3c7d9474ffe46bfab427130f06cd433"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.38751938939094546,\"viewPosition\":{\"x\":526.9403076171875,\"y\":55.201385498046878},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":1265.0,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "ed0ab3baf8e94e6a95ce46b9ec1d79ae",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "9250f9adba2142adb9ae490195d4dcbb",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"e469218d0ad74263b3c2dbccd23b61cf\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"36359688427a449092cac3c0fdbca854\",\"5ccabb7c00684af7a9a8b58b62cdfa62\",\"e691480987224274a9239b06bbc0957c\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e469218d0ad74263b3c2dbccd23b61cf",
+                        "behaviorUri": "builtin:Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "withWhat",
+                                "valueJson": "{\"value\":\"@TAG:enemy\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "36359688427a449092cac3c0fdbca854",
+                        "behaviorUri": "builtin:Cause Damage Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Target",
+                                "valueJson": "{\"value\":\"EVENT_CAUSER\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "5ccabb7c00684af7a9a8b58b62cdfa62",
+                        "behaviorUri": "builtin:Destroy Self Action Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "e691480987224274a9239b06bbc0957c",
+                        "behaviorUri": "builtin:Spawn Particle Effect",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "ParticleEffect",
+                                "valueJson": "{\"value\":\"builtin:GlowPfx\"}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "sojos": [
+        {
+            "id": "builtin:GlowPfx",
+            "name": "Glow",
+            "contentType": "ParticleEffect",
+            "content": "{\"isLocal\":false,\"duration\":2.0,\"speed\":0.4000000059604645,\"startSize\":0.30000001192092898,\"endSize\":0.0,\"shapeType\":4,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":1.0,\"g\":1.0,\"b\":0.30000001192092898,\"a\":1.0},\"position\":0.0,\"id\":\"98342768-83c6-4521-bdd9-54ffe7136e39\"},{\"value\":{\"r\":1.0,\"g\":0.6000000238418579,\"b\":0.0,\"a\":0.0},\"position\":1.0,\"id\":\"7461085f-100b-43fd-ac5d-11d37c6a6db8\"}],\"burstCount\":6}"
+        }
+    ],
+    "category": "gameplay",
+    "workshopId": "",
+    "actorData": {
+        "version": 0,
+        "name": "",
+        "brainName": "",
+        "tags": [],
+        "renderableUri": "",
+        "memoryJson": "",
+        "displayName": "",
+        "description": "",
+        "tint": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "localScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "preferOffstage": false,
+        "isSolid": false,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.0,
+        "mass": 0.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "angularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": "",
+        "useConcaveCollider": false,
+        "speculativeColDet": false,
+        "useStickyDesiredVelocity": false,
+        "stickyDesiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

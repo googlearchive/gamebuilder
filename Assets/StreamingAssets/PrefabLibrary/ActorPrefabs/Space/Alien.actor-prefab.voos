@@ -1,0 +1,402 @@
+{
+    "version": 1,
+    "label": "Alien",
+    "actorData": {
+        "version": 6,
+        "creatorName": "",
+        "name": "bbc0dfa52a4b4caab17e96c714727e1f",
+        "brainName": "7afa0c4876d5443e83b89a0e77a05c63",
+        "tags": [
+            "player"
+        ],
+        "renderableUri": "builtin:BuiltinAssets/Space/Alien",
+        "memoryJson": "{\"__bulm\":{\"126ec3cd41114616bab8c25ed28b2884\":{},\"fc99440774d848da825b6a1a9b56cfbf\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":9656.7734375,\"lastActionMessageTime\":9656.2734375}}}},\"8fe96ca57ad24ac492cc70665ff9064f\":{},\"58f54de6eb9a4b8fa5132d3cad4ca508\":{},\"87806912e106482eba61d139f9353156\":{},\"a3753d284e3d454994df7ae74a6f7e1c\":{\"lastEventTime\":9633.689453125,\"triggered\":true},\"85230835dbfa4d33b5881f4dd3e28637\":{},\"236cdded4e614ead88fe53453cc25254\":{},\"3dfb3d58b43a45969b5abf0d2c452e77\":{},\"b64d20bf4dc34103b710649f092c81a9\":{},\"5d36132331a54ce6ab338c6031d0795d\":{},\"ea1bccc7770d41d8a4707382fa624840\":{},\"9cf3fcdc638c488ebaae3072d7fec405\":{},\"7dfe50a83f3741c082f38dc65a927fdf\":{},\"dc6ebbc149144a6687853e38b904c26c\":{},\"909a8314255247c988d7839de1e70585\":{\"lastEventTime\":9633.689453125,\"triggered\":true},\"0aa95ce9b69e437d8f06f290be15e58d\":{},\"7036d6d718fc44c38428af1581fedbe6\":{},\"652ffdf388e044b4ad7d18da646af0cd\":{},\"a8c8afb0596c48a297d5b6f46e7d839e\":{},\"744e4b3444484110a6e8cb8b51d7c854\":{},\"622e31b921b94b628c783dbb56c55620\":{\"lastEventTime\":9649.0361328125,\"triggered\":true},\"77fac1fd377b4ba38e1e8584b5e899ea\":{},\"381b567cfb494653b14b04c608f37679\":{},\"342e1e15e6a648208cf874d47b8fc625\":{},\"0592d387f56b4b96ac48d049c35e8621\":{},\"68352d706a764a4081d8a66b62334007\":{\"triggered\":false},\"79055e1235594456816778c393187670\":{}},\"jumpCooldown\":0,\"health\":3,\"__variables\":{\"health\":3,\"startingHealth\":100,\"grabbedItem\":\"\"}}",
+        "displayName": "Alien",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -26.848541259765626,
+            "y": 7.152557373046875e-7,
+            "z": 25.22265625
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.9912128448486328,
+            "z": 0.0,
+            "w": 0.13227678835391999
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -20.641372680664064,
+            "y": 0.0,
+            "z": 21.6158447265625
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "bounciness": 0.0,
+        "drag": 0.0,
+        "angularDrag": 0.05000000074505806,
+        "mass": 1.0,
+        "freezeRotations": false,
+        "freezeX": false,
+        "freezeY": false,
+        "freezeZ": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": true,
+        "isPlayerControllable": true,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "loopingAnimation": "",
+        "cameraSettingsJson": "",
+        "lightSettingsJson": "",
+        "pfxId": "",
+        "sfxId": ""
+    },
+    "brainDatabase": {
+        "version": 4,
+        "behaviorIds": [],
+        "behaviors": [],
+        "brainIds": [
+            "7afa0c4876d5443e83b89a0e77a05c63"
+        ],
+        "brains": [
+            {
+                "metadataJson": "{\"panelViewState\":{\"version\":1,\"scale\":0.25,\"viewPosition\":{\"x\":-4233.4189453125,\"y\":-290.89288330078127},\"customLayout\":false},\"panelNotes\":[],\"miscPanelUseMetadata\":{\"version\":1,\"position\":{\"x\":6690.150390625,\"y\":-70.0}}}",
+                "behaviorUses": [
+                    {
+                        "id": "126ec3cd41114616bab8c25ed28b2884",
+                        "behaviorUri": "builtin:Default Behavior",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "fc99440774d848da825b6a1a9b56cfbf",
+                        "behaviorUri": "builtin:Movement Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":70.0,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "moveDeck",
+                                "valueJson": "{\"value\":[\"8fe96ca57ad24ac492cc70665ff9064f\",\"58f54de6eb9a4b8fa5132d3cad4ca508\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "8fe96ca57ad24ac492cc70665ff9064f",
+                        "behaviorUri": "builtin:Player Walk Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "58f54de6eb9a4b8fa5132d3cad4ca508",
+                        "behaviorUri": "builtin:Player Camera Look",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "87806912e106482eba61d139f9353156",
+                        "behaviorUri": "builtin:Player Controls Panel v2",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":990.0000610351563,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "PlayerNumber",
+                                "valueJson": "{\"value\":1}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "a3753d284e3d454994df7ae74a6f7e1c",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":1382.9700927734375,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"85230835dbfa4d33b5881f4dd3e28637\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"236cdded4e614ead88fe53453cc25254\"]}"
+                            },
+                            {
+                                "propertyName": "triggerWhen",
+                                "valueJson": "{\"value\":\"ONCE_EVENT\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "85230835dbfa4d33b5881f4dd3e28637",
+                        "behaviorUri": "builtin:Player Button Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "WhichButton",
+                                "valueJson": "{\"value\":\"JUMP\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "236cdded4e614ead88fe53453cc25254",
+                        "behaviorUri": "builtin:Jump Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "3dfb3d58b43a45969b5abf0d2c452e77",
+                        "behaviorUri": "builtin:Health Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2027.97021484375,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "damageDeck",
+                                "valueJson": "{\"value\":[\"b64d20bf4dc34103b710649f092c81a9\",\"5d36132331a54ce6ab338c6031d0795d\"]}"
+                            },
+                            {
+                                "propertyName": "deathDeck",
+                                "valueJson": "{\"value\":[\"ea1bccc7770d41d8a4707382fa624840\",\"9cf3fcdc638c488ebaae3072d7fec405\"]}"
+                            },
+                            {
+                                "propertyName": "StartingHealth",
+                                "valueJson": "{\"value\":100}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b64d20bf4dc34103b710649f092c81a9",
+                        "behaviorUri": "builtin:Change Tint",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "5d36132331a54ce6ab338c6031d0795d",
+                        "behaviorUri": "builtin:CameraShakeActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "ea1bccc7770d41d8a4707382fa624840",
+                        "behaviorUri": "builtin:Revive Action",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "9cf3fcdc638c488ebaae3072d7fec405",
+                        "behaviorUri": "builtin:ReturnToCheckpointActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "7dfe50a83f3741c082f38dc65a927fdf",
+                        "behaviorUri": "builtin:Screen Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":2947.97021484375,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "whoseScreen",
+                                "valueJson": "{\"value\":\"THIS_PLAYER\"}"
+                            },
+                            {
+                                "propertyName": "screenDeck",
+                                "valueJson": "{\"value\":[\"dc6ebbc149144a6687853e38b904c26c\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "dc6ebbc149144a6687853e38b904c26c",
+                        "behaviorUri": "builtin:HealthBar",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "909a8314255247c988d7839de1e70585",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":3625.64013671875,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"0aa95ce9b69e437d8f06f290be15e58d\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"7036d6d718fc44c38428af1581fedbe6\"]}"
+                            },
+                            {
+                                "propertyName": "triggerWhen",
+                                "valueJson": "{\"value\":\"ONCE_EVENT\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "0aa95ce9b69e437d8f06f290be15e58d",
+                        "behaviorUri": "builtin:Player Button Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "WhichButton",
+                                "valueJson": "{\"value\":\"JUMP\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7036d6d718fc44c38428af1581fedbe6",
+                        "behaviorUri": "builtin:Jump Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "652ffdf388e044b4ad7d18da646af0cd",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":4270.64013671875,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"a8c8afb0596c48a297d5b6f46e7d839e\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"744e4b3444484110a6e8cb8b51d7c854\"]}"
+                            },
+                            {
+                                "propertyName": "triggerWhen",
+                                "valueJson": "{\"value\":\"ONCE_EVENT\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "a8c8afb0596c48a297d5b6f46e7d839e",
+                        "behaviorUri": "builtin:Player Button Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "744e4b3444484110a6e8cb8b51d7c854",
+                        "behaviorUri": "builtin:UseGrabbedItemActionCard",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "622e31b921b94b628c783dbb56c55620",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":4915.64013671875,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"77fac1fd377b4ba38e1e8584b5e899ea\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"381b567cfb494653b14b04c608f37679\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "77fac1fd377b4ba38e1e8584b5e899ea",
+                        "behaviorUri": "builtin:Player Button Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "WhichButton",
+                                "valueJson": "{\"value\":\"KEY\"}"
+                            },
+                            {
+                                "propertyName": "WhichKey",
+                                "valueJson": "{\"value\":\"E\"}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "381b567cfb494653b14b04c608f37679",
+                        "behaviorUri": "builtin:Grab Action",
+                        "metadataJson": "",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "342e1e15e6a648208cf874d47b8fc625",
+                        "behaviorUri": "builtin:Grab Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":5560.64013671875,\"y\":-70.0}}",
+                        "propertyAssignments": []
+                    },
+                    {
+                        "id": "0592d387f56b4b96ac48d049c35e8621",
+                        "behaviorUri": "builtin:Action on Event Panel",
+                        "metadataJson": "{\"version\":1,\"position\":{\"x\":6045.150390625,\"y\":-70.0}}",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "eventDeck",
+                                "valueJson": "{\"value\":[\"68352d706a764a4081d8a66b62334007\"]}"
+                            },
+                            {
+                                "propertyName": "actionDeck",
+                                "valueJson": "{\"value\":[\"79055e1235594456816778c393187670\"]}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "68352d706a764a4081d8a66b62334007",
+                        "behaviorUri": "builtin:Terrain Collision Event Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "AnyBlock",
+                                "valueJson": "{\"value\":false}"
+                            },
+                            {
+                                "propertyName": "BlockStyle",
+                                "valueJson": "{\"value\":24}"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "79055e1235594456816778c393187670",
+                        "behaviorUri": "builtin:Cause Damage Card",
+                        "metadataJson": "",
+                        "propertyAssignments": [
+                            {
+                                "propertyName": "Amount",
+                                "valueJson": "{\"value\":5}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "behaviorUseIds": [],
+        "behaviorUses": []
+    },
+    "category": "character"
+}

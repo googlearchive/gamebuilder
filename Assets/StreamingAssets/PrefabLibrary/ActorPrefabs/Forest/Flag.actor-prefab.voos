@@ -1,0 +1,130 @@
+{
+    "label": "Flag",
+    "actorData": {
+        "version": 3,
+        "creatorName": "",
+        "name": "1960ff72e4d64bde8f67e77c3b760663",
+        "brainName": "8d2cc0b8129e4393a38db9390557ac0c",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/Flag",
+        "memoryJson": "{\"__bulm\":{\"cf7c4b8ced7349d995b592392fe4de62\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"3665b2e8ffb44f0d93723c4119077042\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"c3be153d23f54d9ab5052dd2a90910bb\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"7b06c220654a446dbfcd02f65103d429\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"1def51e74a214e80af34cf16fe0c8d29\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"7a87ac17a384443fa04f177a8cd3935d\":{\"actionDeckState\":{\"activeDecksInfo\":{}}},\"50d6a342b07f4028bb7b7989aee57b83\":{\"actionDeckState\":{\"activeDecksInfo\":{\"moveDeck\":{\"endTime\":1325.5594482421875,\"lastActionMessageTime\":1325.0594482421875}}}},\"015a8c52b22a404dbefaa218a182a95a\":{\"actionDeckState\":{\"activeDecksInfo\":{}}}},\"health\":3,\"__attribs\":{}}",
+        "displayName": "Flag",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 5.46685791015625,
+            "y": 0.0,
+            "z": 2.5759201049804689
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 5.46685791015625,
+            "y": 0.0,
+            "z": 2.5759201049804689
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "isPrefab": false,
+        "isSolid": true,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "editorMetadata": ""
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "44b8d3b09cf9430ea061c9fcc8d3e1a8",
+            "f55adcc4c3e949ca994f647d973fda90",
+            "226ee4a47ffe4fc09f6478e207db5a2a"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "8d2cc0b8129e4393a38db9390557ac0c",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "8d2cc0b8129e4393a38db9390557ac0c",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "8d2cc0b8129e4393a38db9390557ac0c",
+                "behaviorUri": "builtin:Movement Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "moveDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    },
+    "category": "gameplay"
+}

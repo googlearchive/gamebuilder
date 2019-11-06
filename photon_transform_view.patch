@@ -1,0 +1,22 @@
+--- "Assets\\Photon Unity Networking\\Plugins\\PhotonNetwork\\Views\\PhotonTransformView.cs"	2019-08-20 09:23:53.000000000 -0400
++++ ../PhotonTransformView.cs	2019-11-04 15:23:24.764819400 -0500
+@@ -10,0 +11,2 @@
++// GAME BUILDER MOD: Use global instead of local pos/rot
++
+@@ -85 +87 @@
+-       	transform.localPosition = this.m_PositionControl.UpdatePosition(transform.localPosition);
++       	transform.position = this.m_PositionControl.UpdatePosition(transform.position);
+@@ -95 +97 @@
+-        transform.localRotation = this.m_RotationControl.GetRotation(transform.localRotation);
++        transform.rotation = this.m_RotationControl.GetRotation(transform.rotation);
+@@ -123,2 +125,2 @@
+-        this.m_PositionControl.OnPhotonSerializeView(transform.localPosition, stream, info);
+-        this.m_RotationControl.OnPhotonSerializeView(transform.localRotation, stream, info);
++        this.m_PositionControl.OnPhotonSerializeView(transform.position, stream, info);
++        this.m_RotationControl.OnPhotonSerializeView(transform.rotation, stream, info);
+@@ -143 +145 @@
+-					this.transform.localPosition = this.m_PositionControl.GetNetworkPosition();
++					this.transform.position = this.m_PositionControl.GetNetworkPosition();
+@@ -148 +150 @@
+-					this.transform.localRotation = this.m_RotationControl.GetNetworkRotation();
++					this.transform.rotation = this.m_RotationControl.GetNetworkRotation();

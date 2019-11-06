@@ -1,0 +1,131 @@
+{
+    "label": "StackingBlock_1x3_Thin_Stone",
+    "actorData": {
+        "version": 4,
+        "creatorName": "",
+        "name": "72b42f457fae42168c03e79b4446c35d",
+        "brainName": "58e1c7d3ff8640238ebac948900d4630",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/StackingBlock_1x3_Thin_Stone",
+        "memoryJson": "{}",
+        "displayName": "StackingBlock_1x3_Thin_Stone",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": 3.0662527084350588,
+            "y": 0.0,
+            "z": 22.96649169921875
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": 3.0662527084350588,
+            "y": 0.0,
+            "z": 22.96649169921875
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": true,
+        "enableGravity": true,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "editorMetadata": "",
+        "loopingAnimation": ""
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "126ec3cd41114616bab8c25ed28b2884",
+            "42f5da8a5550479e8b7c5bff1ad42474",
+            "fc99440774d848da825b6a1a9b56cfbf"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "58e1c7d3ff8640238ebac948900d4630",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "58e1c7d3ff8640238ebac948900d4630",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "58e1c7d3ff8640238ebac948900d4630",
+                "behaviorUri": "builtin:Movement Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "moveDeck",
+                        "valueJson": "{\"value\":[]}"
+                    }
+                ]
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    },
+    "category": "gameplay"
+}

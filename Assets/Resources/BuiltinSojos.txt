@@ -1,0 +1,58 @@
+{
+        "sojos": [
+            {
+                "id": "builtin:Explosion",
+                "name": "Explosion",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":3,\"speed\":8,\"volume\":[14,14,12,10,9,8,6,5,4,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[54,50,47,44,43,41,39,37,36,35,34,32,31,30,28,27,26,24,23,22,22,21,21,21,20,20,20,20,20,20,20,20]}}"
+            },
+            {
+                "id": "builtin:Collect",
+                "name": "Collect",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":8,\"volume\":[12,15,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[28,40,48,55,55,55,57,59,60,60,61,61,63,63,63,63,63,63,63,63,63,63,63,63,62,63,63,62,61,60,60,61]}}"
+            },
+            {
+                "id": "builtin:Laser",
+                "name": "Laser",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":2,\"speed\":14,\"volume\":[12,12,12,11,9,8,7,6,5,4,3,3,2,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[45,41,37,34,33,32,30,30,28,27,26,25,24,23,22,21,20,20,20,20,20,20,20,19,19,18,18,18,18,18,18,19]}}"
+            },
+            {
+                "id": "builtin:Hit",
+                "name": "Hit",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":3,\"speed\":14,\"volume\":[15,13,11,7,4,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[42,35,32,29,27,27,25,24,23,22,22,22,22,21,21,21,21,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]}}"
+            },
+            {
+                "id": "builtin:Lose",
+                "name": "Lose",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":8,\"volume\":[16,16,16,16,13,8,6,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[43,43,35,35,29,29,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22]},\"steamWorkshopId\":0}"
+            },
+            {
+                "id": "builtin:Win",
+                "name": "Win",
+                "contentType": "SoundEffect",
+                "content": "{\"effectType\":0,\"synthParams\":{\"waveShape\":1,\"speed\":1,\"volume\":[16,16,16,16,13,8,6,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"pitch\":[20,20,30,30,38,38,47,47,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53]},\"steamWorkshopId\":0}"
+            },
+            {
+                "id": "builtin:ExplosionPfx",
+                "name": "Explosion",
+                "contentType": "ParticleEffect",
+                "content": "{\"isLocal\":false,\"duration\":0.699999988079071,\"speed\":3.0,\"startSize\":3.0,\"endSize\":1.0,\"shapeType\":1,\"shapeSize\":1.0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":1.0,\"g\":0.6000000238418579,\"b\":0.20000000298023225,\"a\":1.0},\"position\":0.0,\"id\":\"4b4e477b-5fd4-4121-972e-61d9b1523fce\"},{\"value\":{\"r\":0.5,\"g\":0.0,\"b\":0.0,\"a\":0.699999988079071},\"position\":0.5,\"id\":\"da4e9d58-6497-4606-8fb2-8347713d0686\"},{\"value\":{\"r\":0.30000001192092898,\"g\":0.0,\"b\":0.10000000149011612,\"a\":0.0},\"position\":1.0,\"id\":\"e5ae406e-ece0-4794-9c3a-b54acf8aff8c\"}],\"burstCount\":15}"
+            },
+            {
+                "id": "builtin:FountainPfx",
+                "name": "Fountain",
+                "contentType": "ParticleEffect",
+                "content": "{\"isLocal\":false,\"duration\":1.0,\"speed\":1.0,\"startSize\":0.5,\"endSize\":0.5,\"shapeType\":0,\"shapeSize\":1.0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":0.6000000238418579,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"position\":0.0,\"id\":\"4d792bf3-23ab-41af-b663-635996710a74\"},{\"value\":{\"r\":0.0,\"g\":0.6000000238418579,\"b\":1.0,\"a\":0.0},\"position\":1.0,\"id\":\"34ecd760-eafa-4473-b9c6-3af7e72a64f9\"}],\"burstCount\":30}"
+            },
+            {
+                "id": "builtin:GlowPfx",
+                "name": "Glow",
+                "contentType": "ParticleEffect",
+                "content": "{\"isLocal\":false,\"duration\":2.0,\"speed\":0.4000000059604645,\"startSize\":0.30000001192092898,\"endSize\":0.0,\"shapeType\":4,\"shapeSize\":1.0,\"velocityOverLifetimeDEPRECATED\":[],\"rotationOverLifetime\":[],\"sizeOverLifetimeDEPRECATED\":[],\"colorOverLifetime\":[{\"value\":{\"r\":1.0,\"g\":1.0,\"b\":0.30000001192092898,\"a\":1.0},\"position\":0.0,\"id\":\"98342768-83c6-4521-bdd9-54ffe7136e39\"},{\"value\":{\"r\":1.0,\"g\":0.6000000238418579,\"b\":0.0,\"a\":0.0},\"position\":1.0,\"id\":\"7461085f-100b-43fd-ac5d-11d37c6a6db8\"}],\"burstCount\":6}"
+            }
+        ]
+}

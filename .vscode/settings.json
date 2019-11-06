@@ -1,0 +1,74 @@
+{
+  // These are GB-wide settings that are here for a reason.
+  // We expect all GB devs to have these settings in order to keep our
+  // sanity when it comes to (auto-)formatting, tabs vs. spaces, etc.
+  // Please keep user-specific settings in your VSCode "USER SETTINGS" tab.
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.js.txt": "javascript",
+    // Do not auto-format anything under third_party
+    "Assets/third_party/**/*.cs": "plaintext",
+    "Assets/Photon Unity Networking/**/*.cs": "plaintext"
+  },
+  "[python]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.gitignore": true,
+    "**/.gitmodules": true,
+    "**/*.booproj": true,
+    "**/*.pidb": true,
+    "**/*.suo": true,
+    "**/*.user": true,
+    "**/*.userprefs": true,
+    "**/*.unityproj": true,
+    "**/*.dll": true,
+    "**/*.exe": true,
+    "**/*.pdf": true,
+    "**/*.mid": true,
+    "**/*.midi": true,
+    "**/*.wav": true,
+    "**/*.gif": true,
+    "**/*.ico": true,
+    "**/*.jpg": true,
+    "**/*.jpeg": true,
+    "**/*.png": true,
+    "**/*.psd": true,
+    "**/*.tga": true,
+    "**/*.tif": true,
+    "**/*.tiff": true,
+    "**/*.3ds": true,
+    "**/*.3DS": true,
+    "**/*.fbx": true,
+    "**/*.FBX": true,
+    "**/*.lxo": true,
+    "**/*.LXO": true,
+    "**/*.ma": true,
+    "**/*.MA": true,
+    "**/*.obj": true,
+    "**/*.OBJ": true,
+    "**/*.asset": true,
+    "**/*.cubemap": true,
+    "**/*.flare": true,
+    "**/*.mat": true,
+    "**/*.meta": true,
+    "**/*.prefab": true,
+    "**/*.unity": true,
+    "build/": true,
+    "Build/": true,
+    "Library/": true,
+    "library/": true,
+    "obj/": true,
+    "Obj/": true,
+    "ProjectSettings/": true,
+    "temp/": true,
+    "Temp/": true
+  },
+  "search.usePCRE2": true
+}

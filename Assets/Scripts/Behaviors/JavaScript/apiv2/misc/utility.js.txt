@@ -1,0 +1,72 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Converts the given string to a fixed-length string.
+ * @param {string} s The original string.
+ * @param {number} len The length of the returned string.
+ * @param {boolean=} alignRight If true, text will be aligned to the right.
+ */
+function toFixedLength(s, len, alignRight = false) {
+  assertNumber(len, "len parameter must be a number.");
+  if (len <= 0) return "";
+
+  // Be lenient with type. Accept numbers, etc.
+  s = "" + s;
+
+  // Pad with spaces until it's the right length.
+  while (s.length < len) {
+    s = alignRight ? (" " + s) : (s + " ");
+  }
+
+  // If it's bigger than the fixed length, chop it.
+  if (s.length > len) {
+    s = alignRight ? s.substr(s.length - len, len) : s.substr(0, len);
+  }
+
+  assert(s.length === len, "Bug in toFixedLength " + s.length + " !== " + len);
+  return s;
+}
+
+/**
+ * Returns a deep-copy of the given object.
+ * @param obj The object to deep-copy.
+ */
+function deepCopy(obj) {
+  // Cheap by-value cases:
+  if (obj === null || obj === undefined || typeof (obj) === 'number' || typeof (obj) === 'string') {
+    return obj;
+  }
+  return JSON.parse(JSON.stringify(obj));
+}
+
+/**
+ * Logs a message to the console (press tilde ~ to show it in game).
+ * @param {string} msg
+ */
+function log(msg) {
+  ApiV2Context.instance.api.logBehaviorMessage(msg);
+}
+
+/**
+ * Logs an error to the console (press tilde ~ to show it in game).
+ * @param {string} msg
+ */
+function logError(msg) {
+  ApiV2Context.instance.api.logBehaviorMessage(`<color=red>ERROR: ${msg}</color>`);
+}

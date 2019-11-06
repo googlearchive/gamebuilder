@@ -1,0 +1,296 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+let ENABLE_PROFILING_SERVICE = true;
+
+function maxByScore(elements, scoreFunction) {
+  let bestElement = null;
+  let bestScore = 0;
+  elements.forEach(element => {
+    const score = scoreFunction(element);
+    if (score > bestScore || bestElement == null) {
+      bestElement = element;
+      bestScore = score;
+    }
+  });
+  return bestElement;
+}
+
+function minByScore(elements, scoreFunction) {
+  return maxByScore(elements, x => -1 * scoreFunction(x));
+}
+
+function mapGetOrCreate(theMap, theKey, createFunction) {
+  if (theMap.has(theKey)) {
+    return theMap.get(theKey);
+  } else {
+    let theValue = createFunction();
+    theMap.set(theKey, theValue);
+    return theValue;
+  }
+}
+
+function objectGetOrCreate(theObj, theKey, createFunction) {
+  if (theKey in theObj) {
+    return theObj[theKey];
+  } else {
+    let theValue = createFunction();
+    theObj[theKey] = theValue;
+    return theValue;
+  }
+}
+
+function groupArrayBy(objects, keyFunc) {
+  assert(objects instanceof Array);
+  const rv = new Map();
+  for (let i = 0; i < objects.length; i++) {
+    const obj = objects[i];
+    const key = keyFunc(obj);
+    if (!rv.has(key)) {
+      rv.set(key, []);
+    }
+    const group = rv.get(key);
+    group.push(obj);
+  }
+
+  return rv;
+}
+
+function createLookupTable(objects, keyFunc) {
+  assert(objects instanceof Array);
+  const rv = new Map();
+  for (let i = 0; i < objects.length; i++) {
+    const obj = objects[i];
+    const key = keyFunc(obj);
+    if (!rv.has(key)) {
+      rv.set(key, obj);
+    }
+    else {
+      throw new Error(`Duplicate key found: ${key}. First object: ${JSON.stringify(rv.get(key))}, second object: ${JSON.stringify(obj)}`);
+    }
+  }
+
+  return rv;
+}
+
+function parseJsonOrEmpty(jsonString) {
+  try {
+    return JSON.parse(jsonString);
+  }
+  catch (e) {
+    if (e instanceof SyntaxError) {
+      return {};
+    }
+    else {
+      throw e;
+    }
+  }
+}
+
+function isString(value) {
+  return typeof value == 'string' || value instanceof String;
+}
+
+function assertVector3(obj, label = 'Argument') {
+  assert(obj instanceof THREE.Vector3, `${label} must be a THREE.Vector3!`);
+}
+
+function assertVector3Duck(obj, label = 'Argument') {
+  assert(typeof (obj.x) === 'number' && typeof (obj.y) === 'number' && typeof (obj.z) === 'number',
+    `${label} must be a THREE.Vector3, or at least have x, y and z as properties of type number.`);
+}
+
+function assertColor(obj, label = 'Argument') {
+  assert(obj instanceof THREE.Color, `${label} must be a THREE.Color!`);
+}
+
+function assertQuaternion(obj, label = 'Argument') {
+  assert(obj instanceof THREE.Quaternion, `${label} must be a THREE.Quaternion!`);
+}
+
+function assertString(value, label = 'Argument') {
+  assert(isString(value), `${label} must be a string! Was given "${value}".`);
+}
+
+function assertStringOrNull(value, label = 'Argument') {
+  if (value != null) {
+    assertString(value, label);
+  }
+}
+
+function assertTypeOf(value, expectedTypeOf, label = 'Argument') {
+  assert(typeof value == expectedTypeOf, `${label} must be a ${expectedTypeOf}. Was given type ${typeof value}. The value: ${value}`);
+}
+
+function assertObjectNotNull(value, label = 'Argument') {
+  assert(value !== null && typeof value === 'object', `${label} must be a non-null object. Was given type ${typeof value}. The value: ${value}`);
+  // At this point value may still be an instance of a custom class (like a THREE.js object), which we also don't want.
+  const klass = value.__proto__.constructor.name;
+  assert(klass === 'Object',
+    `${label} must be a vanilla JS object. Was given an instance of ${klass}. The value: ${value}`);
+}
+
+function assertInstanceOf(value, expectedClass, label = 'Argument') {
+  assert(value instanceof expectedClass, `${label} must be an instance of ${expectedClass.name}. Was given "${value}".`);
+}
+
+function assertNumber(value, label = 'Argument') {
+  assertTypeOf(value, 'number', label);
+  assert(!isNaN(value), `${label} is NaN!`);
+}
+
+function assertBoolean(value, label = 'Argument') {
+  assertTypeOf(value, 'boolean', label);
+}
+
+function assertApproxEq(expected, actual, eps = 1e-4) {
+  assert(Math.abs(actual - expected) < eps, `Expected ${expected}, but got ${actual}`);
+}
+
+function assertArrayOf(value, elementType, label = 'Argument') {
+  assert(Array.isArray(value), `${label} must be an array. Was given type ${typeof value}. The value: ${value}`);
+  for (let i = 0; i < value.length; i++) {
+    assertTypeOf(value[i], elementType, `${label}[${i}] must be of type ${elementType}. It is of type: ${typeof value[i]}`);
+  }
+}
+
+function assertValidMessageName(value, label = "Argument") {
+  assertString(value, label + " must be a string: " + value);
+  assert(value.length > 0, label + " can't be empty.");
+  // Catch common mistake of including the "on" or "On" prefix in the message
+  // name. But be careful because "OnCollision" is invalid but "OneThing" is valid.
+  assert(!value.match(/^[Oo]n[A-Z0-9]/),
+    label + " can't start with 'on' or 'On'. That's just a prefix. If you want 'onFoo()' to be called, the name of the message is just 'Foo'.");
+  return value;
+}
+
+/**
+ * 
+ * @param {number} x The number to clamp
+ * @param {number} a The minimum
+ * @param {number} b The maximum
+ * @returns {number} min(b, max(a, x))
+ */
+function clamp(x, a, b) {
+  assert(a <= b);
+  return Math.min(b, Math.max(a, x));
+}
+
+/**
+ * Convenience function for values that may be undefined.
+ * @param value The value
+ * @param defaultValue The default to return if 'value' is undefined.
+ * @returns 'value' if value is not undefined, otherwise 'defaultValue'
+ */
+function valueOr(value, defaultValue) {
+  if (value === undefined) {
+    return defaultValue;
+  }
+  else {
+    return value;
+  }
+}
+
+/**
+ * Convenience function for strings that may be empty or undefined.
+ * @param {string} value The value
+ * @param {string} defaultValue The default to return if 'value' is undefined or empty.
+ * @returns {string} 'value' if value is not undefined or empty, otherwise 'defaultValue'
+ */
+function stringOr(value, defaultValue) {
+  if (value === undefined || value == '') {
+    return defaultValue;
+  }
+  else {
+    return value;
+  }
+}
+
+function serializeQuaternion(q) {
+  assertQuaternion(q, "serializeQuaternion arg");
+  return { x: q.x, y: q.y, z: q.z, w: q.w };
+}
+
+function deserializeQuaternion(q) {
+  assertNumber(q.x, "deserializeQuaternion arg");
+  assertNumber(q.y, "deserializeQuaternion arg");
+  assertNumber(q.z, "deserializeQuaternion arg");
+  assertNumber(q.w, "deserializeQuaternion arg");
+  return new THREE.Quaternion(q.x, q.y, q.z, q.w);
+}
+
+function beginProfileSample(label) {
+  if (!ENABLE_PROFILING_SERVICE) return;
+  callVoosService("BeginProfileSample", label);
+}
+
+function endProfileSample() {
+  if (!ENABLE_PROFILING_SERVICE) return;
+  callVoosService("EndProfileSample");
+}
+
+function flattenArray(arr, outputArray = []) {
+  assert(Array.isArray(arr), "arr must be an array");
+  for (const element of arr) {
+    if (Array.isArray(element)) {
+      flattenArray(element, outputArray);
+    } else {
+      outputArray.push(element);
+    }
+  }
+  return outputArray;
+}
+
+function encodeUndefineds(array) {
+  return array.map(v => v === undefined ? '___undefined' : v);
+}
+
+function decodeUndefineds(array) {
+  return array.map(v => v === '___undefined' ? undefined : v);
+}
+
+runUnitTests('util.js.txt', {
+  testClamp: function () {
+    assert(clamp(5, 1, 10) == 5);
+    assert(clamp(1, 5, 10) == 5);
+    assert(clamp(15, 1, 10) == 10);
+    assert(clamp(-5, -10, -1) == -5);
+    assert(clamp(-50, -10, -1) == -10);
+    assert(clamp(5, -10, -1) == -1);
+  },
+  testIsString: function () {
+    assert(isString("foo"));
+    assert(!isString(123));
+    assert(isString('fdsfsd'));
+    assert(!isString(new Map()));
+  },
+  testOrDefaults: function () {
+    assert(stringOr('', 'foo') == 'foo');
+    assert(stringOr('bar', 'foo') == 'bar');
+    assert(valueOr(undefined, 42) == 42);
+    assert(valueOr(123, 42) == 123);
+  },
+  testSerializeQuat: function () {
+    const p = new THREE.Quaternion();
+    p.setFromAxisAngle(new THREE.Vector3(0, 1, 0), 1.23);
+    const json = JSON.stringify({ rot: serializeQuaternion(p) });
+    const q = JSON.parse(json).rot;
+    assertApproxEq(p.x, q.x);
+    assertApproxEq(p.y, q.y);
+    assertApproxEq(p.z, q.z);
+    assertApproxEq(p.w, q.w);
+  }
+});

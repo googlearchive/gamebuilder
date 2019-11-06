@@ -1,0 +1,199 @@
+{
+    "label": "WoodenFence",
+    "actorData": {
+        "version": 3,
+        "creatorName": "",
+        "name": "c6e567c7467444c99bf9de8df60ad600",
+        "brainName": "1814cbbeb99a43b4a13c2eca4438912b",
+        "tags": [],
+        "renderableUri": "builtin:BuiltinAssets/Forest/WoodenFence",
+        "memoryJson": "{\"__bulm\":{\"c08a83cca22844ae886358e84304a8e3\":{}},\"health\":3,\"__attribs\":{\"isDead\":false},\"isDead\":false}",
+        "displayName": "WoodenFence",
+        "description": "",
+        "tint": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "transformParent": "",
+        "position": {
+            "x": -19.61604118347168,
+            "y": 0.0,
+            "z": 41.36540985107422
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "localScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "renderableOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "renderableRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "commentText": "",
+        "spawnPosition": {
+            "x": -19.61604118347168,
+            "y": 0.0,
+            "z": 41.36540985107422
+        },
+        "spawnRotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "preferOffstage": false,
+        "isSolid": true,
+        "enablePhysics": false,
+        "enableGravity": false,
+        "enableAiming": false,
+        "hideInPlayMode": false,
+        "keepUpright": false,
+        "useDesiredVelocity": false,
+        "ignoreVerticalDesiredVelocity": false,
+        "desiredVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "isPlayerControllable": false,
+        "debugString": "",
+        "cloneParent": "",
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cameraActor": "",
+        "spawnTransformParent": "",
+        "wasClonedByScript": false,
+        "editorMetadata": ""
+    },
+    "brainDatabase": {
+        "version": 2,
+        "behaviorIds": [],
+        "behaviors": [],
+        "behaviorUseIds": [
+            "b44703f20268461b87d60b9418f0284b",
+            "bc3af4c879f94b3c9ed9b8ef033401d3",
+            "498d6e9c40ec43e399cf2867ece9ea3f",
+            "c64d2ef9b761420c81662bfb416658d0",
+            "a6adf301d9a946de8932b6dd6d25cdd1",
+            "96cec3b3216b45319602403fe703e38e",
+            "c08a83cca22844ae886358e84304a8e3"
+        ],
+        "behaviorUses": [
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Default Behavior",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Health Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "StartingHealth",
+                        "valueJson": "{\"value\":3}"
+                    },
+                    {
+                        "propertyName": "DamageCooldown",
+                        "valueJson": "{\"value\":1}"
+                    },
+                    {
+                        "propertyName": "damageDeck",
+                        "valueJson": "{\"value\":[\"498d6e9c40ec43e399cf2867ece9ea3f\"]}"
+                    },
+                    {
+                        "propertyName": "deathDeck",
+                        "valueJson": "{\"value\":[\"c64d2ef9b761420c81662bfb416658d0\"]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Change Tint",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "ColorR",
+                        "valueJson": "{\"value\":255}"
+                    },
+                    {
+                        "propertyName": "ColorG",
+                        "valueJson": "{\"value\":0}"
+                    },
+                    {
+                        "propertyName": "ColorB",
+                        "valueJson": "{\"value\":0}"
+                    },
+                    {
+                        "propertyName": "Duration",
+                        "valueJson": "{\"value\":1}"
+                    }
+                ]
+            },
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Destroy Self Action Card",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Action on Event Panel",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "eventDeck",
+                        "valueJson": "{\"value\":[\"96cec3b3216b45319602403fe703e38e\"]}"
+                    },
+                    {
+                        "propertyName": "actionDeck",
+                        "valueJson": "{\"value\":[\"c08a83cca22844ae886358e84304a8e3\"]}"
+                    }
+                ]
+            },
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Collision Event Card",
+                "propertyAssignments": []
+            },
+            {
+                "brainId": "1814cbbeb99a43b4a13c2eca4438912b",
+                "behaviorUri": "builtin:Move Action",
+                "propertyAssignments": [
+                    {
+                        "propertyName": "DistForward",
+                        "valueJson": "{\"value\":0}"
+                    },
+                    {
+                        "propertyName": "DistUp",
+                        "valueJson": "{\"value\":2}"
+                    },
+                    {
+                        "propertyName": "DistRight",
+                        "valueJson": "{\"value\":0}"
+                    },
+                    {
+                        "propertyName": "Speed",
+                        "valueJson": "{\"value\":5}"
+                    }
+                ]
+            }
+        ],
+        "brainIds": [],
+        "brains": []
+    }
+}

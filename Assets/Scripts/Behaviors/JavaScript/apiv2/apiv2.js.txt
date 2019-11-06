@@ -1,0 +1,571 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Internal global context needed for APIv2 operations.
+ * 
+ * This gets created at the start of a frame and gets destroyed at the
+ * end of the frame.
+ */
+class ApiV2Context {
+  /**
+   * Sets up the APIv2 context.
+   * @param {number} dt Delta time for this frame, in seconds.
+   */
+  static setup(dt) {
+    ApiV2Context.instance_ = new ApiV2Context(dt);
+  }
+
+  static tearDown() {
+    ApiV2Context.instance_ = null;
+  }
+
+  /** @return {ApiV2Context} The context. */
+  static get instance() {
+    return assert(ApiV2Context.instance_, "APIv2 context not set up. Make sure your handler function starts with a **lower-case** 'o', like onMessage, NOT OnMessage.");
+  }
+
+  /** @param {number} dt Delta time for this frame, in seconds. */
+  constructor(dt) {
+    assertNumber(dt, "dt");
+    // Stack of currently active HandlerApis. Each element in this stack represents
+    // a message being delivered (message delivery can be nested in the case of synchronous
+    // messages). The last one is the most recent.
+    this.apiStack_ = [];
+    // Cached player info. Lazily loaded if needed.
+    this.cachedPlayersInfo_ = null;
+    // List of UI requests from this frame. This is sent to Unity at the end
+    // of the frame (see GameUiMain.SetUiCommands).
+    this.uiCommands_ = [];
+    // Player-controlled actor, lazily queried.
+    this.playerControlledActor_ = null;
+    // Delta time for this frame.
+    this.dt_ = dt;
+    // Action deck helper (created to handle each message).
+    this.actionDeckHelper_ = null;
+    // Cached list of player-controllable actors. Lazily loaded.
+    this.cachedPlayerActorNames_ = null;
+    // Actors under mouse (lazily computed).
+    // This is an array of actor names.
+    this.actorsUnderMouse_ = null;
+    // Cached mouse terrain hit (lazily computed).
+    // If computed, this is an object with a single key ("point").
+    this.mouseTerrainRaycastHit_ = null;
+    // Screen info (lazily cached)
+    this.screenInfo_ = null;
+    // Camera info (lazily cached).
+    this.cameraInfo_ = null;
+  }
+
+  // Returns the current (topmost) API object.
+  get api() {
+    assert(this.apiStack_.length > 0, "No API set in ApiV2 context. Are we between startHandlingMessage and endHandlingMessage?");
+    return this.apiStack_[this.apiStack_.length - 1];
+  }
+
+  /**
+   * Prepares to handle a single message. This sets up the necessary context
+   * and globals to prepare for user-written scripts. 
+   * 
+   * Note that startHandlingMessage() .. endHandlingMessage() calls can be NESTED,
+   * in the case of delivery of synchronous messages.
+   */
+  startHandlingMessage(api) {
+    this.apiStack_.push(api);
+    this.setUpGlobals_();
+
+    if (this.actionDeckHelper_) {
+      this.actionDeckHelper_.dispose();
+      this.actionDeckHelper_ = null;
+    }
+    this.actionDeckHelper_ = new ApiV2ActionDeckHelper();
+
+    // Piggy-back some housekeeping on top of the Tick and ResetGame messages.
+    if (api.messageName === 'Tick') {
+      // NOTE: we intentionally do NOT react to OffstageTick here -- action decks should
+      // only tick while onstage.
+      this.actionDeckHelper_.handleTick();
+    } else if (api.messageName === 'ResetGame') {
+      // On game reset, force-expire any ongoing action calls.
+      this.actionDeckHelper_.handleResetGame();
+    }
+  }
+
+  getActionDeckHelper() {
+    return this.actionDeckHelper_;
+  }
+
+  /**
+   * Finishes handling a single message. This tears down the context
+   * used by user-written scripts.
+   */
+  endHandlingMessage() {
+    assert(this.apiStack_.length > 0, "Stack underflow in call to endHandlingMessage(). Something is broken with APIv2 message handling.");
+    this.actionDeckHelper_.dispose();
+    this.actionDeckHelper_ = null;
+    this.apiStack_.pop();
+    this.setUpGlobals_();
+    // If the API stack is not empty, set up the ApiV2ActionDeckHelper object again with the previous API object.
+    this.actionDeckHelper_ = this.apiStack_.length > 0 ? new ApiV2ActionDeckHelper() : null;
+  }
+
+  setUpGlobals_() {
+    const top = this.apiStack_.length > 0 ? this.apiStack_[this.apiStack_.length - 1] : null;
+    // Globals expected by APIv2 users. These globals point to the context of
+    // the TOPMOST (on the stack) message being delivered.
+    mem = top ? top.memory : null;
+    props = top ? top.props : null;
+    card = top ? top.getBehaviorUseLocalMemory() : null;
+    temp = top ? top.getTempMemoryForUse() : null;
+  }
+
+  /**
+   * Gets the given actor.
+   * @param {string=} actorId The actor ID. If omitted, will return the self actor.
+   * @return {Actor=} The actor.
+   */
+  getActor(actorId) {
+    // (Note: using this.api below triggers the getter, which checks for validity of this.api_)
+    return assert(actorId ? this.api.getOtherActor(actorId) : this.api.getActor(),
+      "Actor not found: " + actorId);
+  }
+
+  getActorPosOrPoint(actorIdOrPoint) {
+    return actorIdOrPoint.isVector3 ? actorIdOrPoint : this.getActor(actorIdOrPoint).getPosition();
+  }
+
+  /**
+   * Converts a quaternion into Euler angles using our convention (order: local-Y, local-X, local-Z).
+   * @param {THREE.Quaternion} quat The actor ID.
+   */
+  quatToOurEuler(quat) {
+    return new THREE.Euler().setFromQuaternion(quat, "YXZ");
+  }
+
+  getPlayersInfo() {
+    if (!this.cachedPlayersInfo_) {
+      this.cachedPlayersInfo_ = callVoosService("GetPlayersInfo");
+    }
+    return this.cachedPlayersInfo_;
+  }
+
+  getPlayerControlledActor() {
+    if (!this.playerControlledActor_) {
+      this.playerControlledActor_ = callVoosService("GetPlayerControlledActor");
+    }
+    return this.playerControlledActor_;
+  }
+
+  getPlayerById(playerId) {
+    const info = this.getPlayersInfo();
+    for (const playerInfo of info.allPlayers) {
+      if (playerInfo.id === playerId) return playerInfo;
+    }
+    return null;
+  }
+
+  getPlayerBySlotNumber(slotNumber) {
+    const info = this.getPlayersInfo();
+    for (const playerInfo of info.allPlayers) {
+      if (playerInfo.slotNumber === slotNumber) return playerInfo;
+    }
+    return null;
+  }
+
+  addUiCommand(command) {
+    command.actorName = command.actorName || myself();
+    // If the opacity field is absent, it defaults to 1.
+    command.opacity = command.opacity === undefined ? 1 : command.opacity;
+    this.uiCommands_.push(command);
+  }
+
+  autoBoxArg(arg) {
+    if (arg === undefined) {
+      return {};
+    } else if (typeof (arg) !== 'object') {
+      return { __bare_arg: arg };
+    }
+    return arg;
+  }
+
+  // Performs frame-end tasks such as sending stuff over to services, etc.
+  endFrame() {
+    assert(this.apiStack_.length === 0, "endFrame(): API stack not empty. Something is wrong.");
+    // Dispatch UI requests.
+    callVoosService("RequestUi", { commands: this.uiCommands_ });
+    this.uiCommands_ = [];
+  }
+
+  callDeck(deck, messageName, messageArg) {
+    if (!deck) return;
+    assert(Array.isArray(deck), "deck must be an array");
+    assertString(messageName);
+    const returnValues = [];
+    for (let i = 0; i < deck.length; i++) {
+      returnValues.push(this.callCard(deck[i], messageName, messageArg));
+    }
+    return returnValues;
+  }
+
+  callCard(card, messageName, messageArg) {
+    assertString(card, "Card should be a string (card reference)");
+    return this.sendSynchronousMessage(card, messageName, this.autoBoxArg(messageArg));
+  }
+
+  // Sends a synchronous message.
+  //   behaviorUseId: the ID of the behavior use (card) to which to send a synchronous message
+  //   messageName: the name of the message to send
+  //   msg: the message argument
+  sendSynchronousMessage(behaviorUseId, messageName, msg) {
+    assert(typeof behaviorUseId === 'string');
+    assert(typeof messageName === 'string');
+
+    const actor = this.getActor().getInternalActor();
+    assert(actor instanceof Actor);
+
+    const db = actor.behaviorSystem.database;
+    assert(db && db instanceof ModuleBehaviorDatabase);
+
+    const use = db.getBrain(actor.brainName).getUse(behaviorUseId);
+    if (!use) {
+      // Let's forgive this... maybe this was left as dangling reference after a behavior was deleted.
+      return;
+    }
+    assert(use.id == behaviorUseId);
+    const message = actor.behaviorSystem.makeMessageDelivery(messageName, msg, this.api.time);
+    // Deliver synchronous message. This will call startHandlingMessage() and our endHandlingMessage()
+    // methods, which will respectively push a new API object into our stack and then pop it.
+    const oldApi = this.api;
+    const returnValue = actor.handleMessageForUse(message, use);
+
+    // When we get back here, the message was already handled and we are back to our
+    // original state. Hopefully. But just to be sure:
+    assert(oldApi === this.api, "API context not restored after synchronous message.");
+
+    return returnValue;
+  }
+
+  getDeltaTime() {
+    return this.dt_;
+  }
+
+  normalizeColor(color, defaultColor) {
+    if (color === undefined || color === null) {
+      return defaultColor;
+    } else if (color instanceof THREE.Color) {
+      return color;
+    } else if (typeof color === 'number') {
+      // It's a raw 32 bit color.
+      return new THREE.Color(
+        ((color & 0xff0000) >> 16) / 255.0,
+        ((color & 0xff00) >> 8) / 255.0,
+        ((color & 0xff)) / 255.0);
+    } else if (typeof color.r === 'number' && typeof color.g === 'number' && typeof color.b === 'number') {
+      // Duck-typed color.
+      return new THREE.Color(color.r, color.g, color.b);
+    } else {
+      // Uhh.. who knows what this thing is.
+      return defaultColor;
+    }
+  }
+
+  colorToInt(color) {
+    if (typeof (color) === 'number') return color;  // Already an int.
+    return (this.roundAndClamp_((color.r || 0) * 255, 0, 255) << 16) +
+      (this.roundAndClamp_((color.g || 0) * 255, 0, 255) << 8) +
+      (this.roundAndClamp_((color.b || 0) * 255, 0, 255));
+  }
+
+  roundAndClamp_(n, lo, hi) {
+    return Math.min(Math.max(Math.round(n), lo), hi);
+  }
+
+  goOnOrOffstage(on) {
+    if (isOnstage() === on) return; // Nothing to do.
+    // If we have a parent, we must unparent first.
+    detachFromParent();
+    // Now set the "preferOffstage" property to the desired state.
+    // This will bring the actor (and all its descendants) on or offstage.
+    this.getActor().setPreferOffstage(!on);
+  }
+
+  getPlayerActorNames() {
+    if (!this.cachedPlayerActorNames_) {
+      this.cachedPlayerActorNames_ = [];
+      for (const name of this.api.getActorNames()) {
+        const thisActorObj = this.getActor(name);
+        if (thisActorObj.getIsPlayerControllable()) {
+          this.cachedPlayerActorNames_.push(name);
+        }
+      }
+    }
+    return this.cachedPlayerActorNames_.slice();
+  }
+
+  getInputState() {
+    const actor = exists(mem.hackObtainInputFrom) ? this.getActor(mem.hackObtainInputFrom) : this.getActor();
+    assert(actor, 'actor should not be null here...');
+    return actor.getInternalActor().inputState;
+  }
+
+  getActorsUnderMouse() {
+    if (!this.getInputState()) return [];
+    if (this.actorsUnderMouse_ === null) {
+      const origin = getMouseRayOrigin();
+      const direction = getMouseRayDir();
+      assert(origin && direction, "API bug: missing mouse ray origin/direction");
+      // Note: we request that the hits be sorted by distance.
+      this.actorsUnderMouse_ = raycast(origin, direction, 100, true) || [];
+    }
+    return this.actorsUnderMouse_;
+  }
+
+  getMouseTerrainRaycastHit() {
+    if (!this.getInputState()) return null;
+    if (!this.mouseTerrainRaycastHit_) {
+      this.mouseTerrainRaycastHit_ = {
+        point: raycastTerrain(getMouseRayOrigin(), getMouseRayDir(), 10000)
+      }
+    }
+    return this.mouseTerrainRaycastHit_.point;
+  }
+
+  sendMessage(actor, messageName, delaySeconds, arg) {
+    this.sendMessageToOneOrAll_(actor, messageName, delaySeconds, arg);
+  }
+
+  sendMessageToAll(messageName, delaySeconds, arg, opts = {}) {
+    this.sendMessageToOneOrAll_(null, messageName, delaySeconds, arg, opts);
+  }
+
+  // actor == null means send to all.
+  sendMessageToOneOrAll_(actor, messageName, delaySeconds, arg, opts = {}) {
+    if (actor !== null) {
+      assert(exists(actor), "Can't send message. Actor does not exist: " + actor);
+    }
+    assertString(messageName);
+    arg = this.autoBoxArg(arg);
+    if (delaySeconds) {
+      arg.__delayUntil = getTime() + delaySeconds;
+    }
+    if (actor) {
+      ApiV2Context.instance.api.sendMessage(actor, messageName, arg);
+    } else {
+      ApiV2Context.instance.api.sendMessageToAll(messageName, arg, opts);
+    }
+  }
+
+  addDesiredVelocity(vel) {
+    assertVector3(vel, "vel");
+    const actor = this.getActor();
+    const hasDesiredVelocity = actor.getUseDesiredVelocity();
+    const newVel = vec3add(hasDesiredVelocity ? actor.getDesiredVelocity() : vec3zero(), vel);
+    if (!hasDesiredVelocity) {
+      actor.setUseDesiredVelocity(true);
+      // Per our discussions, ignoreVerticalDesiredVelocity is coupled to gravity
+      // being enabled, for simplicity.
+      actor.setIgnoreVerticalDesiredVelocity(actor.getEnableGravity());
+    }
+    actor.setDesiredVelocity(newVel);
+  }
+
+  // Converts objects with { x, y, z } into actual THREE.Vector3
+  // Converts objects with { x, y, z, w } into actual THREE.Quaternion
+  // Converts objects with { r, g, b } into actual THREE.Color 
+  convertUnityDucks(obj) {
+    if (typeof obj !== "object" || obj === null) return obj;
+    if (Array.isArray(obj)) {
+      const result = [];
+      for (let i = 0; i < obj.length; i++) {
+        result.push(this.convertUnityDucks(obj[i]));
+      }
+      return result;
+    } else if (obj && 'x' in obj && 'y' in obj && 'z' in obj && 'w' in obj) {
+      return new THREE.Quaternion(+obj.x, +obj.y, +obj.z, +obj.w);
+    } else if (obj && 'x' in obj && 'y' in obj && 'z' in obj) {
+      return new THREE.Vector3(+obj.x, +obj.y, +obj.z);
+    } else if (obj && 'r' in obj && 'g' in obj && 'b' in obj) {
+      return new THREE.Color(+obj.r, +obj.g, +obj.b);
+    } else {
+      const result = {};
+      for (let key in obj) {
+        result[key] = this.convertUnityDucks(obj[key]);
+      }
+      return result;
+    }
+  }
+
+  tryPlaySound(soundId, position) {
+    assertString(soundId, "soundId");
+    const args = { soundId: soundId };
+    if (position !== undefined) {
+      assertVector3(position, "position");
+      args.position = position;
+    } else {
+      args.actorName = myself();
+    }
+    return callVoosService("PlaySound", args);
+  }
+
+  trySpawnParticleEffect(pfxId, position, rotation, scale) {
+    assertString(pfxId, "pfxId");
+    if (!rotation) {
+      rotation = new THREE.Euler();
+      rotation.setFromQuaternion(getRot());
+    }
+    if (scale == null) scale = 1;
+    return callVoosService("SpawnParticleEffect",
+      { pfxId: pfxId, position: position || getPos(), rotation: rotation, scale: scale });
+  }
+
+  getScreenInfo() {
+    if (!this.screenInfo_) {
+      this.screenInfo_ = callVoosService("GetScreenInfo");
+    }
+    return this.screenInfo_;
+  }
+
+  getCameraInfo() {
+    if (!this.cameraInfo_) {
+      this.cameraInfo_ = callVoosService("GetCameraInfo");
+    }
+    return this.cameraInfo_;
+  }
+}
+
+// Manages the action deck states (active/inactive) and messages to be
+// delivered to them.
+//
+// Note: the lifetime of this object is short -- it's a helper object
+// for mutating and operating on the state.
+class ApiV2ActionDeckHelper {
+  constructor() {
+    // The card global must exist (can only be used within a card's message handling context).
+    assert(card, "ApiV2ActionDeckHelper can only be used within a card context.");
+    card.actionDeckState = card.actionDeckState || {};
+    this.state_ = card.actionDeckState;
+
+    // IMPORTANT: This class CANNOT have any state outside of the card global, because
+    // this is the only part of it that survives from one frame to the other, as
+    // that state is stashed in memory. Any other instance variables would NOT
+    // persist.
+
+    delete this.state_.activeDecksInfo; // deprecated
+    // Information about the state of each deck.
+    this.state_.decksInfo = this.state_.decksInfo || {};
+
+    this.disposed_ = false;
+  }
+
+  // Activates the given action deck.
+  // This means:
+  //    If it wasn't active, it becomes active, and we send an Action message now.
+  //    If it was already active, it continues to be active and we send an Action message
+  //        again if sufficient time has elapsed.
+  activateDeck(deckName, actionMessage, duration, pulseInterval) {
+    assert(!this.disposed_);
+    assertNumber(duration);
+    assertNumber(pulseInterval);
+    duration = max(0.05, duration);
+    pulseInterval = max(0.05, pulseInterval);
+    this.state_.decksInfo[deckName] = this.state_.decksInfo[deckName] || {};
+    const thisDeckInfo = this.state_.decksInfo[deckName];
+    if (!thisDeckInfo.active) {
+      // Deck was not active, so we have to activate it first.
+      thisDeckInfo.active = true;
+      thisDeckInfo.endTime = getTime() + (duration || 0);
+      // Send the Activated message indicating the card is now active
+      // (for the benefit of continuous-action cards).
+      ApiV2Context.instance.callDeck(props[deckName], "Activate", actionMessage);
+    }
+    // Send the Action message
+    // (for the benefit of discrete-action cards).
+    this.maybePulseActionDeck_(deckName, pulseInterval, actionMessage);
+  }
+
+  maybePulseActionDeck_(deckName, pulseInterval, actionMessage) {
+    assertNumber(pulseInterval, 'pulseInterval');
+    assertObjectNotNull(actionMessage, 'actionMessage');
+    const thisDeckInfo = this.state_.decksInfo[deckName];
+    assert(thisDeckInfo, 'thisDeckInfo');
+
+    // Bug workaround: if lastActionMessageTime is in the future, this is a file that was
+    // saved without resetting (importing an object from creation library, for instance)
+    // because that's the only way time could have gone "backwards".
+    if (thisDeckInfo.lastActionMessageTime > getTime()) {
+      delete thisDeckInfo.lastActionMessageTime;
+    }
+
+    if (getTime() > (thisDeckInfo.lastActionMessageTime || 0) + pulseInterval) {
+      ApiV2Context.instance.callDeck(props[deckName], "Action", actionMessage);
+      thisDeckInfo.lastActionMessageTime = getTime();
+    }
+  }
+
+  deactivateDeck(deckName) {
+    assert(!this.disposed_);
+    const thisDeckInfo = this.state_.decksInfo[deckName];
+    if (!thisDeckInfo || !thisDeckInfo.active) {
+      // Nothing to deactivate.
+      return;
+    }
+    thisDeckInfo.active = false;
+    // Let the deck know that it's no longer active.
+    ApiV2Context.instance.callDeck(props[deckName], "Deactivate");
+  }
+
+  handleTick() {
+    assert(!this.disposed_);
+    // Check if any active decks have expired so we can deactivate them.
+    for (const deckName in this.state_.decksInfo) {
+      const thisDeckInfo = this.state_.decksInfo[deckName];
+      if (!thisDeckInfo.active) continue;
+      // Deck is active. Check if it expired.
+      if (getTime() > thisDeckInfo.endTime) {
+        this.deactivateDeck(deckName);
+      } else {
+        // Didn't expire, so send ActiveTick.
+        ApiV2Context.instance.callDeck(props[deckName], "ActiveTick");
+      }
+    }
+  }
+
+  handleResetGame() {
+    assert(!this.disposed_);
+    // Deactivate any remaining active decks.
+    for (const deckName in this.state_.decksInfo) {
+      const thisDeckInfo = this.state_.decksInfo[deckName];
+      if (thisDeckInfo.active) this.deactivateDeck(deckName);
+    }
+    delete this.state_.decksInfo;
+  }
+
+  dispose() {
+    if (this.disposed_) return;
+    // TODO: clean up our state here -- figure out what to discard?
+  }
+}
+
+/**
+ * Returns the legacy API object (APIv1).
+ * This should rarely be necessary, but it's here just in case.
+ * 
+ * @return {HandlerApi}
+ */
+function legacyApi() {
+  return ApiV2Context.instance.api;
+}
+

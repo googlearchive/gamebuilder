@@ -1,0 +1,182 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Determines if the player is grounded (standing on something solid) or not.
+ * 
+ * <p>This can only be used with player-controllable actors.
+ *
+ * @param {ActorRef=} actor The player actor to check. If omitted,
+ *     defaults to the current actor.
+ * @return {boolean} Whether or not the player actor is currently on solid ground or not.
+ */
+function isGrounded(actor) {
+  return ApiV2Context.instance.getActor(actor).getIsGrounded();
+}
+
+/**
+ * Determines if the player is sprinting, that is, if the player is pressing the sprint key
+ * (normally SHIFT).
+ * 
+ * <p>This can only be used with player-controllable actors.
+ *
+ * @param {ActorRef=} actor The player actor to check. If omitted,
+ *     defaults to the current actor.
+ * @return {boolean} Whether or not the player is sprinting.
+ */
+function isSprinting(actor) {
+  return ApiV2Context.instance.getActor(actor).getIsSprinting();
+}
+
+/**
+ * Gets the world-space direction in which the player wants to move, based on the current
+ * state of the input.
+ * 
+ * <p>This looks at the current state of the player's joystick, keyboard, mouse, etc
+ * and combines that with the current orientation of the player actor and camera, to
+ * figure out in which world direction the player intends to move.
+ * 
+ * <p>This can only be used with player-controllable actors.
+ *
+ * @param {ActorRef=} actor The player actor to check. If omitted,
+ *     defaults to the current actor.
+ * @return {THREE.Vector3} The world-space throttle direction, the direction in
+ *     which the player wants to move. Each component is in the range -1 to 1.
+ */
+function getWorldThrottle(actor) {
+  return ApiV2Context.instance.getActor(actor).getWorldSpaceThrottle();
+}
+
+/**
+ * Gets the input throttle.
+ * 
+ * <p>This is the raw value of the movement axis coming from the player's keyboard
+ * or joystick.
+ * 
+ * <p>This can only be used with player-controllable actors.
+ *
+ * @param {ActorRef=} actor The player actor to check. If omitted,
+ *     defaults to the current actor.
+ * @return {THREE.Vector3} The raw throttle. The X component is the left/right
+ *     direction (-1 means fully to the left, 1 means fully to the right), the
+ *     Z component is the forward/backward direction (+1 means fully forward, -1
+ *     means fully backward). The Y component is the jump (if positive,
+ *     player has pressed the jump button and is going up).
+ */
+function getThrottle(actor) {
+  return ApiV2Context.instance.getActor(actor).getInputThrottle();
+}
+
+/**
+ * @deprecated
+ * Renamed to {@link getThrottle}.
+ */
+function getRawThrottle(actor) {
+  return getThrottle(actor);
+}
+
+/**
+ * Gets the look axes for the given player-controllable actor.
+ * 
+ * <p>Only works for player-controllable actors. The look axes are an
+ * indication of the player's intention to turn the camera horizontally
+ * and vertically.</p>
+ *
+ * @return {ActorRef} actor The actor whose look axes to get. Must be
+ *    a player controllable actor.
+ * @return {THREE.Vector3} The look axes. The X component is the angle
+ *    of the desired change in horizontal direction (radians), the Y
+ *    component is the angle of the desired change in vertical direction
+ *    (radians). The Z component is not used. This is pre-adjusted for
+ *    mouse sensivity and any other controller settings.
+ */
+function getLookAxes(actor) {
+  return ApiV2Context.instance.getActor(actor).getLookAxes();
+}
+
+/**
+ * Sets the actor that will act as the camera for the current actor.
+ * 
+ * <p>This will only have any effect if the current actor is a player
+ * actor.
+ *
+ * @param {ActorRef=} cameraActor The actor that will act as the camera
+ *     for the current actor. If <tt>null</tt>, will reset to the default
+ *     camera.
+ */
+function setCameraActor(cameraActor) {
+  ApiV2Context.instance.getActor().setCameraActor(cameraActor || "");
+}
+
+/**
+ * Returns the actor that serves as the camera for the given actor.
+ *
+ * @param {ActorRef?} actor The actor for which to get the camera actor.
+ *     If omitted, defaults to the current actor.
+ * @return {ActorRef} The camera actor, or null if none.
+ */
+function getCameraActor(actor) {
+  return ApiV2Context.instance.getActor(actor).getCameraActor() || null;
+}
+
+/**
+ * Resets the camera for the current actor to the default camera.
+ *
+ * <p>This will only have any effect if the current actor is a player
+ * actor.
+ */
+function resetCameraActor() {
+  setCameraActor("");
+}
+
+/**
+ * Checks if the given actor is player controllable. An actor is player controllable
+ * if it is (or can be) controlled by the player. The fact that it's controllable doesn't
+ * mean there's a player controlling it right now, it just means it could
+ * potentially be controlled by a player.
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ */
+function isPlayerControllable(actor) {
+  return ApiV2Context.instance.getActor(actor).getIsPlayerControllable();
+}
+
+function setIsPlayerControllable(value) {
+  ApiV2Context.instance.getActor().setIsPlayerControllable(value);
+}
+
+/**
+ * Sets the player who will control the current actor.
+ * Note that this assignment gets lost on game reset, so you have to reassign it
+ * on {@link onResetGame} or later.
+ *
+ * @param {string} playerId The ID of the player who will control this actor, or null
+ *     if it will not be controlled by anyone.
+ */
+function setControllingPlayer(playerId) {
+  playerId = playerId || "";
+  assertString(playerId, "playerId");
+  ApiV2Context.instance.getActor().setControllingVirtualPlayerId(playerId);
+}
+
+/**
+ * Returns the ID of the player who is controlling the actor.
+ * @param {ActorRef=} actor The actor to check. If omitted, defaults to the current actor.
+ */
+function getControllingPlayer(actor) {
+  return ApiV2Context.instance.getActor(actor).getControllingVirtualPlayerId() || "";
+}

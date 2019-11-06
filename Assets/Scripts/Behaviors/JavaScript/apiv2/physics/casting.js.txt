@@ -1,0 +1,213 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// VISIBLE_TO_MONACO
+
+/**
+ * Performs a raycast, checking which objects the given ray intersects.
+ * This returns all hits along the ray, not just the first one, up to
+ * the maximum distance given.
+ *
+ * @param {THREE.Vector3} origin The origin of the ray (point in world space).
+ * @param {THREE.Vector3} dir The direction of the ray (vector in world space).
+ * @param {number} maxDist The maximum distance to scan. For performance
+ *     reasons, keep this distance <b>small</b>.
+ * @param {boolean=} sortByDistance If true, results will be sorted by distance
+ *     along the ray (doing this is slightly more expensive). If false (default),
+ *     order is not guaranteed.
+ * @return {ActorRef[]} Array of actors that the ray cast hit. This will never
+ *     be null (an absence of hits is represented by an empty array).
+ *     Note that depending on how you built the ray, this MAY include
+ *     the player actor itself, so check for that.
+ * @example
+ * // Image this is a behavior for a handheld magnetic repulsor tool.
+ * // The player carries it around, and wherever it's aimed, it repels
+ * // metal objects out of the way. It's sci-fi. It's totally possible.
+ *
+ * export function onTick() {
+ *   // Find all actors that are standing directly in my line of sight,
+ *   // up to a distance of 3 units.
+ *   let actors = raycast(getPos(), getForward(), 6);
+ *   // Find all the ones tagged "made_of_metal", and push them forward.
+ *   for (let actor of actors) {
+ *     if (hasTag("made_of_metal", actor)) {
+ *       push(actor, getForward(20));
+ *     }
+ *   }
+ * }
+ */
+function raycast(origin, dir, maxDist, sortByDistance = false) {
+  assertVector3Duck(origin, "origin");
+  assertVector3Duck(dir, "dir");
+  assertNumber(maxDist, "maxDist");
+  assertBoolean(sortByDistance, "sortByDistance");
+  const hits = castAdvanced(origin, dir, maxDist, 0,
+    sortByDistance ? CastMode.ALL_SORTED : CastMode.ALL_UNSORTED);
+  return hits ? hits.map(hit => hit.actor) : [];
+}
+
+/**
+ * Performs a raycast onto terrain (terrain means the ground and construction blocks).
+ *
+ * @param {THREE.Vector3} origin The origin of the ray (point in world space).
+ * @param {THREE.Vector3} dir The direction of the ray (vector in world space).
+ * @param {number} maxDist The maximum distance to scan. For performance
+ *     reasons, keep this distance <b>small</b>.
+ * @return {THREE.Vector3?} The point where the ray hits the terrain (ground or construction
+ *     blocks), or null if there is no hit.
+ */
+function raycastTerrain(origin, dir, maxDist) {
+  assertVector3(origin, "origin");
+  assertVector3(dir, "dir");
+  assertNumber(maxDist, "maxDist");
+  const hit = castAdvanced(origin, dir, maxDist, 0, CastMode.CLOSEST, false, false, true);
+  return hit ? hit.point : null;
+}
+
+/**
+ * Performs a ray or sphere cast with fully customizable parameters (advanced).
+ *
+ * @param {THREE.Vector3} origin The origin of the ray or sphere.
+ * @param {THREE.Vector3} dir The direction of the cast.
+ * @param {number} maxDist The maximum distance of the cast.
+ * @param {number=} radius Radius of the sphere to use. If 0, it's a raycast.
+ * @param {CastMode=} mode Cast mode. See {@link CastMode} for options.
+ * @param {boolean=} includeActors Include actors in the cast?
+ * @param {boolean=} includeSelf Include self in the cast? (Only meaningful if includeActors is also true).
+ * @param {boolean=} includeTerrain Include terrain (ground and construction blocks) in the cast?
+ * @return The result of the cast. The type depends on the requested cast mode. If
+ *     it's <tt>CastMode.ALL_SORTED</tt> or <tt>CastMode.ALL_UNSORTED</tt>, it's an array
+ *     of {@link CastHit}. If it was <tt>CastMode.BOOLEAN</tt>, it's true or false. If
+ *     it was <tt>CastMode.CLOSEST</tt>, it's a single {@link CastHit} or null if there was no hit.
+ */
+function castAdvanced(origin, dir, maxDist, radius = 0, mode = CastMode.CLOSEST, includeActors = true, includeSelf = false, includeTerrain = false) {
+  assertVector3Duck(origin, "origin");
+  assertVector3Duck(dir, "dir");
+  assertNumber(maxDist, "maxDist");
+  assertNumber(radius, "radius");
+  assertNumber(mode, "mode");
+  assert(mode == CastMode.CLOSEST || mode == CastMode.BOOLEAN || mode == CastMode.ALL_SORTED || mode == CastMode.ALL_UNSORTED,
+    "Invalid cast mode: " + mode);
+  assertBoolean(includeActors, "includeActors");
+  assertBoolean(includeTerrain, "includeTerrain");
+  let ret = callVoosService("Cast", {
+    origin: origin,
+    dir: vec3normalized(dir),
+    maxDist: maxDist,
+    radius: radius,
+    mode: mode,
+    includeActors: includeActors,
+    includeTerrain: includeTerrain,
+    excludeActor: includeSelf ? "" : myself(),
+  });
+  // Because Unity doesn't serialize arrays with JsonUtility, unpack it if necessary:
+  ret = (ret && ret.hits) ? ret.hits : ret;
+  // Convert all {x, y, z} into actual Vector3s, etc.
+  return ApiV2Context.instance.convertUnityDucks(ret);
+}
+
+/**
+ * @typedef {Object} CastHit
+ * @property {ActorRef?} actor The actor that was hit. If null or empty, this is a terrain hit.
+ * @property {number} distance The distance of the hit (from the ray's origin).
+ * @property {{x:number,y:number,z:number}} point The point where the hit occurred.
+ */
+var CastHit;
+
+/**
+ * Finds all actors (partially or completely) inside the given sphere.
+ * @param {THREE.Vector3} center The center of the sphere, in world space.
+ * @param {number} radius The radius of the sphere.
+ * @param {string?} tag If not null, actors without the given tag will be ignored.
+ * @return {ActorRef[]} Array of actors that are (partially or completely) inside
+ *     the sphere. This will never be null (an absence of hits is represented
+ *     by an empty array).
+ * @example
+ * // Find all the actors within a distance of 5 units from me.
+ * let actorsNearby = overlapSphere(getPos(), 5);
+ * // Tell them all to start dancing.
+ * sendToMany(actorsNearby, "StartDancing");
+ */
+function overlapSphere(center, radius, tag) {
+  return ApiV2Context.instance.api.overlapSphere(center, radius, tag);
+}
+
+/**
+ * Checks the given box for the presence of actors/terrain.
+ * This can be used, for example, to check if it's safe to
+ * spawn a new actor in the given area, without colliding against something.
+ * 
+ * <p>Note that this will be called on every frame while the collision
+ * is still happening. So if you are doing an expensive operation on collision
+ * or something that should only happen once, be sure to add some logic
+ * to stop your code from doing it every frame. You could either add a flag
+ * to memory, or use {@link cooldown} to prevent repeated calls to
+ * <tt>onCollision</tt> for a given time.
+ *
+ * @param {Vector3} center The center of the box, in world space.
+ * @param {Vector3} dimensions The dimensions of the box (width, height, depth)
+ *     in world space.
+ * @param {Quaternion=} rotation The rotation of the box in world space.
+ *     If omitted, will default to no rotation (identity).
+ * @return {boolean} True if there is at least one actor in (partially or
+ *     completely) inside the given box, or if the box intersects a part of
+ *     the terrain. Therefore, when this returns false, it means that the box
+ *     is completely clear of actors and terrain.
+ *
+ * @example
+ * export const PROPS = [
+ *   propActor("prefab")
+ * ];
+ *
+ * ...
+ *
+ * export function onCollision() {
+ *   let center = vec3(0, 1.6, 0);
+ *   let dim = vec3(3, 3, 3);
+ *
+ *   // If if a 3x3x3 box just above around the origin is clear.
+ *   // Notice that we place it slightly above the ground so it doesn't
+ *   // intersect with the ground, otherwise the box would never be clear.
+ *   if (!checkBox(center, dim)) {
+ *     // Area is free of actors/terrain, so it's safe to spawn something
+ *     // there. This assumes the spawned actor fits in the 3x3x3 box.
+ *     clone(props.prefab, vec3(0, 0, 0));
+ *   }
+ *
+ *   // Don't trigger again for 5 seconds. IMPORTANT! Otherwise we'd
+ *   // spawn the actor on every frame, which would be pretty bad!
+ *   cooldown(5);
+ * }
+ */
+function checkBox(center, dimensions, rotation) {
+  return ApiV2Context.instance.api.checkBox(center, dimensions, rotation);
+}
+
+/**
+ * Casting modes.
+ * @enum {number}
+ */
+var CastMode = {
+  // IMPORTANT: KEEP THIS IN SYNC WITH THE CORRESPONDING CONSTANTS IN Services.cs
+  /** Return true/false. True if something was hit, false if nothing hit. */
+  BOOLEAN: 0,
+  /** Return the closest hit only. */
+  CLOSEST: 1,
+  /** Return all hits, unsorted. */
+  ALL_UNSORTED: 2,
+  /** Return all hits, sorted by distance. */
+  ALL_SORTED: 3
+}
