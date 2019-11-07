@@ -20,23 +20,19 @@ using UnityEditor;
 [InitializeOnLoad]
 public class CheckUnityVersion
 {
-  private const string SUPPORTED_UNITY_VERSION = "2018.4.9f1";
+  private const string EXPECTED_UNITY_VERSION = "2018.4.12f1";
   static CheckUnityVersion()
   {
-    if (Application.unityVersion != SUPPORTED_UNITY_VERSION)
+    if (Application.unityVersion != EXPECTED_UNITY_VERSION)
     {
       EditorUtility.DisplayDialog(
-        "Incorrect Unity version.",
+        "WARNING: Unexpected Unity version.",
         string.Format(
-          "**** WRONG UNITY VERSION ****\n\n" +
+          "**** UNEXPECTED UNITY VERSION ****\n\n" +
           "You are using Unity version:\n        {0}.\n" +
-          "The correct Unity version for this project is:\n        {1}.\n\n" +
-          "Please DO NOT COMMIT any Unity asset files generated with an unsupported Unity " +
-          "version, as that might break other team members.\n\n" +
-          "Please switch to the supported Unity version!\n\n" +
-          "UNITY WILL NOW QUIT!",
-          Application.unityVersion, SUPPORTED_UNITY_VERSION), "OK");
-      EditorApplication.Exit(0);
+          "The expected Unity version for this project is:\n        {1}.\n\n" +
+          "If you are intentionally upgrading, please edit Editor/CheckUnityVersion.cs and change EXPECTED_UNITY_VERSION to fix this warning.",
+          Application.unityVersion, EXPECTED_UNITY_VERSION), "OK");
     }
   }
 }

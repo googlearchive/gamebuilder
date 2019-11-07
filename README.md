@@ -30,7 +30,7 @@ This is not an officially supported Google product.
 ## Running in Unity Editor
 
 1. Open the project (just the root of the repo).
-1. Open the splash screen scene: Assets/Scenes/splash.unity
+1. Open the splash screen scene: `Assets/splash.unity`.
 1. When the "TMP Importer" shows, click "Import TMP Essentials".
 1. Restart Unity.
 1. Click on the Play button.
