@@ -26,8 +26,19 @@ NEWTONSOFT_COPY=Editor/PhotonNetwork/Newtonsoft.Json.dll
 if [ -f "$NEWTONSOFT_COPY" ]; then rm $NEWTONSOFT_COPY; fi;
 popd
 
-patch -p0 < photon.patch
-patch -p0 < photon_transform_view.patch
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Remove CRs (PUN comes in with DOS line endings - breaks our patches)
+  perl -i -pe 's/\r//' Assets/Photon\ Unity\ Networking/Editor/PhotonNetwork/Views/PhotonAnimatorViewEditor.cs
+  perl -i -pe 's/\r//' Assets/Photon\ Unity\ Networking/Plugins/PhotonNetwork/CustomTypes.cs
+  perl -i -pe 's/\r//' Assets/Photon\ Unity\ Networking/Plugins/PhotonNetwork/PhotonNetwork.cs
+  perl -i -pe 's/\r//' Assets/Photon\ Unity\ Networking/Plugins/PhotonNetwork/Views/PhotonAnimatorView.cs
+  perl -i -pe 's/\r//' Assets/Photon\ Unity\ Networking/Plugins/PhotonNetwork/Views/PhotonTransformView.cs
+  patch -p0 < photon.osx.patch
+  patch -p0 < photon_transform_view.osx.patch
+else
+  patch -p0 < photon.patch
+  patch -p0 < photon_transform_view.patch
+fi
 
 # Force Unity to reimport. Otherwise, Unity tends to cache incorrect versions of PhotonView prefabs, such as Actor and UserBody.
 

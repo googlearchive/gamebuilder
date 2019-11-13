@@ -13,4 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  perl -i -pe 's/\r//' Assets/LapinerTools/Steam/Workshop/Scripts/SteamWorkshopMain.cs
+fi
+
 patch -p0 < steamworks.patch
