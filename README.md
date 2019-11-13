@@ -14,7 +14,7 @@ This is not an officially supported Google product.
 
 ## Pre-requisites
 
-* Unity 2018.4.9f1
+* Unity 2018.4.12f1
 
     It will probably work with later 2018.4.* versions, but this is the one we
     tested with. Unity 2019 is known to *not* work. If in doubt, use this exact
@@ -41,9 +41,9 @@ To build a standalone, you *must* use the menu item `Game Builder
 | Build`. Going through the normal Unity Build Settings window will *not* work.
 Once done, your build will be located under the `build_output` folder.
 
-We have included a reference build under `builds` (it's the file whose
-name begins with `gamebuilder-OSS`). This is the build that you should get
-if you simply compile the source as-is, without enabling any extra plugins.
+We have included a reference build (`builds/gamebuilder-OSS.7z`). This is the
+build that you should get if you simply build a Windows standalone as-is,
+without enabling any extra plugins.
 
 ## Scripting documentation
 
@@ -181,7 +181,7 @@ Instructions for individual features are below.
 ## Archival Build
 
 In the `builds` directory, you will also find the last build that we published
-to Steam (the `gamebuilder-ARCHIVE-25813412.7z.*` files). This differs from the open-source build
+to Steam (the `gamebuilder-ARCHIVE.7z.*` files). This differs from the open-source build
 because it has several optional plugins enabled such as 2D UI, rich JS editor,
 etc.
 
