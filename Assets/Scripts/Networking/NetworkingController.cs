@@ -217,7 +217,7 @@ public class NetworkingController : Photon.PunBehaviour
 
     if (nickName.IsNullOrEmpty())
     {
-      throw new System.Exception("No nick name set. Play multiplayer at least once while signed in to Steam.");
+      nickName = "Player";
     }
 
     props[(object)SteamProfileNamePlayerProperty] = nickName;  // This may be redundant given we set the playerName/NickName.
